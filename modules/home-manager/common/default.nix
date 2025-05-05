@@ -81,7 +81,6 @@
     silver-searcher
     stow
     tree-sitter
-    vivaldi
     wget
     xz
 
@@ -100,6 +99,7 @@
   ]
   ++ lib.optionals (!stdenv.isDarwin) [
     _1password-gui
+    vivaldi
     wl-clipboard
   ]
   ++ lib.optionals stdenv.isDarwin [
