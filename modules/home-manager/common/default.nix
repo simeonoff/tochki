@@ -106,10 +106,7 @@
     wl-clipboard
   ]
   ++ lib.optionals stdenv.isDarwin [
-    aerospace
-    bartender
     cmake
     openssl
-    raycast
   ];
 }

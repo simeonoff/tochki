@@ -1,4 +1,4 @@
-{ darwinModules, homebrewModules, pkgs, ... }: {
+{ darwinModules, homebrewModules, ... }: {
   imports = [
     "${darwinModules}/common"
     "${homebrewModules}/common"
