@@ -42,7 +42,7 @@
 
   fonts.packages = [
     pkgs.maple-mono.truetype
-    pkgs.iosevka
+    pkgs.local-fonts
   ];
 
   # Adjust system settings

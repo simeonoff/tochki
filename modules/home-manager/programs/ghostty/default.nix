@@ -2,7 +2,7 @@
 let
   commonSettings = {
     theme = "rose-pine";
-    font-family = "Iosevka";
+    font-family = "Iosevka Term";
     cursor-opacity = 0.7;
     cursor-invert-fg-bg = false;
     window-decoration = true;

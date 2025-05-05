@@ -113,7 +113,7 @@
 
   fonts.packages = [
     pkgs.maple-mono.truetype
-    pkgs.iosevka
+    pkgs.local-fonts
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
