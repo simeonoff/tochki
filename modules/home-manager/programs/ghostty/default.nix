@@ -14,12 +14,14 @@ let
   };
 
   darwinSettings = {
-    font-size = 12;
+    font-size = 15;
     macos-option-as-alt = true;
     window-colorspace = "display-p3";
   };
 
-  linuxSettings = { };
+  linuxSettings = {
+    font-size = 12;
+  };
 
   platformSettings =
     if pkgs.stdenv.isDarwin
