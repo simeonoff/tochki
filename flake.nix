@@ -50,6 +50,34 @@
           ];
         };
 
+      mkDarwinConfiguration = hostname: username:
+        nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          specialArgs = {
+            inherit inputs outputs hostname system;
+            userConfig = users.${username};
+            darwinModules = "${self}/modules/darwin";
+            homebrewModules = "${self}/modules/homebrew";
+          };
+          modules = [
+            ./hosts/${hostname}
+            home-manager.darwinModules.home-manager
+            nix-homebrew.darwinModules.nix-homebrew
+            {
+              nix-homebrew = {
+                enable = true;
+                enableRosetta = true;
+
+                # User owning the Homebrew prefix
+                user = username;
+
+                # Automatically migrate existing Homebrew installations
+                autoMigrate = true;
+              };
+            }
+          ];
+        };
+
       mkHomeConfiguration = system: username: hostname:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs { inherit system; };
@@ -93,9 +121,14 @@
         nixosConfigurations = {
           kori = mkNixosConfiguration "kori" "iams1mo";
         };
+        
+        darwinConfigurations = {
+          ringo = mkDarwinConfiguration "ringo" "SSimeonov";
+        };
 
         homeConfigurations = {
           "iams1mo@kori" = mkHomeConfiguration "aarch64-linux" "iams1mo" "kori";
+          "SSimeonov@ringo" = mkHomeConfiguration "aarch64-darwin" "SSimeonov" "ringo";
         };
       };
     };

@@ -1,4 +1,3 @@
-# Homebrew configuration for macOS
 { config, lib, pkgs, ... }:
 
 {
