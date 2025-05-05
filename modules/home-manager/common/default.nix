@@ -63,6 +63,7 @@
   # Ensure common packages are installed
   home.packages = with pkgs; [
     _1password-cli
+    curl
     dart-sass
     docfx
     dotnet-sdk_9
@@ -77,9 +78,11 @@
     nodePackages_latest.nodejs
     pkg-config
     python313
+    python313Packages.west
     ripgrep
     silver-searcher
     stow
+    tree
     tree-sitter
     wget
     xz
@@ -105,6 +108,8 @@
   ++ lib.optionals stdenv.isDarwin [
     aerospace
     bartender
+    cmake
+    openssl
     raycast
   ];
 }

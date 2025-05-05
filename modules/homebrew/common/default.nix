@@ -11,7 +11,6 @@
       "1password"
       "font-symbols-only-nerd-font"
       "ghostty"
-      "iina"
       "the-unarchiver"
     ];
     onActivation = {
