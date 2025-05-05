@@ -62,15 +62,28 @@
 
   # Ensure common packages are installed
   home.packages = with pkgs; [
-    wget
-    go
-    python313
-    tree-sitter
     _1password-cli
-    vivaldi
-    ripgrep
-    nodePackages_latest.nodejs
+    dart-sass
+    docfx
+    dotnet-sdk_9
+    eza
     fd
+    git
+    go
+    just
+    lua54Packages.luarocks
+    lua5_4_compat
+    mosh
+    nodePackages_latest.nodejs
+    pkg-config
+    python313
+    ripgrep
+    silver-searcher
+    stow
+    tree-sitter
+    vivaldi
+    wget
+    xz
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -90,6 +103,8 @@
     wl-clipboard
   ]
   ++ lib.optionals stdenv.isDarwin [
+    aerospace
+    bartender
     raycast
   ];
 }
