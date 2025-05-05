@@ -1,8 +1,5 @@
 local utils = require('utils')
 
-local mason_path = vim.fn.stdpath('data') .. '/mason'
-local mason_lsp = mason_path .. '/packages/angular-language-server/node_modules'
-
 local function get_probe_dir(dir)
   local project_root = utils.root_pattern({ 'node_modules' }, dir)
   return project_root and (project_root .. '/node_modules') or ''
@@ -37,7 +34,6 @@ local cmd = {
   default_probe_dir,
   '--ngProbeLocations',
   default_probe_dir,
-  mason_lsp .. '/@angular/language-server',
   '--angularCoreVersion',
   default_angular_core_version,
 }

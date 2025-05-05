@@ -5,6 +5,9 @@ return {
   -- A collection of nvim APIs
   'nvim-lua/plenary.nvim',
 
+  -- A collection of JSON and YAML schemas
+  'b0o/SchemaStore.nvim',
+
   -- Reload plugins lazily
   'MaximilianLloyd/lazy-reload.nvim',
 

@@ -24,7 +24,6 @@ M.config = function()
     'Trouble',
     'trouble',
     'lspinfo',
-    'mason',
     'snacks_dashboard'
   })
 
@@ -304,7 +303,6 @@ M.config = function()
     extensions = {
       'man',
       'lazy',
-      'mason',
       'trouble',
       'nvim-dap-ui',
       'quickfix',
