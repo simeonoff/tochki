@@ -54,7 +54,7 @@
         nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           specialArgs = {
-            inherit inputs outputs hostname system;
+            inherit inputs outputs hostname;
             userConfig = users.${username};
             darwinModules = "${self}/modules/darwin";
             homebrewModules = "${self}/modules/homebrew";

@@ -1,4 +1,4 @@
-{ outputs, hostname, pkgs, userConfig, ... }: {
+{ outputs, pkgs, userConfig, ... }: {
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

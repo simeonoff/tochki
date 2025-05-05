@@ -1,4 +1,4 @@
-{ pkgs, userConfig, system, ... }:
+{ pkgs, userConfig, outputs, ... }:
 {
   nix = {
     settings = {
@@ -15,7 +15,7 @@
     };
 
     overlays = [ outputs.overlays.default ];
-    hostPlatform = system;
+    hostPlatform = "aarch64-darwin";
   };
 
   environment.shells = [

@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, config, ... }:
 let
   onePassPath =
     if pkgs.stdenv.isDarwin
