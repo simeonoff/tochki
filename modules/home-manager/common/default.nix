@@ -81,9 +81,9 @@
     python313Packages.west
     ripgrep
     silver-searcher
-    stow
     tree
     tree-sitter
+    wezterm
     wget
     xz
 

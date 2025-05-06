@@ -3,11 +3,11 @@
 {
   some-sass-language-server = pkgs.stdenv.mkDerivation rec {
     pname = "some-sass-language-server";
-    version = "2.1.2";
+    version = "2.2.0";
 
     src = pkgs.fetchurl {
       url = "https://registry.npmjs.org/${pname}/-/${pname}-${version}.tgz";
-      sha256 = "sha256-UE69XO0EGle4ubPTBPv5smiNLZvWzKm+BtHSs+KEtvM=";
+      sha256 = "sha256-9u17ToFVyvdmpLOJpdTnBLFTOklgIgkaAw74tD8PSHE=";
     };
 
     unpackPhase = ''
@@ -27,7 +27,7 @@
 
     meta = {
       description = "A Sass/SCSS language server with module and LSP support";
-      homepage = "httpsO//github.com/wkillerud/some-sass";
+      homepage = "https://github.com/wkillerud/some-sass";
       license = pkgs.lib.licenses.mit;
       maintainers = with pkgs.lib.maintainers; [ simeonoff ];
     };
