@@ -7,7 +7,6 @@ local M = {
     { 'nvim-lua/plenary.nvim' },
     {
       'simeonoff/telescope-pretty-pickers.nvim',
-      enabled = true,
       dependencies = {
         'nvim-tree/nvim-web-devicons',
       },

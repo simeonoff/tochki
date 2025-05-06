@@ -142,8 +142,7 @@ autocmd('BufWinEnter', {
 })
 
 -- Changes the colorscheme at runtime to the given argument
--- executed when the paint program is run via paint-nvim
-vim.api.nvim_create_user_command('PaintTheme', function(opts)
+vim.api.nvim_create_user_command('Theme', function(opts)
   local ui = require('config.ui')
   local colorscheme = opts.args
   dd(colorscheme)
