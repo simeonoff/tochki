@@ -1,5 +1,3 @@
-local telescopePickers = require('telescopePickers')
-
 local M = {
   'nvim-telescope/telescope.nvim',
   lazy = false,
@@ -7,41 +5,15 @@ local M = {
   dependencies = {
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     { 'nvim-lua/plenary.nvim' },
+    {
+      'simeonoff/telescope-pretty-pickers.nvim',
+      enabled = true,
+      dependencies = {
+        'nvim-tree/nvim-web-devicons',
+      },
+    },
   },
 }
-
-M.recent_files = function()
-  local utils = require('utils')
-
-  telescopePickers.prettyFilesPicker({
-    picker = 'oldfiles',
-    options = { prompt_title = 'Recent Files', cwd = utils.get_root(), cwd_only = true },
-  })
-end
-
-M.project_files = function()
-  local opts = {}
-
-  if vim.loop.fs_stat('.git') then
-    opts.show_untracked = true
-    telescopePickers.prettyFilesPicker({ picker = 'git_files', options = opts })
-  else
-    local client = vim.lsp.get_clients()[1]
-    if client then opts.cwd = client.config.root_dir end
-    telescopePickers.prettyFilesPicker({ picker = 'find_files', options = opts })
-  end
-end
-
-M.config_files = function()
-  telescopePickers.prettyFilesPicker({
-    picker = 'find_files',
-    options = { prompt_title = 'Config Files', cwd = vim.fn.stdpath('config'), cwd_only = true },
-  })
-end
-
-M.find_text = function() telescopePickers.prettyGrepPicker({ picker = 'live_grep' }) end
-
-M.grapple_pick = function() telescopePickers.prettyGrapplePicker() end
 
 M.config = function()
   local telescope = require('telescope')
@@ -124,20 +96,109 @@ M.config = function()
     },
   })
 
+  -- Load extensions
+  telescope.load_extension('pretty_pickers')
+
+  -- Define custom pickers
+  local recent_files = function()
+    local utils = require('utils')
+
+    telescope.extensions.pretty_pickers.files({
+      picker = 'oldfiles',
+      options = {
+        prompt_title = 'Recent Files',
+        cwd = utils.get_root(),
+        cwd_only = true,
+      },
+    })
+  end
+
+  local project_files = function()
+    local opts = {}
+
+    if vim.uv.fs_stat('.git') then
+      opts.show_untracked = true
+      opts.prompt_title = 'Git Files'
+
+      telescope.extensions.pretty_pickers.files({
+        picker = 'git_files',
+        options = opts,
+      })
+    else
+      local client = vim.lsp.get_clients()[1]
+
+      if client then opts.cwd = client.config.root_dir end
+
+      telescope.extensions.pretty_pickers.files({
+        prompt_title = 'Project Files',
+        picker = 'find_files',
+        options = opts,
+      })
+    end
+  end
+
+  local config_files = function()
+    telescope.extensions.pretty_pickers.files({
+      picker = 'find_files',
+      options = { prompt_title = 'Config Files', cwd = vim.fn.stdpath('config'), cwd_only = true },
+    })
+  end
+
+  local find_text = function()
+    telescope.extensions.pretty_pickers.grep({
+      picker = 'live_grep',
+    })
+  end
+
+  local grapple_pick = function()
+    telescope.extensions.pretty_pickers.grapple({
+      prompt_title = 'Pinned Files',
+    })
+  end
+
+  -- LSP related pickers
+  local workspace_symbols = function()
+    telescope.extensions.pretty_pickers.workspace_symbols({
+      prompt_title = 'Workspace Goodies',
+    })
+  end
+
+  local document_symbols = function()
+    telescope.extensions.pretty_pickers.document_symbols({
+      prompt_title = 'Document Goodies',
+    })
+  end
+
+  local lsp_references = function()
+    telescope.extensions.pretty_pickers.lsp_references({
+      prompt_title = 'Language Server References',
+    })
+  end
+
   -- Custom commands
-  vim.api.nvim_create_user_command('FindFiles', M.project_files, {})
-  vim.api.nvim_create_user_command('RecentFiles', M.recent_files, {})
-  vim.api.nvim_create_user_command('FindText', M.find_text, {})
-  vim.api.nvim_create_user_command('GrapplePick', M.grapple_pick, {})
-  vim.api.nvim_create_user_command('ConfigFiles', M.config_files, {})
+  vim.api.nvim_create_user_command('FindFiles', project_files, {})
+  vim.api.nvim_create_user_command('RecentFiles', recent_files, {})
+  vim.api.nvim_create_user_command('FindText', find_text, {})
+  vim.api.nvim_create_user_command('GrapplePick', grapple_pick, {})
+  vim.api.nvim_create_user_command('ConfigFiles', config_files, {})
 
   -- Mappings
-  vim.keymap.set('n', '<leader>f', M.project_files, { desc = 'Find files' })
-  vim.keymap.set('n', '<leader>r', M.recent_files, { desc = 'Recent files' })
-  vim.keymap.set('n', '<leader>/', M.find_text, { desc = 'Global search' })
-  vim.keymap.set('n', '<leader><leader>', M.grapple_pick, { desc = 'Pick from Grapple' })
-  vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Broser git branches in current project' })
-  vim.keymap.set('n', "<leader>'", builtin.resume, { desc = 'Resume the last opened telescope prompt' })
+  --
+  -- File search
+  vim.keymap.set('n', '<leader>f', project_files, { desc = 'Find files' })
+  vim.keymap.set('n', '<leader>r', recent_files, { desc = 'Recent files' })
+  vim.keymap.set('n', '<leader>/', find_text, { desc = 'Global search' })
+  vim.keymap.set('n', '<leader><leader>', grapple_pick, { desc = 'Pick from Grapple' })
+
+  -- LSP search
+  vim.keymap.set('n', '<leader>ws', workspace_symbols, { desc = 'Workspace symbols' })
+  vim.keymap.set('n', '<leader>ds', document_symbols, { desc = 'Document symbols' })
+  vim.keymap.set('n', 'gr', lsp_references, { desc = 'LSP references' })
+
+  -- Utils
+  vim.keymap.set('n', "<leader>'", builtin.resume, {
+    desc = 'Resume the last opened telescope prompt',
+  })
 end
 
 return M

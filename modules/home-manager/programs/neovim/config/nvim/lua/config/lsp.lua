@@ -5,7 +5,6 @@ local signs = require('kind').diagnostic_signs
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspAttach', { clear = true }),
   callback = function(args)
-    local pickers = require('telescopePickers')
     local opts = { buffer = args.buf, remap = false }
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
@@ -30,9 +29,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gi', function() vim.lsp.buf.implementation() end, opts)
     vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set('n', 'gK', function() vim.lsp.buf.signature_help() end, opts)
-    vim.keymap.set('n', '<leader>ws', function() pickers.prettyWorkspaceSymbols() end, opts)
-    vim.keymap.set('n', 'gr', function() pickers.prettyLspReferences() end, opts)
-    vim.keymap.set('n', '<leader>ds', function() pickers.prettyDocumentSymbols() end, opts)
     vim.keymap.set('n', '<leader>vd', function() vim.diagnostic.open_float() end, opts)
     vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action({ apply = true }) end, opts)
     vim.keymap.set('n', '<leader>vrn', function() vim.lsp.buf.rename() end, opts)
