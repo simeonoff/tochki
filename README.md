@@ -28,7 +28,16 @@ nix-shell -p git --run 'git clone git@github.com:simeonoff/tochki.git'
 
 This will launch a custom nix shell with git in it and git clone the configuration.
 
-### Step 3 - Install the configuration
+### Step 3 - Enable Flakes
+
+Before you can use the configuration, you need to enable flakes in your Nix installation:
+
+```sh
+mkdir -p ~/.config/nix
+echo 'experimental-features = ["nix-command" "flakes"]' >> ~/.config/nix/nix.conf
+```
+
+### Step 4 - Install the configuration
 
 ###### Apply the system configuration using nix
 
@@ -40,6 +49,15 @@ nix run nix-darwin -- switch --flake ~/tochki#hostname
 
 ```bash
 nix-shell -p home-manager --run home-manager switch --flake ~/tochki#user@hostname
+```
+
+### Step 5 - Verify Installation
+
+Verify that the system configuration was installed correctly:
+
+```sh
+# Verify nix-darwin installation
+darwin-rebuild --version
 ```
 
 ## How it all works?
@@ -293,6 +311,18 @@ nix flake update
 > [!NOTE]
 > All homebrew packages will be automatically updated upon configuration updates.
 
+### Rollback Procedure
+
+If you encounter issues after updating or making changes to your configuration, you can roll back to a previous working state:
+
+```sh
+# Roll back to previous system generation
+darwin-rebuild switch --flake ~/tochki#hostname --rollback
+
+# Roll back home configuration
+home-manager switch --flake ~/tochki#username@hostname --rollback
+```
+
 ### Modules and Configurations
 
 > [!NOTE]
@@ -353,3 +383,13 @@ To allow `direnv` to use the shell, run:
 ```sh
 direnv allow .
 ```
+
+### Basic Troubleshooting
+
+Common issues you might encounter:
+
+1. **Flakes not enabled**: If you get errors about flakes not being supported, ensure you've enabled experimental features as described in Step 3.
+
+2. **Permission denied errors**: Ensure you have the correct permissions for the directories you're modifying.
+
+3. **Home-manager unavailable**: Always use the nix-shell approach on a fresh system before using the regular home-manager command.
