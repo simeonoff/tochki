@@ -3,7 +3,7 @@
 > [!WARNING]
 > This repository is live and may change at any time. It is not guaranteed to work on all systems. It is recommended to use it as a reference and adapt it to your needs.
 
-The configuration is written in a functional language called [Nix](https://nix.dev/tutorials/nix-language#reading-nix-language). It's looks like JSON with functions and allows us to manage various parts of our Operating System, including the installation of packages, the management of system settings, configuration files, and more. It supports host-based configurations for macOS and NixOS.
+The configuration is written in a functional language called [Nix](https://nix.dev/tutorials/nix-language#reading-nix-language). It looks like JSON with functions and allows us to manage various parts of our Operating System, including the installation of packages, the management of system settings, configuration files, and more. It supports host-based configurations for macOS and NixOS.
 
 > [!NOTE]
 > A video on [YouTube](https://www.youtube.com/watch?v=Z8BL8mdzWHI&list=PLpolRIvVVWRCS-X0-3q2hrWrbrsWJl51J&index=7) piqued my interest initially. If you're new to Nix, I recommend watching it first to get a basic understanding of what Nix is and how to configure it. It's your responsibility to learn more about Nix and adapt what's said in the video to your taste and requirements.
@@ -58,9 +58,9 @@ nix flake init -t nix-darwin
 
 This assumes that the host operating system is macOS.
 
-After running the command, a new file `flake.nix` will be created. This file essentially is the  entry point of the config that will be used when restoring the settings for packages, apps, and the system settings to be applied.
+After running the command, a new file `flake.nix` will be created. This file is essentially the entry point of the config that will be used when restoring the settings for packages, apps, and system settings to be applied.
 
-To apply the config stored in this `flake.nix` file for the first time, all we have to do is the following (this command assumes you've initialized your config in `~/nix-config`:
+To apply the config stored in this `flake.nix` file for the first time, all we have to do is the following (this command assumes you've initialized your config in `~/nix-config`):
 
 ```sh
 nix run nix-darwin -- switch --flake ~/nix-config#hostname
@@ -69,9 +69,9 @@ nix run nix-darwin -- switch --flake ~/nix-config#hostname
 ## How to use this configuration?
 
 > [!NOTE]
-> For this configuration I followed [this](https://github.com/AlexNabokikh/nix-config) approach for splitting my config into manageable parts. It means that home packages are managed independently of system packages installed using nix.
+> For this configuration, I followed [this](https://github.com/AlexNabokikh/nix-config) approach for splitting my config into manageable parts. This means that home packages are managed independently of system packages installed using nix.
 
-High-level overview (cheatsheet) of what needs to be run to update configs:
+Here's a high-level overview (cheatsheet) of what needs to be run to update configs:
 
 On macOS:
 ```sh
@@ -209,7 +209,7 @@ This is a simplified overview of the `flake.nix` file and the overall folder str
     }
     ```
 
-For `nixOS` hosts, generate `hardware-configuration.nix` by running:
+For `NixOS` hosts, generate the `hardware-configuration.nix` by running:
 
 ```sh
 sudo nixos-generate-config --show-hardware-config > hosts/newhost/hardware-configuration.nix
@@ -248,7 +248,7 @@ sudo nixos-generate-config --show-hardware-config > hosts/newhost/hardware-confi
 
 #### Applying the Configuration
 
-##### Makes sure to stage all newly created nix modules first:
+##### Make sure to stage all newly created nix modules first:
 
 From `~/tochki` run:
 
@@ -296,9 +296,9 @@ nix flake update
 ### Modules and Configurations
 
 > [!NOTE]
-Some modules have specific configurations that are not handled by home-manager. `Neovim` is a notable example. While `home-manager` still manages the package and extra-packages (only available in the `Neovim` environment) like LSPs, linters, formatters, etc., the `Neovim` configuration files are a part of a [nix store](https://nixos.org/guides/how-nix-works/). This allows us to manage plugins and editor configurations "live" without needing to rebuild the `home-manager` configuration after each change.
+Some modules have specific configurations that are not handled by home-manager. `Neovim` is a notable example. While `home-manager` still manages the package and extra-packages (only available in the `Neovim` environment) like LSPs, linters, formatters, etc., the `Neovim` configuration files are a part of the [nix store](https://nixos.org/guides/how-nix-works/). This allows us to manage plugins and editor configurations "live" without needing to rebuild the `home-manager` configuration after each change.
 
-To change the configuration of  `Neovim`, edit the files located directly under:
+To change the configuration of `Neovim`, edit the files located directly under:
 
 ```sh
 cd modules/home-manager/programs/neovim/config/nvim/
@@ -313,11 +313,11 @@ To learn more about what packages are available, and what their respective optio
 ## Node.js with the Nix Package Manager
 
 > [!WARNING]
-Since nix package installations are read-only, we cannot willy-nilly do `npm install -g package-name` as it violates the Nix principles. You can read more about it [here](https://nixos.wiki/wiki/Node.js).
+Since nix package installations are read-only, we cannot simply do `npm install -g package-name` as it violates the Nix principles. You can read more about it [here](https://nixos.wiki/wiki/Node.js).
 
 To work around this limitation, we create an `~/.npm-global` folder where global packages will be stored. A global environment variable `$NPM_CONFIG_PREFIX` is set to this location.
 
-This directory also needs to added to the global `$PATH`.
+This directory also needs to be added to the global `$PATH`.
 
 In `.zshrc` add:
 
