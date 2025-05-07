@@ -7,15 +7,21 @@
       "mas"
       "ninja"
     ];
+    taps = [ ];
     casks = [
       "1password"
-      "nikitabobko/tap/aerospace"
       "bartender"
+      "betterdisplay"
       "firefox"
       "font-symbols-only-nerd-font"
       "ghostty"
+      "karabiner-elements"
+      "nikitabobko/tap/aerospace"
       "raycast"
+      "scroll-reverser"
+      "sensiblesidebuttons"
       "the-unarchiver"
+      "viscosity"
     ];
     onActivation = {
       # Uncomment after a new install
