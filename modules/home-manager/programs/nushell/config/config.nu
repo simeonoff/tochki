@@ -12,9 +12,11 @@ $env.config = {
                 send: HistoryHintComplete
             }
         }
-    ]
+    ],
+    rm: {
+        always_trash: true
+    },
 }
-
 
 $env.PATH = ($env.PATH | prepend [
     $"($env.HOME)/dotfiles/bin"
@@ -35,6 +37,7 @@ alias cp = cp -i
 alias mv = mv -i
 
 alias vim = nvim
+alias vi = nvim
 
 def ll [] {
   ls -la | filter {|x| $x.name != ".DS_Store"} | sort-by type
