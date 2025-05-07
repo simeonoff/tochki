@@ -8,6 +8,7 @@
     ../programs/git
     ../programs/lazygit
     ../programs/neovim
+    ../programs/nh
     ../programs/nushell
     ../programs/sesh
     ../programs/ssh
@@ -42,6 +43,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     NPM_CONFIG_PREFIX = "${config.home.homeDirectory}/.npm-global";
+    FLAKE = "${config.home.homeDirectory}/tochki";
   };
 
   xdg.enable = true;
@@ -75,6 +77,7 @@
     lua54Packages.luarocks
     lua5_4_compat
     mosh
+    nh # Nix helper
     nodePackages_latest.nodejs
     pkg-config
     python313

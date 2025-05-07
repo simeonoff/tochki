@@ -202,7 +202,7 @@ This is a simplified overview of the `flake.nix` file and the overall folder str
 
     {
         imports = [
-            ./hardware-configuration.nix,
+            ./hardware-configuration.nix
             "${nixosModules}/common"
         ];
 
@@ -382,6 +382,46 @@ To allow `direnv` to use the shell, run:
 
 ```sh
 direnv allow .
+```
+
+### Post Installation Helpers
+
+This configuration installs [nh](https://github.com/nix-community/nh) making it easy to reload and update the inputs in the configuration.
+
+##### To switch to the latest version of the configuration, run:
+
+On macOS:
+
+```sh
+nh darwin switch 
+```
+
+On NixOS:
+
+```sh
+nh os switch
+```
+
+##### To also update the inputs of the flake, run:
+
+On macOS:
+
+```sh
+nh darwin switch --update
+nh home switch --update
+```
+
+On NixOS:
+
+```sh
+nh os switch --update
+nh home switch --update
+```
+
+##### To clean up the system, the following command can be used:
+
+```sh
+nh clean all --keep 5 # keep 5 generations
 ```
 
 ### Basic Troubleshooting
