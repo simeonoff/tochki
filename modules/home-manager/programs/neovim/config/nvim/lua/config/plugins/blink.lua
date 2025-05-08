@@ -80,7 +80,7 @@ local M = {
           score_offset = 100,
         },
         lsp = {
-          min_keyword_length = 2, -- Number of characters to trigger provider
+          min_keyword_length = 0, -- Number of characters to trigger provider
           score_offset = 5, -- Boost/penalize the score of the items
         },
         path = {
