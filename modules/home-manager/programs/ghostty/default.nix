@@ -10,7 +10,7 @@ let
     cursor-invert-fg-bg = false;
     window-decoration = true;
     window-padding-x = 10;
-    window-padding-y = 10;
+    window-padding-y = 5;
     window-padding-balance = true;
     font-thicken = false;
     mouse-hide-while-typing = true;
