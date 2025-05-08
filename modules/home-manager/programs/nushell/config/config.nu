@@ -46,3 +46,24 @@ def ll [] {
 def t [] {
   sesh connect (sesh list | fzf)
 }
+
+# cpath
+# Copies the expanded path of the first file matching the given type.
+#
+# Parameters:
+#   - type: A string pattern to match against file names.
+def cpath [
+    type: string # The file type (regex pattern) to search for.
+] {
+    let files = ls | where name =~ $type
+
+    if not ($files | is-empty) {
+        let filepath = ($files | first | get name | path expand)
+
+        $filepath | pbcopy
+
+        { status: "Copied", path: $filepath }
+    } else {
+        print "No matching file found."
+    }
+}

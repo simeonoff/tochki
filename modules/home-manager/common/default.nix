@@ -1,11 +1,13 @@
 { outputs, config, userConfig, lib, pkgs, ... }:
 {
   imports = [
+    ../programs/aerospace
     ../programs/carapace
     ../programs/direnv
     ../programs/fzf
     ../programs/ghostty
     ../programs/git
+    ../programs/karabiner
     ../programs/lazygit
     ../programs/neovim
     ../programs/nh
