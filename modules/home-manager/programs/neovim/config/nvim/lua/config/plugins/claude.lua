@@ -2,7 +2,7 @@ local M = {
   'greggh/claude-code.nvim',
   event = 'VeryLazy',
   command = 'ClaudeCode',
-  enabled = true,
+  enabled = false,
   dependencies = {
     'nvim-lua/plenary.nvim', -- Required for git operations
   },

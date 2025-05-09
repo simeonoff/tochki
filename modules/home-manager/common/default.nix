@@ -76,8 +76,10 @@
     git
     go
     just
+    lynx
     lua54Packages.luarocks
     lua5_4_compat
+    luajitPackages.tiktoken_core
     mosh
     nh # Nix helper
     nodePackages_latest.nodejs

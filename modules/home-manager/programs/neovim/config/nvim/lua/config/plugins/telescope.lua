@@ -4,6 +4,7 @@ local M = {
 
   dependencies = {
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    { 'nvim-telescope/telescope-ui-select.nvim' },
     { 'nvim-lua/plenary.nvim' },
     {
       'simeonoff/telescope-pretty-pickers.nvim',
@@ -90,6 +91,7 @@ M.config = function()
   -- Load extensions
   telescope.load_extension('fzf')
   telescope.load_extension('pretty_pickers')
+  telescope.load_extension('ui-select')
 
   -- Define custom pickers
   local recent_files = function()
