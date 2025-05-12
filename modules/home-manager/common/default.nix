@@ -66,7 +66,6 @@
 
   # Ensure common packages are installed
   home.packages = with pkgs; [
-    _1password-cli
     curl
     dart-sass
     docfx
@@ -108,11 +107,11 @@
     # '')
   ]
   ++ lib.optionals (!stdenv.isDarwin) [
-    _1password-gui
     vivaldi
     wl-clipboard
   ]
   ++ lib.optionals stdenv.isDarwin [
+    _1password-cli
     cmake
     openssl
   ];
