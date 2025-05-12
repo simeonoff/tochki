@@ -3,9 +3,6 @@ let
   commonSettings = {
     theme = "rose-pine";
     font-family = "Iosevka Term";
-    font-family-bold = "Iosevka Term Bold";
-    font-family-italic = "Iosevka Term Italic";
-    font-family-bold-italic = "Iosevka Term Bold Italic";
     cursor-opacity = 0.7;
     cursor-invert-fg-bg = false;
     window-decoration = true;
