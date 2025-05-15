@@ -16,7 +16,6 @@
       "font-symbols-only-nerd-font"
       "ghostty"
       "karabiner-elements"
-      "nikitabobko/tap/aerospace"
       "raycast"
       "scroll-reverser"
       "sensiblesidebuttons"

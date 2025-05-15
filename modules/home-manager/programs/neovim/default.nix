@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 let
   inherit (config.lib.file) mkOutOfStoreSymlink;
 in
@@ -30,5 +30,10 @@ in
       typescript-language-server
       yaml-language-server
     ];
+
+    # Set environment variables for Neovim to find the tiktoken_core module
+    extraLuaPackages = ps: with ps; [ tiktoken_core ];
+    withNodeJs = true;
+    extraPython3Packages = ps: with ps; [ pynvim ];
   };
 }

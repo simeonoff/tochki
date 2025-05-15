@@ -52,6 +52,7 @@ return {
         'astro',
         'angular',
         'bash',
+        'diff',
         'go',
         'gomod',
         'help',

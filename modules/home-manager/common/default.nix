@@ -75,10 +75,9 @@
     git
     go
     just
+    lua51Packages.lua
+    lua51Packages.luarocks
     lynx
-    lua54Packages.luarocks
-    lua5_4_compat
-    luajitPackages.tiktoken_core
     mosh
     nh # Nix helper
     nodePackages_latest.nodejs
@@ -89,6 +88,7 @@
     silver-searcher
     tree
     tree-sitter
+    vesktop
     wezterm
     wget
     xz
@@ -112,6 +112,7 @@
   ]
   ++ lib.optionals stdenv.isDarwin [
     _1password-cli
+    aerospace
     cmake
     openssl
   ];
