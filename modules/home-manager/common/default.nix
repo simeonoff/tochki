@@ -80,7 +80,7 @@
     lynx
     mosh
     nh # Nix helper
-    nodePackages_latest.nodejs
+    nodePackages.nodejs
     pkg-config
     python313
     python313Packages.west

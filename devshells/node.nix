@@ -16,4 +16,9 @@
   nodejs22 = pkgs.mkShell {
     buildInputs = with pkgs; [ nodejs_22 ];
   };
+
+  # Node.js 24.x environment
+  nodejs24 = pkgs.mkShell {
+    buildInputs = with pkgs; [ nodejs_24 ];
+  };
 }

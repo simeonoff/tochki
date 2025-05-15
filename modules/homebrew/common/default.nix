@@ -30,8 +30,7 @@
       "WireGuard" = 1451685025;
     };
     onActivation = {
-      # Uncomment after a new install
-      # cleanup = "zap";
+      cleanup = "zap";
       autoUpdate = true;
       upgrade = true;
     };
