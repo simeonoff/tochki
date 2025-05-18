@@ -66,6 +66,7 @@
 
   # Ensure common packages are installed
   home.packages = with pkgs; [
+    brave
     curl
     dart-sass
     docfx

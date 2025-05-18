@@ -10,6 +10,7 @@
     taps = [ ];
     casks = [
       "1password"
+      "android-platform-tools"
       "bartender"
       "betterdisplay"
       "firefox"
