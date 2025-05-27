@@ -118,7 +118,7 @@ automatically-unhide-macos-hidden-apps = true
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
     alt-c = 'workspace CHAT'
     alt-d = 'workspace DEV'
-    alt-l = 'workspace LISTEN'
+    alt-l = 'workspace PLAY'
     alt-o = 'workspace NOTES'
     alt-p = 'workspace POST'
     alt-t = 'workspace TEAMS'
@@ -126,7 +126,7 @@ automatically-unhide-macos-hidden-apps = true
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     alt-shift-c = 'move-node-to-workspace CHAT'
     alt-shift-d = 'move-node-to-workspace DEV'
-    alt-shift-l = 'move-node-to-workspace LISTEN'
+    alt-shift-l = 'move-node-to-workspace PLAY'
     alt-shift-o = 'move-node-to-workspace NOTES'
     alt-shift-p = 'move-node-to-workspace POST'
     alt-shift-t = 'move-node-to-workspace TEAMS'
@@ -169,6 +169,10 @@ automatically-unhide-macos-hidden-apps = true
 
 [[on-window-detected]]
 if.app-id = 'net.kovidgoyal.kitty'
+run = 'move-node-to-workspace DEV'
+
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
 run = 'move-node-to-workspace DEV'
 
 [[on-window-detected]]
@@ -221,11 +225,15 @@ run = 'move-node-to-workspace POST'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.Music'
-run = 'move-node-to-workspace LISTEN'
+run = 'move-node-to-workspace PLAY'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.podcasts'
-run = 'move-node-to-workspace LISTEN'
+run = 'move-node-to-workspace PLAY'
+
+[[on-window-detected]]
+if.app-id = 'com.firecore.infuse'
+run = 'move-node-to-workspace PLAY'
 
 [[on-window-detected]]
 if.app-id = 'com.1password.1password'

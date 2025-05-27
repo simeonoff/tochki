@@ -66,7 +66,6 @@
 
   # Ensure common packages are installed
   home.packages = with pkgs; [
-    brave
     curl
     dart-sass
     docfx
@@ -89,7 +88,6 @@
     silver-searcher
     tree
     tree-sitter
-    vesktop
     wezterm
     wget
     xz
@@ -108,6 +106,8 @@
     # '')
   ]
   ++ lib.optionals (!stdenv.isDarwin) [
+    brave
+    vesktop
     vivaldi
     wl-clipboard
   ]

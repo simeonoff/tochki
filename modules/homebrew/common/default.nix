@@ -13,6 +13,8 @@
       "android-platform-tools"
       "bartender"
       "betterdisplay"
+      "brave-browser"
+      "gpg-suite"
       "firefox"
       "font-symbols-only-nerd-font"
       "ghostty"
@@ -21,6 +23,7 @@
       "scroll-reverser"
       "sensiblesidebuttons"
       "the-unarchiver"
+      "vesktop"
       "viscosity"
     ];
     masApps = {
