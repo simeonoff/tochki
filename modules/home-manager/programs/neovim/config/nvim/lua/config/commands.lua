@@ -116,31 +116,6 @@ autocmd('BufRead', {
   end,
 })
 
--- Preserve folds
-autocmd({ 'BufWinLeave', 'BufWritePost', 'WinLeave' }, {
-  desc = 'Save view with mkview for real files',
-  group = view_group,
-  callback = function(args)
-    if vim.b[args.buf].view_activated then vim.cmd.mkview({ mods = { emsg_silent = true } }) end
-  end,
-})
-
-autocmd('BufWinEnter', {
-  desc = 'Try to load file view if available and enable view saving for real files',
-  group = view_group,
-  callback = function(args)
-    if not vim.b[args.buf].view_activated then
-      local filetype = vim.api.nvim_get_option_value('filetype', { buf = args.buf })
-      local buftype = vim.api.nvim_get_option_value('buftype', { buf = args.buf })
-      local ignore_filetypes = { 'gitcommit', 'gitrebase', 'svg', 'hgcommit' }
-      if buftype == '' and filetype and filetype ~= '' and not vim.tbl_contains(ignore_filetypes, filetype) then
-        vim.b[args.buf].view_activated = true
-        vim.cmd.loadview({ mods = { emsg_silent = true } })
-      end
-    end
-  end,
-})
-
 -- Changes the colorscheme at runtime to the given argument
 vim.api.nvim_create_user_command('Theme', function(opts)
   local ui = require('config.ui')
@@ -149,3 +124,49 @@ vim.api.nvim_create_user_command('Theme', function(opts)
 
   ui.colorscheme.value = colorscheme
 end, { nargs = 1 })
+
+-- Automatically save and load views for buffers
+local IGNORE_FILETYPES = {
+  ['copilot-chat'] = true,
+  ['lazy_backdrop'] = true,
+  ['snacks_layout_box'] = true,
+  ['snacks_picker_input'] = true,
+  ['snacks_picker_list'] = true,
+  ['snacks_picker_preview'] = true,
+  ['snacks_win_backdrop'] = true,
+  ['vim-messages'] = true,
+  checkhealth = true,
+  fugitive = true,
+  git = true,
+  gitcommit = true,
+  help = true,
+  lazy = true,
+  lspinfo = true,
+  mason = true,
+  minifiles = true,
+  mininotify = true,
+  terminal = true,
+  vim = true,
+}
+
+-- Save view when leaving a buffer
+vim.api.nvim_create_autocmd('BufWinLeave', {
+  group = view_group,
+  callback = function(ev)
+    local ft = vim.bo[ev.buf].filetype
+    if ft == '' or IGNORE_FILETYPES[ft] then return end
+
+    vim.cmd.mkview({ mods = { emsg_silent = true } })
+  end,
+})
+
+-- Load view when entering a buffer
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  group = view_group,
+  callback = function(ev)
+    local ft = vim.bo[ev.buf].filetype
+    if ft == '' or IGNORE_FILETYPES[ft] then return end
+
+    vim.cmd.loadview({ mods = { emsg_silent = true } })
+  end,
+})
