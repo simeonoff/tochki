@@ -73,8 +73,11 @@
       set-window-option -g pane-border-status top
       set-window-option -g pane-border-format ""
 
+      # Update environment variables for SSH agent
+      set-option -g update-environment "SSH_AUTH_SOCK SSH_CONNECTION"
+
       # Run lazygit in a new window named "Lazygit" when G is pressed
-      bind g new-window -n "Lazygit" lazygit
+      bind g new-window -n "Lazygit" -e SSH_AUTH_SOCK="$SSH_AUTH_SOCK" lazygit
       bind c new-window -n "Nushell"
 
     '';
