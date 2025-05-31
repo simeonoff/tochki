@@ -115,7 +115,6 @@
             inherit (languageServers) some-sass-language-server;
             tmuxPlugins = pkgs.tmuxPlugins // tmuxPlugins;
             local-fonts = pkgs.callPackage ./packages/local-fonts { };
-            bitwarden-desktop = pkgs.callPackage ./packages/bitwarden { };
           };
         };
 
