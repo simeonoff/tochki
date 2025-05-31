@@ -114,7 +114,8 @@
           overlayAttrs = {
             inherit (languageServers) some-sass-language-server;
             tmuxPlugins = pkgs.tmuxPlugins // tmuxPlugins;
-            local-fonts = pkgs.callPackage ./packages/local-fonts {};
+            local-fonts = pkgs.callPackage ./packages/local-fonts { };
+            bitwarden-desktop = pkgs.callPackage ./packages/bitwarden { };
           };
         };
 
@@ -122,7 +123,7 @@
         nixosConfigurations = {
           kori = mkNixosConfiguration "kori" "iams1mo";
         };
-        
+
         darwinConfigurations = {
           ringo = mkDarwinConfiguration "ringo" "SSimeonov";
         };
