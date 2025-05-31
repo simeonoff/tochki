@@ -73,7 +73,6 @@
 
   programs.zsh.enable = true;
   programs._1password.enable = true;
-  programs.bitwarden-desktop.enable = true;
   programs._1password-gui.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

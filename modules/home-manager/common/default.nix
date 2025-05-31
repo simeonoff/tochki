@@ -46,6 +46,7 @@
     EDITOR = "nvim";
     NPM_CONFIG_PREFIX = "${config.home.homeDirectory}/.npm-global";
     FLAKE = "${config.home.homeDirectory}/tochki";
+    SSH_AUTH_SOCK = "${config.home.homeDirectory}/.bitwarden-ssh-agent.sock";
   };
 
   xdg.enable = true;
@@ -106,6 +107,7 @@
     # '')
   ]
   ++ lib.optionals (!stdenv.isDarwin) [
+    bitwarden-desktop
     brave
     vesktop
     vivaldi
