@@ -14,6 +14,16 @@ return {
   settings = {
     somesass = {
       suggestAllFromOpenDocument = true,
+      css = {
+        lint = {
+          unknownAtRules = 'ignore',
+        },
+      },
+      scss = {
+        lint = {
+          unknownAtRules = 'ignore',
+        },
+      },
     },
   },
   capabilities = capabilities,

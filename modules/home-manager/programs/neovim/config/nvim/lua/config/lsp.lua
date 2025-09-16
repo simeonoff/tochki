@@ -9,9 +9,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
     -- display inlay hints
-    if client and client:supports_method('textDocument/inlayHint') then
-      vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
-    end
+    -- if client and client:supports_method('textDocument/inlayHint') then
+    --   vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+    -- end
 
     -- enable completion
     if client and client:supports_method('textDocument/completion') then
@@ -45,5 +45,8 @@ for _, f in pairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
   local server_name = vim.fn.fnamemodify(f, ':t:r')
   table.insert(lsp_configs, server_name)
 end
+
+-- Log levels: "TRACE" | "DEBUG" | "INFO" | "WARN" | "ERROR"
+vim.lsp.set_log_level("ERROR")
 
 vim.lsp.enable(lsp_configs)

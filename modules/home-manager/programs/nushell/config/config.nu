@@ -40,7 +40,7 @@ alias vim = nvim
 alias vi = nvim
 
 def ll [] {
-  ls -la | filter {|x| $x.name != ".DS_Store"} | sort-by type
+  ls -la | where {|x| $x.name != ".DS_Store"} | sort-by type
 }
 
 def t [] {

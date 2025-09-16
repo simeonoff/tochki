@@ -14,9 +14,9 @@ return {
   root_dir = root_dir,
   single_file_support = true,
   settings = {
-    css = { validate = true },
-    scss = { validate = true },
-    less = { validate = true },
+    css = { validate = false, lint = { unknownAtRules = 'ignore' } },
+    scss = { validate = false, lint = { unknownAtRules = 'ignore' } },
+    less = { validate = false },
   },
   capabilities = capabilities,
 }

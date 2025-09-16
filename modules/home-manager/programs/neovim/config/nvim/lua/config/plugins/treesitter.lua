@@ -13,8 +13,16 @@ return {
 
     -- Use a fork of the tree-sitter-scss parser for better highlighting
     local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
-    parser_configs.scss.install_info.url = 'https://github.com/savetheclocktower/tree-sitter-scss'
-    parser_configs.scss.install_info.revision = '97a48700a2cd8bf851c4b8edc29a8a8631c419a0'
+    parser_configs.scss = {
+      install_info = {
+        url = 'https://github.com/savetheclocktower/tree-sitter-scss',
+        files = { 'src/parser.c', 'src/scanner.c' },
+        branch = 'master',
+        generate_requires_npm = false,
+        requires_generate_from_grammar = false,
+      },
+      filetype = 'scss',
+    }
 
     ---@diagnostic disable-next-line: missing-fields
     treesitter.setup({

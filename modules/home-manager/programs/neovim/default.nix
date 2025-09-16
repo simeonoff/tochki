@@ -26,8 +26,9 @@ in
       stylelint
       stylelint-lsp
       stylua
-      vscode-langservers-extracted
+      tailwindcss-language-server
       typescript-language-server
+      vscode-langservers-extracted
       yaml-language-server
     ];
 
