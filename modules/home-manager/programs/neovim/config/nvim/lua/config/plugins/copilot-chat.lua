@@ -2,6 +2,7 @@ local M = {
   'CopilotC-Nvim/CopilotChat.nvim',
   event = 'VeryLazy',
   command = 'CopilotChat',
+  enabled = false,
   dependencies = {
     { 'zbirenbaum/copilot.lua' },
     { 'nvim-lua/plenary.nvim' }, -- for curl, log and async functions

@@ -3,6 +3,7 @@
   # Use zsh only as a login shell and immediately load nushell
   programs.zsh = {
     enable = true;
+    dotDir = "${config.xdg.configHome}/zsh";
     initContent = /* bash */ ''
       exec ${pkgs.nushell}/bin/nu
     '';

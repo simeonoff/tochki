@@ -1,10 +1,10 @@
-{ pkgs, config, ... }:
-let
-  inherit (config.lib.file) mkOutOfStoreSymlink;
-in
+{ pkgs, config, lib, ... }:
 {
-  xdg.configFile.nvim.source = mkOutOfStoreSymlink "${config.home.homeDirectory}/tochki/modules/home-manager/programs/neovim/config/nvim";
-
+  # Keep Neovim config live by linking at activation time.
+  home.activation.neovimConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    $DRY_RUN_CMD mkdir -p "${config.xdg.configHome}"
+    $DRY_RUN_CMD ln -sfn "${config.home.homeDirectory}/tochki/modules/home-manager/programs/neovim/config/nvim" "${config.xdg.configHome}/nvim"
+  '';
   programs.neovim = {
     enable = true;
     extraPackages = with pkgs; [
@@ -18,9 +18,11 @@ in
       gotools
       lua-language-server
       marksman
+      netcoredbg # CSharp debugger
       nil
       nixpkgs-fmt
       prettierd
+      roslyn-ls # CSharp language server
       selene
       some-sass-language-server
       stylelint
@@ -32,8 +34,6 @@ in
       yaml-language-server
     ];
 
-    # Set environment variables for Neovim to find the tiktoken_core module
-    extraLuaPackages = ps: with ps; [ tiktoken_core ];
     withNodeJs = true;
     extraPython3Packages = ps: with ps; [ pynvim ];
   };

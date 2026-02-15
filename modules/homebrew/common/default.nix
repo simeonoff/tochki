@@ -4,9 +4,12 @@
   homebrew = {
     enable = true;
     brews = [
+      "gh"
       "mas"
       "mysql"
       "ninja"
+      "opencode"
+      "rom-tools"
     ];
     taps = [ ];
     casks = [

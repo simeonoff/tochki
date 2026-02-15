@@ -240,6 +240,18 @@ if.app-id = 'com.1password.1password'
 run = ['layout floating']
 
 [[on-window-detected]]
+if.app-id = 'tv.plex.plexamp'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.bitwarden.desktop'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'org.musicbrainz.Picard'
+run = ['layout floating']
+
+[[on-window-detected]]
 if.app-id = 'com.apple.ActivityMonitor'
 run = ['layout floating']
 

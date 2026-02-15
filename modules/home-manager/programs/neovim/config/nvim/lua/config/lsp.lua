@@ -46,6 +46,21 @@ for _, f in pairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
   table.insert(lsp_configs, server_name)
 end
 
+vim.lsp.config("roslyn", {
+    on_attach = function()
+        print("This will run when the server attaches!")
+    end,
+    settings = {
+        ["csharp|inlay_hints"] = {
+            csharp_enable_inlay_hints_for_implicit_object_creation = true,
+            csharp_enable_inlay_hints_for_implicit_variable_types = true,
+        },
+        ["csharp|code_lens"] = {
+            dotnet_enable_references_code_lens = true,
+        },
+    },
+})
+
 -- Log levels: "TRACE" | "DEBUG" | "INFO" | "WARN" | "ERROR"
 vim.lsp.set_log_level("ERROR")
 

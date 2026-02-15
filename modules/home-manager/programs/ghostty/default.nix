@@ -1,16 +1,18 @@
 { pkgs, lib, config, ... }:
 let
   commonSettings = {
-    theme = "rose-pine";
+    theme = "Rose Pine";
     font-family = "Iosevka Term";
     cursor-opacity = 0.7;
     cursor-invert-fg-bg = false;
-    window-decoration = true;
     window-padding-x = 10;
     window-padding-y = 5;
     window-padding-balance = true;
     font-thicken = false;
     mouse-hide-while-typing = true;
+    macos-titlebar-style = "hidden";
+    shell-integration = "zsh";
+    shell-integration-features = [ "ssh-terminfo" ];
   };
 
   darwinSettings = {
