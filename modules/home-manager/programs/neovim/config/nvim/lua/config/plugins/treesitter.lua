@@ -15,11 +15,9 @@ return {
     local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
     parser_configs.scss = {
       install_info = {
-        url = 'https://github.com/savetheclocktower/tree-sitter-scss',
+        url = 'https://github.com/simeonoff/tree-sitter-scss',
         files = { 'src/parser.c', 'src/scanner.c' },
-        branch = 'master',
-        generate_requires_npm = false,
-        requires_generate_from_grammar = false,
+        revision = 'b8568f60c1c536449cfa6849a76bd5cd1fe8a979',
       },
       filetype = 'scss',
     }
