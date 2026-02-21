@@ -17,9 +17,18 @@ return {
       install_info = {
         url = 'https://github.com/simeonoff/tree-sitter-scss',
         files = { 'src/parser.c', 'src/scanner.c' },
-        revision = 'b8568f60c1c536449cfa6849a76bd5cd1fe8a979',
+        revision = '6e0203c789325ad61baa6c4c8bf95db4b2f340ce',
       },
       filetype = 'scss',
+    }
+
+    parser_configs.sassdoc = {
+      install_info = {
+        url = 'https://github.com/simeonoff/tree-sitter-sassdoc',
+        files = { 'src/parser.c' },
+        revision = 'af8f299e649032b57206679db11f249e62495bd4',
+      },
+      filetype = 'sassdoc',
     }
 
     ---@diagnostic disable-next-line: missing-fields

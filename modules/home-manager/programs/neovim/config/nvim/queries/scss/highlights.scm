@@ -79,6 +79,8 @@
   "@supports"
   "@keyframes"
   "@utility"
+  "@layer"
+  "@scope"
   "@property"
   "@at-root"
   "@debug"
