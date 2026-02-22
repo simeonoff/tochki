@@ -1,4 +1,8 @@
-[(comment) (single_line_comment)] @comment
+[
+  (comment)
+  (single_line_comment)
+  (sassdoc_block)
+] @comment
 
 [
   (tag_name)
@@ -25,6 +29,7 @@
   "*="
   ">="
   "<="
+  (range_operator)
 ] @operator
 
 [
@@ -78,6 +83,7 @@
   "@namespace"
   "@supports"
   "@keyframes"
+  "@container"
   "@utility"
   "@layer"
   "@scope"
@@ -93,6 +99,26 @@
   (from)
   (important)
 ] @keyword
+
+(container_statement
+  (container_name) @variable.other.member)
+
+(style_query "style" @function.builtin)
+(scroll_state_query "scroll-state" @function.builtin)
+
+(if_expression (function_name) @function.builtin)
+(if_style_condition "style" @function.builtin)
+(if_media_condition "media" @function.builtin)
+(if_supports_condition "supports" @function.builtin)
+(if_sass_condition "sass" @function.builtin)
+(if_else_condition) @keyword.control.conditional
+
+(style_condition
+  (property_name) @property)
+
+(scroll_state_condition
+  (state_name) @property
+  (state_value) @constant.builtin)
 
 "@function" @keyword.function
 

@@ -13,11 +13,12 @@ return {
 
     -- Use a fork of the tree-sitter-scss parser for better highlighting
     local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+
     parser_configs.scss = {
       install_info = {
         url = 'https://github.com/simeonoff/tree-sitter-scss',
         files = { 'src/parser.c', 'src/scanner.c' },
-        revision = '6e0203c789325ad61baa6c4c8bf95db4b2f340ce',
+        revision = 'e4c61ee6ffd939b8700ab3645c586cf6da960080',
       },
       filetype = 'scss',
     }
@@ -26,7 +27,7 @@ return {
       install_info = {
         url = 'https://github.com/simeonoff/tree-sitter-sassdoc',
         files = { 'src/parser.c' },
-        revision = 'af8f299e649032b57206679db11f249e62495bd4',
+        revision = 'c8d063effc6dfbed4eac63679c4bac761e7aa8e5',
       },
       filetype = 'sassdoc',
     }

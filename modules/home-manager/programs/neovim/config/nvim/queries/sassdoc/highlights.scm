@@ -56,8 +56,9 @@
 ; Example language identifier
 (example_language) @label
 
-; Code blocks
-(code_block) @string
+; Code blocks and lines - use @comment as fallback, injection will override with language-specific highlights
+(code_block) @comment
+(code_line) @comment
 
 ; See references
 (see_reference) @function
