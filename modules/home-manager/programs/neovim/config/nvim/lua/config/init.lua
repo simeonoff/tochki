@@ -1,6 +1,7 @@
 require('config.set')
 require('config.lazy')
 require('config.lsp')
+require('config.views')
 
 vim.api.nvim_create_autocmd('User', {
   pattern = 'VeryLazy',

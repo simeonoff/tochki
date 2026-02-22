@@ -95,13 +95,14 @@ vim.opt.foldlevelstart = 99 -- Use saved fold states.
 vim.opt.foldmethod = 'expr' -- Use expr to determine fold level.
 vim.opt.foldopen = 'insert,mark,search,tag,percent,quickfix' -- Which commands open folds if the cursor moves into a closed fold.
 vim.opt.foldtext = '' -- What to display on fold
-vim.opt.foldexpr = 'v:lua.custom_fold_expr()' -- Use custom fold expression (extends treesitter with #region support).
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()' -- Use treesitter for folding.
 
 vim.opt.undofile = true
 vim.opt.undolevels = 10000
 
 vim.opt.backup = true
-vim.opt.sessionoptions = { 'buffers', 'curdir', 'tabpages', 'winsize' }
+vim.opt.viewoptions = { 'folds', 'cursor', 'curdir' }
+vim.opt.sessionoptions = { 'folds', 'buffers', 'curdir', 'tabpages', 'winsize' }
 
 if vim.fn.has('nvim-0.8') == 1 then vim.opt.backupdir = vim.fn.stdpath('state') .. '/backup' end
 
