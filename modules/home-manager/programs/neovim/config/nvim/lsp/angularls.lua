@@ -43,6 +43,7 @@ if default_angular_core_version then
     cmd = cmd,
     filetypes = { 'typescript', 'html', 'htmlangular' },
     root_markers = { 'angular.json' },
+    workspace_required = true,
     on_new_config = function(new_config) new_config.cmd = cmd end,
   }
 else

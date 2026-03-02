@@ -16,9 +16,14 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nix-darwin, nix-homebrew, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nix-darwin, nix-homebrew, neovim-nightly-overlay, ... }:
     let
       inherit (self) outputs;
 
@@ -103,13 +108,19 @@
         "aarch64-darwin"
       ];
 
-      perSystem = { pkgs, system, config, ... }:
+      perSystem = { system, config, ... }:
         let
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+            overlays = [ self.overlays.default ];
+          };
           tmuxPlugins = import ./packages/tmux { inherit pkgs; };
           languageServers = import ./packages/language-servers { inherit pkgs; };
+          neovim-nightly = neovim-nightly-overlay.packages.${system}.default;
         in
         {
-          devShells = import ./devshells { inherit pkgs; };
+          devShells = import ./devshells { inherit pkgs neovim-nightly; };
 
           overlayAttrs = {
             inherit (languageServers) some-sass-language-server;

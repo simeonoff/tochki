@@ -1,4 +1,8 @@
 { pkgs, config, lib, ... }:
+
+let
+  neovimTools = import ../../../../packages/neovim-tools { inherit pkgs; };
+in
 {
   # Keep Neovim config live by linking at activation time.
   home.activation.neovimConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -7,32 +11,7 @@
   '';
   programs.neovim = {
     enable = true;
-    extraPackages = with pkgs; [
-      angular-language-server
-      astro-language-server
-      bash-language-server
-      emmet-language-server
-      eslint_d
-      ginko
-      gopls
-      gotools
-      lua-language-server
-      marksman
-      netcoredbg # CSharp debugger
-      nil
-      nixpkgs-fmt
-      prettierd
-      roslyn-ls # CSharp language server
-      selene
-      some-sass-language-server
-      stylelint
-      stylelint-lsp
-      stylua
-      tailwindcss-language-server
-      typescript-language-server
-      vscode-langservers-extracted
-      yaml-language-server
-    ];
+    extraPackages = neovimTools;
 
     withNodeJs = true;
     extraPython3Packages = ps: with ps; [ pynvim ];

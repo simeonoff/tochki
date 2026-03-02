@@ -94,27 +94,6 @@ autocmd('RecordingLeave', {
   end,
 })
 
--- -- Automatically jump to the last known cursor position
--- autocmd('BufRead', {
---   callback = function(opts)
---     autocmd('BufWinEnter', {
---       once = true,
---       buffer = opts.buf,
---       callback = function()
---         local ft = vim.bo[opts.buf].filetype
---         local last_known_line = vim.api.nvim_buf_get_mark(opts.buf, '"')[1]
---         if
---           not (ft:match('commit') and ft:match('rebase'))
---           and last_known_line > 1
---           and last_known_line <= vim.api.nvim_buf_line_count(opts.buf)
---         then
---           vim.api.nvim_feedkeys([[g`"]], 'nx', false)
---         end
---       end,
---     })
---   end,
--- })
-
 -- Changes the colorscheme at runtime to the given argument
 vim.api.nvim_create_user_command('Theme', function(opts)
   local ui = require('config.ui')
@@ -123,4 +102,3 @@ vim.api.nvim_create_user_command('Theme', function(opts)
 
   ui.colorscheme.value = colorscheme
 end, { nargs = 1 })
-

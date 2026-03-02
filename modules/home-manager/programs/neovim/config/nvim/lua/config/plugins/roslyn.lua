@@ -1,5 +1,6 @@
 local M = {
     "seblyng/roslyn.nvim",
+    enabled = false,
     lazy = false,
     ---@module 'roslyn.config'
     ---@type RoslynNvimConfig

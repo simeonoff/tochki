@@ -10,12 +10,13 @@ end
 return {
   cmd = { 'astro-ls', '--stdio' },
   filetypes = { 'astro' },
-  root_dir = root_dir,
+  root_markers = { 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
   init_options = {
     typescript = {
       tsdk = get_probe_dir(root_dir),
     },
   },
+  workspace_required = true,
   on_new_config = function(new_config, new_root_dir)
     if vim.tbl_get(new_config.init_options, 'typescript') and not new_config.init_options.typescript.tsdk then
       new_config.init_options.typescript.tsdk = get_probe_dir(new_root_dir)

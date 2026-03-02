@@ -14,7 +14,7 @@ M.open_location = function()
   end
 
   if executable then
-    vim.loop.spawn(executable, {
+    vim.uv.spawn(executable, {
       args = { loc },
     })
   else
@@ -23,10 +23,10 @@ M.open_location = function()
 end
 
 M.get_root = function()
-  local path = vim.loop.fs_realpath(vim.api.nvim_buf_get_name(0)) or vim.loop.cwd()
+  local path = vim.uv.fs_realpath(vim.api.nvim_buf_get_name(0)) or vim.uv.cwd()
 
   -- Utilize early return to avoid deep nesting
-  if path == '' then return vim.loop.cwd() end
+  if path == '' then return vim.uv.cwd() end
 
   for _, client in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
     local workspace_folders = client.config.workspace_folders or {}
@@ -34,7 +34,7 @@ M.get_root = function()
     if client.config.root_dir then table.insert(root_dirs, client.config.root_dir) end
 
     for _, p in ipairs(root_dirs) do
-      local r = vim.loop.fs_realpath(p)
+      local r = vim.uv.fs_realpath(p)
       if r and path and path:find(r, 1, true) then
         return r -- Return immediately upon finding the first matching root
       end
@@ -43,7 +43,7 @@ M.get_root = function()
 
   -- Fallback to searching for a .git directory or using cwd
   local root = vim.fs.find({ '.git' }, { path = path, upward = true })[1]
-  return root and vim.fs.dirname(root) or vim.loop.cwd()
+  return root and vim.fs.dirname(root) or vim.uv.cwd()
 end
 
 -- Returns the visual selection text the cursor
@@ -130,21 +130,6 @@ M.set_sign_icons = function(opts)
   end
 
   vim.diagnostic.config({ signs = { text = text } })
-
-  local sign = function(args)
-    if opts[args.name] == nil then return end
-
-    vim.fn.sign_define(args.hl, {
-      texthl = args.hl,
-      text = opts[args.name],
-      numhl = '',
-    })
-  end
-
-  sign({ name = 'error', hl = 'DiagnosticSignError' })
-  sign({ name = 'warn', hl = 'DiagnosticSignWarn' })
-  sign({ name = 'hint', hl = 'DiagnosticSignHint' })
-  sign({ name = 'info', hl = 'DiagnosticSignInfo' })
 end
 
 -- Insert package.json to config_files if it contains the specified field
@@ -165,4 +150,11 @@ M.insert_package_json = function(config_files, field, fname)
   return config_files
 end
 
+-- Get the color of a highlight group
+M.get_hl = function(name, color)
+  local hl = vim.api.nvim_get_hl(0, { name = name })
+  if hl[color] then return string.format('#%06x', hl[color]) end
+end
+
 return M
+

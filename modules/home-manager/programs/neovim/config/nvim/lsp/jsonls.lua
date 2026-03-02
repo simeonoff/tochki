@@ -1,6 +1,3 @@
-local utils = require('utils')
-local root_dir = utils.root_pattern({ '.git' })
-
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
@@ -12,11 +9,16 @@ return {
   },
   settings = {
     json = {
-      schemas = require('schemastore').json.schemas(),
+      schemas = function()
+        local ok, store = pcall(require, 'schemastore')
+        if ok then
+          return store.json.schemas()
+        end
+      end,
       validate = { enable = true },
     },
   },
-  root_dir = root_dir,
+  root_markers = { '.git', },
   capabilities = capabilities,
   single_file_support = true,
 }
