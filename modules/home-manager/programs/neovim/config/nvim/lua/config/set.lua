@@ -1,3 +1,5 @@
+require('foldtext')
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -89,13 +91,18 @@ vim.opt.splitright = true -- Put new windows right of current
 
 -- set folding
 vim.opt.foldenable = true -- Enable folding.
-vim.opt.foldcolumn = '1' -- Show folding signs.
+vim.opt.foldcolumn = '0' -- Show folding signs.
 vim.opt.foldlevel = 999 -- Start with folds closed.
 vim.opt.foldlevelstart = 99 -- Use saved fold states.
 vim.opt.foldmethod = 'expr' -- Use expr to determine fold level.
 vim.opt.foldopen = 'insert,mark,search,tag,percent,quickfix' -- Which commands open folds if the cursor moves into a closed fold.
-vim.opt.foldtext = '' -- What to display on fold
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()' -- Use treesitter for folding.
+vim.opt.foldtext = 'v:lua.custom_foldtext()'
+
+vim.opt.statuscolumn =
+  '%s%#FoldColumn#%{foldlevel(v:lnum) > 0 ? (foldclosed(v:lnum) >= 0 ? " + " : (foldlevel(v:lnum) > foldlevel(v:lnum - 1) ? " - " : " │ ")) : "   "}%*%=%l '
+
+vim.opt.fillchars:append({ fold = ' ' })
 
 vim.opt.undofile = true
 vim.opt.undolevels = 10000

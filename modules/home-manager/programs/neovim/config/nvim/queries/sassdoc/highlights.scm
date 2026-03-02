@@ -1,3 +1,8 @@
+; Base: paint entire document as doc comment so /// markers and all
+; uncaptured regions get a consistent doc comment color.
+; More specific patterns below will override for semantic elements.
+(document) @comment.documentation @spell
+
 ; Tag keywords
 [
   "@param"
@@ -50,15 +55,16 @@
 (version) @number
 
 ; Description text
-(description) @comment
-(line_description) @comment
+(description) @comment.documentation
+(line_description) @comment.documentation
 
 ; Example language identifier
 (example_language) @label
 
-; Code blocks and lines - use @comment as fallback, injection will override with language-specific highlights
-(code_block) @comment
-(code_line) @comment
+; Code blocks and lines - use @comment.documentation as fallback,
+; injection will override with language-specific highlights
+(code_block) @comment.documentation
+(code_line) @comment.documentation
 
 ; See references
 (see_reference) @function
@@ -79,10 +85,21 @@
 (url) @string.special.url
 
 ; Link captions
-(link_caption) @comment
+(link_caption) @comment.documentation
 
 ; Custom names
 (custom_name) @string
 
 ; Default values
 (default_value) @string.special
+
+; Punctuation
+[
+  "{"
+  "}"
+] @punctuation.bracket
+
+"|" @punctuation.delimiter
+
+(tag_description
+  "-" @punctuation.delimiter)

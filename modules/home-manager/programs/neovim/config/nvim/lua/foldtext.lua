@@ -1,55 +1,40 @@
 -- Custom fold text.
--- https://www.reddit.com/r/neovim/comments/16sqyjz/finally_we_can_have_highlighted_folds/
 
-local NODES_TO_HIGHLIGHT = {
-  css = { 'type' },
-  html = { 'tag' },
-  js = { 'function' },
-  lua = { 'function', 'string' },
-  python = { 'function', 'function.method' },
-  scss = { 'type' },
-  typescript = { 'constructor', 'function', 'function.method' },
-  typescriptreact = { 'function' },
-}
+function _G.custom_foldtext()
+  local buf = vim.api.nvim_get_current_buf()
+  local foldstart = vim.v.foldstart
+  local line = vim.api.nvim_buf_get_lines(buf, foldstart - 1, foldstart, false)[1] or ''
+  local count = vim.v.foldend - foldstart
+  -- Build highlighted chunks using tree-sitter captures
+  local result = {}
+  local ok, parser = pcall(vim.treesitter.get_parser, buf)
 
--- Cache highlight groups by filetype and node name for better performance
-local highlight_cache = {}
-
-local function get_hl_group(name)
-  local ft = vim.bo.filetype
-
-  -- Create cache key
-  local cache_key = ft .. '_' .. name
-
-  -- Return cached result if available
-  if highlight_cache[cache_key] then return highlight_cache[cache_key] end
-
-  -- Get nodes to highlight for current filetype, or empty table if none
-  local nodes_to_highlight = NODES_TO_HIGHLIGHT[ft]
-
-  -- Determine highlight group
-  local hl = (nodes_to_highlight and vim.tbl_contains(nodes_to_highlight, name)) and 'FoldedHeading' or 'Folded'
-
-  -- Cache the result
-  highlight_cache[cache_key] = hl
-
-  return hl
-end
-
-function _G.custom_fold_text()
-  local pos = vim.v.foldstart
-  local line = vim.api.nvim_buf_get_lines(0, pos - 1, pos, false)[1]
-
-  -- Check if this is a #region fold
-  if line:find('#region') then
-    -- Extract region name
-    local region_name = line:match('#region%s*(.-)%s*$') or 'Region'
-    if region_name == '' then region_name = 'Region' end
-
-    local line_count = vim.v.foldend - vim.v.foldstart + 1
-    return string.format('󱃄 %s (%d lines)', region_name, line_count)
+  if ok and parser then
+    -- Force parse to ensure captures are available
+    parser:parse()
+    local col = 0
+    while col < #line do
+      local captures = vim.treesitter.get_captures_at_pos(buf, foldstart - 1, col)
+      local hl = nil
+      if #captures > 0 then hl = '@' .. captures[#captures].capture .. '.' .. captures[#captures].lang end
+      -- Find the extent of this highlight
+      local start_col = col
+      col = col + 1
+      while col < #line do
+        local next_captures = vim.treesitter.get_captures_at_pos(buf, foldstart - 1, col)
+        local next_hl = nil
+        if #next_captures > 0 then
+          next_hl = '@' .. next_captures[#next_captures].capture .. '.' .. next_captures[#next_captures].lang
+        end
+        if next_hl ~= hl then break end
+        col = col + 1
+      end
+      table.insert(result, { line:sub(start_col + 1, col), hl or 'Folded' })
+    end
+  else
+    table.insert(result, { line, 'Folded' })
   end
+  table.insert(result, { ' … ' .. count .. ' lines', 'Comment' })
 
-  -- For non-region folds, use default foldtext
-  return vim.fn.foldtext()
+  return result
 end

@@ -39,6 +39,8 @@ M.config = function()
       NormalFloat = { bg = 'surface' },
       WinSeparator = { fg = 'highlight_med' },
       IblIndent = { fg = 'highlight_med' },
+      FoldColumn = { fg = 'highlight_med' },
+      SnacksIndent = { fg = 'highlight_med' },
       NotifyBackground = { fg = 'text', bg = 'surface' },
 
       NoiceCmdlinePopup = { bg = 'surface', fg = 'subtle' },

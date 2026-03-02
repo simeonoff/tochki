@@ -5,6 +5,7 @@ return {
   enabled = true,
   dependencies = {
     'nvim-treesitter/nvim-treesitter-textobjects',
+    'nvim-treesitter/nvim-treesitter-textobjects',
     'windwp/nvim-ts-autotag',
   },
 
@@ -18,7 +19,7 @@ return {
       install_info = {
         url = 'https://github.com/simeonoff/tree-sitter-scss',
         files = { 'src/parser.c', 'src/scanner.c' },
-        revision = 'e4c61ee6ffd939b8700ab3645c586cf6da960080',
+        revision = '342f6cee7faf5b2fbe6eb91db2bdc04422297377',
       },
       filetype = 'scss',
     }
@@ -27,7 +28,7 @@ return {
       install_info = {
         url = 'https://github.com/simeonoff/tree-sitter-sassdoc',
         files = { 'src/parser.c' },
-        revision = 'c8d063effc6dfbed4eac63679c4bac761e7aa8e5',
+        revision = 'cb8295778a66b73ed5cef2fc112f41c9e804e806',
       },
       filetype = 'sassdoc',
     }

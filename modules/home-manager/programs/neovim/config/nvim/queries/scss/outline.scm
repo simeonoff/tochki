@@ -31,17 +31,23 @@
     (block)
 ) @item
 
+(layer_statement
+    "@layer" @context
+    (layer_name)? @name
+    (block)
+) @item
+
 (mixin_statement
     "@mixin" @context
     (name) @name
-    (_) @context.extra
+    (parameters)? @context.extra
     (block)
 ) @item
 
 (function_statement
     "@function" @context
     (name) @name
-    (parameters) @context.extra
+    (parameters)? @context.extra
 ) @item
 
 (each_statement
@@ -78,6 +84,38 @@
     (_) @name
 ) @item
 
+(include_statement
+    "@include" @context
+    (mixin_name) @name
+    (block)
+) @item
+
+(supports_statement
+    "@supports" @context
+    (_) @name
+    (block)
+) @item
+
+(at_root_statement
+    "@at-root" @context
+    (selectors
+      .
+      (_) @name
+    )
+    (block)
+) @item
+
+(property_statement
+    "@property" @context
+    (property_name) @name
+    (block)
+) @item
+
+(scope_statement
+    "@scope" @name
+    (block)
+) @item
+
 (if_clause
   "@if" @context
   (condition) @name
@@ -109,4 +147,28 @@
     (block)
 ) @item
 
+(counter_style_statement
+    "@counter-style" @context
+    (name) @name
+    (block)
+) @item
+
+(position_try_statement
+    "@position-try" @context
+    (name) @name
+    (block)
+) @item
+
+(font_palette_values_statement
+    "@font-palette-values" @context
+    (name) @name
+    (block)
+) @item
+
+(font_feature_values_statement
+    "@font-feature-values" @context
+    (font_family) @name
+) @item
+
 (comment) @annotation
+(sassdoc_block) @annotation
