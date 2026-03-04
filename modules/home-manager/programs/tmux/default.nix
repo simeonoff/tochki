@@ -16,8 +16,8 @@
         plugin = tmuxPlugins.minimal-tmux-status;
         extraConfig = /* bash */ ''
           # Minimal Tmux Status configuration
-          set -g @minimal-tmux-theme 'rose-pine'
-          set -g @minimal-tmux-justify 'center'
+          set -g @minimal-tmux-theme 'tinted-theming'
+          set -g @minimal-tmux-justify 'left'
           set -g @minimal-tmux-indicator true
           set -g @minimal-tmux-status 'top'
           set -g @minimal-tmux-show-expanded-icon-for-all-tabs true

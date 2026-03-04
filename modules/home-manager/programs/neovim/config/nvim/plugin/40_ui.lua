@@ -14,8 +14,7 @@ now(function()
   local get_hex = require('utils').get_hl
 
   local normal_bg = get_hex('Normal', 'bg')
-  local normal_fg = get_hex('Normal', 'fg')
-  local muted_fg = get_hex('Comment', 'fg')
+  local success_fg = get_hex('DiagnosticOk', 'fg')
   local error_fg = get_hex('DiagnosticError', 'fg')
 
   local window_width_limit = 100
@@ -171,16 +170,13 @@ now(function()
     color = function()
       local buf = vim.api.nvim_get_current_buf()
       local ts = vim.treesitter.highlighter.active[buf]
-      return { fg = ts and not vim.tbl_isempty(ts) and normal_fg or error_fg }
+      return { fg = ts and not vim.tbl_isempty(ts) and success_fg or error_fg }
     end,
     cond = conditions.hide_in_disabled_ft,
   }
 
   local location = {
     'location',
-    color = {
-      fg = muted_fg,
-    },
   }
 
   local spaces = {
@@ -188,17 +184,11 @@ now(function()
       local shiftwidth = vim.api.nvim_get_option_value('shiftwidth', { buf = 0 })
       return 'Spaces: ' .. shiftwidth
     end,
-    color = {
-      fg = muted_fg,
-    },
   }
 
   local encoding = {
     'o:encoding',
     fmt = string.upper,
-    color = {
-      fg = muted_fg,
-    },
     cond = conditions.hide_in_width,
   }
 
@@ -237,7 +227,7 @@ now(function()
         table.insert(c, lsp_kind[client.name] or client.name)
       end
 
-      return { fg = #c > 0 and normal_fg or error_fg }
+      return { fg = #c > 0 and success_fg or error_fg }
     end,
     cond = conditions.hide_in_disabled_ft,
   }
@@ -266,7 +256,7 @@ now(function()
 
   lualine.setup({
     options = {
-      theme = 'auto',
+      theme = 'tinted',
       icons_enabled = true,
       component_separators = '',
       section_separators = { left = '', right = '' },

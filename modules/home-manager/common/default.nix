@@ -15,6 +15,7 @@
     ../programs/sesh
     ../programs/ssh
     ../programs/starship
+    ../programs/tinty
     ../programs/tmux
     ../programs/zoxide
   ];
@@ -49,7 +50,6 @@
   };
 
   xdg.enable = true;
-  xdg.dataHome = "${config.home.homeDirectory}/.local/share";
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -87,6 +87,7 @@
     python313Packages.west
     ripgrep
     silver-searcher
+    tinty
     tree
     tree-sitter
     wezterm

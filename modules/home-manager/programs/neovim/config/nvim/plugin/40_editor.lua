@@ -195,6 +195,12 @@ later(
   end
 )
 
+-- Command line tweaks. Improves command line editing with:
+-- - Autocompletion. Basically an automated `:h cmdline-completion`.
+-- - Autocorrection of words as-you-type. Like `:W`->`:w`, `:lau`->`:lua`, etc.
+-- - Autopeek command range (like line number at the start) as-you-type.
+later(function() require('mini.cmdline').setup() end)
+
 -- Pressing q closes the quickfix, help and other windows
 later(function()
   autocmd('FileType', {
@@ -213,4 +219,24 @@ later(function()
 
   -- Add `BufOnly` command to delete all buffers except the current one
   vim.api.nvim_create_user_command('BufOnly', bufonly.BufOnly, { desc = 'Delete all buffers except the current one' })
+end)
+
+-- Clean up unused plugins. It checks for inactive plugins and prompts the user to remove them.
+-- Inactive plugins are those that are not currently active in the Neovim session, which can happen if they were removed from the configuration but still exist in the plugin directory.
+-- This command helps keep the plugin directory clean and free of unused plugins.
+later(function()
+  local function pack_clean()
+    local inactive = vim.tbl_filter(function(p) return not p.active end, vim.pack.get())
+
+    if #inactive == 0 then
+      vim.notify('No inactive plugins found.', vim.log.levels.INFO)
+      return
+    end
+
+    local names = vim.tbl_map(function(p) return p.spec.name end, inactive)
+    local choice = vim.fn.confirm('Remove ' .. #names .. ' unused plugin(s)?', '&Yes\n&No', 2)
+    if choice == 1 then vim.pack.del(names) end
+  end
+
+  vim.keymap.set('n', '<leader>px', pack_clean)
 end)

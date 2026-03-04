@@ -17,6 +17,7 @@
     environmentVariables = {
       NPM_CONFIG_PREFIX = "${config.home.homeDirectory}/.npm-global";
       SSH_AUTH_SOCK = "${config.home.homeDirectory}/.bitwarden-ssh-agent.sock";
+      LG_CONFIG_FILE = "${config.home.homeDirectory}/.config/lazygit/config.yml,${config.home.homeDirectory}/.config/lazygit/theme.yml";
     };
   };
 }

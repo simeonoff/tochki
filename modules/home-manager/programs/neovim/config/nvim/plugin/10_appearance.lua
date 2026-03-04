@@ -1,7 +1,9 @@
 local add = vim.pack.add
-local now, autocmd = Config.now, Config.new_autocmd
-local set_hl = function(group, colors) vim.api.nvim_set_hl(0, group, colors) end
+local now = Config.now
 
+-- Perceptual color adjustment using OKLCH color space.
+-- Lightens dark colors and darkens light colors by `amount` (default 5).
+-- Works correctly with both light and dark themes.
 local function dynamic_shade(hex, amount)
   local colors = require('mini.colors')
   local color = colors.convert(hex, 'oklch')
@@ -18,142 +20,177 @@ end
 
 now(function()
   add({
-    'https://github.com/RRethy/base16-nvim.git',
+    'https://github.com/tinted-theming/tinted-nvim.git',
   })
 
-  local overwrite_hl_groups = function()
-    local c = require('base16-colorscheme').colors
-    local cl_bg = dynamic_shade(c.base00)
+  require('tinted-nvim').setup({
+    default_scheme = 'base16-rose-pine',
+    compile = true,
+    capabilities = {
+      truecolor = true,
+      undercurl = true,
+      terminal_colors = true,
+    },
 
-    -- Intermediate shade between base01 and base02 for the "overlay" tier
-    -- (results panel background, sitting between prompt/preview and selection)
-    local overlay_bg = dynamic_shade(c.base01, 3)
+    ui = {
+      transparent = false,
+      dim_inactive = false,
+    },
+    -- Text attribute styles
+    styles = {
+      comments = { italic = true },
+      keywords = { italic = true },
+    },
 
-    set_hl('Keyword', { italic = true })
-    set_hl('Comment', { fg = c.base04, italic = true })
-    set_hl('TSComment', { link = 'Comment' })
+    highlights = {
+      -- Built-in plugin integrations
+      integrations = {
+        telescope = true,
+        blink = true,
+        notify = true,
+        dapui = true,
+        lualine = true,
+      },
 
-    set_hl('WinSeparator', { fg = c.base03 })
+      overrides = function(palette)
+        local cl_bg = dynamic_shade(palette.base00, 2)
+        -- Intermediate shade between base01 and base02 for telescope results panel
+        local overlay_bg = dynamic_shade(palette.base01, 3)
 
-    set_hl('CursorLine', { bg = cl_bg })
-    set_hl('CursorLineNr', { bg = cl_bg })
-    set_hl('CursorLineSign', { bg = cl_bg })
-    set_hl('CursorLineFold', { bg = cl_bg })
-    set_hl('ColorColumn', { bg = cl_bg })
+        return {
+          -- Line numbers
+          LineNr = { fg = palette.base03 },
 
-    set_hl('Folded', { fg = c.base04, bg = 'NONE' })
-    set_hl('FoldColumn', { fg = c.base03 })
+          -- Comment
+          Comment = { fg = palette.base04, italic = true },
+          TSComment = { link = 'Comment' },
 
-    set_hl('MiniIndentscopeSymbol', { fg = c.base03 })
-    set_hl('MiniDiffSignChange', { fg = c.base0E })
+          -- CursorLine: slightly off-background via perceptual shading
+          CursorLine = { bg = palette.base02 },
+          CursorLineNr = { fg = palette.base04, bg = palette.base02 },
+          CursorLineSign = { bg = palette.base02 },
+          CursorLineFold = { bg = palette.base02 },
+          ColorColumn = { bg = palette.base02 },
 
-    -- Telescope: layered panel design
-    -- Three background tiers: base01 (prompt/preview) < overlay_bg (results) < base02 (selection)
-    -- Borders match their panel bg to create a "borderless" look
-    --
-    -- Results panel (main body)
-    set_hl('TelescopeBorder', { fg = overlay_bg, bg = overlay_bg })
-    set_hl('TelescopeNormal', { fg = c.base04, bg = overlay_bg })
-    set_hl('TelescopeTitle', { fg = overlay_bg, bg = overlay_bg })
+          -- Folds
+          Folded = { fg = palette.base04, bg = 'NONE' },
+          FoldColumn = { fg = palette.base03 },
 
-    -- Selection
-    set_hl('TelescopeSelection', { fg = c.base05, bg = c.base02 })
-    set_hl('TelescopeSelectionCaret', { fg = c.base08, bg = c.base02 })
-    set_hl('TelescopeMultiSelection', { fg = c.base05, bg = c.base03 })
+          -- Separators
+          WinSeparator = { fg = palette.base02 },
 
-    -- Prompt area (input field)
-    set_hl('TelescopePromptNormal', { fg = c.base05, bg = c.base01 })
-    set_hl('TelescopePromptBorder', { fg = c.base01, bg = c.base01 })
-    set_hl('TelescopePromptTitle', { fg = c.base09, bg = c.base01 })
+          -- Signs and indent guides
+          SignColumn = { fg = palette.base03 },
+          MiniIndentscopeSymbol = { fg = palette.base03 },
+          MiniDiffSignChange = { fg = palette.base0E },
 
-    -- Preview area
-    set_hl('TelescopePreviewNormal', { fg = c.base05, bg = c.base01 })
-    set_hl('TelescopePreviewTitle', { fg = c.base01, bg = c.base01 })
-    set_hl('TelescopePreviewBorder', { fg = c.base01, bg = c.base01 })
+          -- Inline hints and completion ghost text
+          LspInlayHint = { fg = palette.base04, italic = true },
+          ComplHint = { fg = dynamic_shade(palette.base03), italic = true },
 
-    -- Floats (LSP hover, diagnostics, etc.)
-    set_hl('FloatBorder', { fg = c.base01, bg = c.base01 })
-    set_hl('FloatTitle', { fg = c.base09, bg = c.base01 })
-    set_hl('NormalFloat', { bg = c.base01 })
+          -- Floats
+          FloatBorder = { fg = palette.base01, bg = palette.base01 },
+          FloatTitle = { fg = palette.base09, bg = palette.base01 },
+          NormalFloat = { bg = palette.base01 },
 
-    -- Blink completion menu: same surface tier as floats (base01)
-    -- with borders blending into the background for a clean look
-    set_hl('BlinkCmpMenu', { fg = c.base05, bg = c.base01 })
-    set_hl('BlinkCmpMenuBorder', { fg = c.base01, bg = c.base01 })
-    set_hl('BlinkCmpMenuSelection', { fg = c.base05, bg = c.base02 })
+          -- Telescope: layered panel design
+          -- Three tiers: base01 (prompt/preview) < overlay (results) < selection_bg (selection)
+          -- Borders match their panel bg for a borderless look
+          TelescopeBorder = { fg = overlay_bg, bg = overlay_bg },
+          TelescopeNormal = { fg = palette.base04, bg = overlay_bg },
+          TelescopeTitle = { fg = overlay_bg, bg = overlay_bg },
+          TelescopeSelection = { fg = palette.base05, bg = palette.base03 },
+          TelescopeSelectionCaret = { fg = palette.base08, bg = dynamic_shade(palette.base02, 3) },
+          TelescopeMultiSelection = { fg = palette.base05, bg = palette.base03 },
+          TelescopePromptNormal = { fg = palette.base05, bg = palette.base01 },
+          TelescopePromptBorder = { fg = palette.base01, bg = palette.base01 },
+          TelescopePromptTitle = { fg = palette.base09, bg = palette.base01 },
+          TelescopePromptPrefix = { fg = palette.base04 },
+          TelescopePreviewNormal = { fg = palette.base05, bg = palette.base01 },
+          TelescopePreviewTitle = { fg = palette.base01, bg = palette.base01 },
+          TelescopePreviewBorder = { fg = palette.base01, bg = palette.base01 },
 
-    set_hl('BlinkCmpLabel', { fg = c.base04 })
-    set_hl('BlinkCmpLabelMatch', { fg = c.base05, bold = true })
-    set_hl('BlinkCmpLabelDetail', { fg = c.base03 })
-    set_hl('BlinkCmpLabelDescription', { fg = c.base03 })
-    set_hl('BlinkCmpLabelDeprecated', { fg = c.base03, strikethrough = true })
+          -- Blink completion menu
+          BlinkCmpMenu = { fg = palette.base05, bg = palette.base01 },
+          BlinkCmpMenuBorder = { fg = palette.base01, bg = palette.base01 },
+          BlinkCmpMenuSelection = { fg = palette.base05, bg = palette.base02 },
+          BlinkCmpLabel = { fg = palette.base04 },
+          BlinkCmpLabelMatch = { fg = palette.base05, bold = true },
+          BlinkCmpLabelDetail = { fg = palette.base03 },
+          BlinkCmpLabelDescription = { fg = palette.base03 },
+          BlinkCmpLabelDeprecated = { fg = palette.base03, strikethrough = true },
+          BlinkCmpSource = { fg = palette.base03 },
 
-    set_hl('BlinkCmpKind', { fg = c.base0E })
-    set_hl('BlinkCmpSource', { fg = c.base03 })
+          -- Blink per-kind icon colors
+          -- base0D (blue)    = functions/methods/constructors
+          -- base08 (red)     = variables/fields/properties/references
+          -- base0A (yellow)  = classes/interfaces/structs/modules/types
+          -- base0B (green)   = text/snippets/files/folders
+          -- base09 (orange)  = constants/enums/values/units
+          -- base0E (purple)  = keywords/operators/events (+ fallback)
+          -- base0C (cyan)    = colors/enum members
+          BlinkCmpKind = { fg = palette.base0E },
+          BlinkCmpKindFunction = { fg = palette.base0D },
+          BlinkCmpKindMethod = { fg = palette.base0D },
+          BlinkCmpKindConstructor = { fg = palette.base0D },
+          BlinkCmpKindVariable = { fg = palette.base08 },
+          BlinkCmpKindField = { fg = palette.base08 },
+          BlinkCmpKindProperty = { fg = palette.base08 },
+          BlinkCmpKindReference = { fg = palette.base08 },
+          BlinkCmpKindClass = { fg = palette.base0A },
+          BlinkCmpKindInterface = { fg = palette.base0A },
+          BlinkCmpKindStruct = { fg = palette.base0A },
+          BlinkCmpKindModule = { fg = palette.base0A },
+          BlinkCmpKindTypeParameter = { fg = palette.base0A },
+          BlinkCmpKindText = { fg = palette.base0B },
+          BlinkCmpKindSnippet = { fg = palette.base0B },
+          BlinkCmpKindFile = { fg = palette.base0B },
+          BlinkCmpKindFolder = { fg = palette.base0B },
+          BlinkCmpKindConstant = { fg = palette.base09 },
+          BlinkCmpKindEnum = { fg = palette.base09 },
+          BlinkCmpKindValue = { fg = palette.base09 },
+          BlinkCmpKindUnit = { fg = palette.base09 },
+          BlinkCmpKindKeyword = { fg = palette.base0E },
+          BlinkCmpKindOperator = { fg = palette.base0E },
+          BlinkCmpKindEvent = { fg = palette.base0E },
+          BlinkCmpKindEnumMember = { fg = palette.base0C },
+          BlinkCmpKindColor = { fg = palette.base0C },
 
-    -- Per-kind icon colors following base16 syntax semantics:
-    -- base0D (blue)    = functions/methods/constructors
-    -- base08 (red)     = variables/fields/properties/references
-    -- base0A (yellow)  = classes/interfaces/structs/modules/types
-    -- base0B (green)   = strings/text/snippets/files/folders
-    -- base09 (orange)  = constants/enums/values/units/booleans
-    -- base0E (purple)  = keywords/operators/events
-    -- base0C (cyan)    = colors/enum members/type parameters
-    set_hl('BlinkCmpKindFunction', { fg = c.base0D })
-    set_hl('BlinkCmpKindMethod', { fg = c.base0D })
-    set_hl('BlinkCmpKindConstructor', { fg = c.base0D })
+          -- Blink documentation / hover panel
+          BlinkCmpDoc = { fg = palette.base05, bg = palette.base01 },
+          BlinkCmpDocBorder = { fg = palette.base01, bg = palette.base01 },
+          BlinkCmpDocSeparator = { fg = palette.base02, bg = palette.base01 },
+          BlinkCmpDocCursorLine = { bg = palette.base02 },
+          BlinkCmpScrollBarThumb = { bg = palette.base02 },
+          BlinkCmpScrollBarGutter = { bg = palette.base01 },
+          BlinkCmpGhostText = { fg = palette.base03 },
 
-    set_hl('BlinkCmpKindVariable', { fg = c.base08 })
-    set_hl('BlinkCmpKindField', { fg = c.base08 })
-    set_hl('BlinkCmpKindProperty', { fg = c.base08 })
-    set_hl('BlinkCmpKindReference', { fg = c.base08 })
+          -- Visual selection
+          Visual = { bg = palette.base02 },
 
-    set_hl('BlinkCmpKindClass', { fg = c.base0A })
-    set_hl('BlinkCmpKindInterface', { fg = c.base0A })
-    set_hl('BlinkCmpKindStruct', { fg = c.base0A })
-    set_hl('BlinkCmpKindModule', { fg = c.base0A })
-    set_hl('BlinkCmpKindTypeParameter', { fg = c.base0A })
+          -- Punctuation: base0F is too faint in many schemes
+          Delimiter = { fg = palette.base04 },
+          ['@punctuation.delimiter'] = { fg = palette.base04 },
+          ['@punctuation.special'] = { fg = palette.base04 },
 
-    set_hl('BlinkCmpKindText', { fg = c.base0B })
-    set_hl('BlinkCmpKindSnippet', { fg = c.base0B })
-    set_hl('BlinkCmpKindFile', { fg = c.base0B })
-    set_hl('BlinkCmpKindFolder', { fg = c.base0B })
+          -- Lualine: use purple (base0E) for normal mode instead of dull grey
+          LualineNormalA = { fg = palette.base00, bg = palette.base0E, bold = true },
+          LualineNormalB = { fg = palette.base05, bg = palette.base02 },
 
-    set_hl('BlinkCmpKindConstant', { fg = c.base09 })
-    set_hl('BlinkCmpKindEnum', { fg = c.base09 })
-    set_hl('BlinkCmpKindEnumMember', { fg = c.base0C })
-    set_hl('BlinkCmpKindValue', { fg = c.base09 })
-    set_hl('BlinkCmpKindUnit', { fg = c.base09 })
+          -- Trouble
+          TroubleNormal = { bg = palette.base00 },
+        }
+      end,
+    },
 
-    set_hl('BlinkCmpKindKeyword', { fg = c.base0E })
-    set_hl('BlinkCmpKindOperator', { fg = c.base0E })
-    set_hl('BlinkCmpKindEvent', { fg = c.base0E })
-
-    set_hl('BlinkCmpKindColor', { fg = c.base0C })
-
-    -- Blink documentation / hover panel
-    set_hl('BlinkCmpDoc', { fg = c.base05, bg = c.base01 })
-    set_hl('BlinkCmpDocBorder', { fg = c.base01, bg = c.base01 })
-    set_hl('BlinkCmpDocSeparator', { fg = c.base02, bg = c.base01 })
-    set_hl('BlinkCmpDocCursorLine', { bg = c.base02 })
-
-    set_hl('BlinkCmpScrollBarThumb', { bg = c.base02 })
-    set_hl('BlinkCmpScrollBarGutter', { bg = c.base01 })
-
-    set_hl('BlinkCmpGhostText', { fg = c.base03 })
-
-    -- Trouble
-    set_hl('TroubleNormal', { bg = c.base00 })
-  end
-
-  autocmd('ColorScheme', 'base16-*', overwrite_hl_groups)
-
-  require('base16-colorscheme').with_config({
-    telescope = false,
-    dapui = true,
+    -- Auto-switch from tinty
+    selector = {
+      enabled = true,
+      mode = 'file',
+      path = '~/.local/share/tinted-theming/tinty/current_scheme',
+      watch = true, -- auto-reload on file change
+    },
   })
-
-  vim.cmd('colorscheme base16-rose-pine')
 end)
 
 now(function()

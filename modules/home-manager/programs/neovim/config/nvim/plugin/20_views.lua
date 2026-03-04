@@ -36,21 +36,12 @@ local function should_ignore_view(buf)
 end
 
 now(function()
-  -- Save view when leaving a buffer
-  -- Temporarily switch to manual foldmethod to persist fold state with expr folds
+  -- Save view when leaving a buffer (cursor position, curdir only — folds excluded)
   vim.api.nvim_create_autocmd('BufWinLeave', {
     group = view_group,
     callback = function(ev)
       if should_ignore_view(ev.buf) then return end
-
-      -- Save current foldmethod and switch to manual to preserve fold state
-      local foldmethod = vim.wo.foldmethod
-      if foldmethod == 'expr' then vim.wo.foldmethod = 'manual' end
-
       vim.cmd.mkview({ mods = { emsg_silent = true } })
-
-      -- Restore foldmethod
-      if foldmethod == 'expr' then vim.wo.foldmethod = 'expr' end
     end,
   })
 
@@ -59,7 +50,6 @@ now(function()
     group = view_group,
     callback = function(ev)
       if should_ignore_view(ev.buf) then return end
-
       vim.cmd.loadview({ mods = { emsg_silent = true } })
     end,
   })

@@ -108,19 +108,20 @@
         "aarch64-darwin"
       ];
 
-      perSystem = { system, config, ... }:
+      perSystem = { pkgs, system, config, ... }:
         let
-          pkgs = import nixpkgs {
+          tmuxPlugins = import ./packages/tmux { inherit pkgs; };
+          languageServers = import ./packages/language-servers { inherit pkgs; };
+          neovim-nightly = neovim-nightly-overlay.packages.${system}.default;
+          # pkgs with our overlay + allowUnfree, for devShells
+          pkgs' = import nixpkgs {
             inherit system;
             config.allowUnfree = true;
             overlays = [ self.overlays.default ];
           };
-          tmuxPlugins = import ./packages/tmux { inherit pkgs; };
-          languageServers = import ./packages/language-servers { inherit pkgs; };
-          neovim-nightly = neovim-nightly-overlay.packages.${system}.default;
         in
         {
-          devShells = import ./devshells { inherit pkgs neovim-nightly; };
+          devShells = import ./devshells { pkgs = pkgs'; inherit neovim-nightly; };
 
           overlayAttrs = {
             inherit (languageServers) some-sass-language-server;

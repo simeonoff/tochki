@@ -1,0 +1,46 @@
+shell = "bash -c '{}'"
+default-scheme = "base16-rose-pine"
+
+# Cycle through favorites with `tinty cycle`
+preferred-schemes = [
+  "base16-rose-pine",
+  "base16-catppuccin-mocha",
+  "base16-gruvbox-dark-medium",
+  "base16-nord",
+  "base16-tokyo-night-dark",
+  "base16-onedark",
+  "base16-dracula",
+]
+
+# --- Items ---
+
+# Shell ANSI colors + generate tmux theme from the same palette
+[[items]]
+path = "https://github.com/tinted-theming/tinted-shell"
+name = "tinted-shell"
+themes-dir = "scripts"
+hook = """. %f
+~/.config/tinted-theming/tinty/generate-tmux-theme.sh %f
+~/.config/tinted-theming/tinty/generate-lazygit-theme.sh %f"""
+supported-systems = ["base16", "base24"]
+
+# tmux base colors (message, copy mode, clock, bell, etc.)
+# minimal-tmux-status overrides status bar and pane borders on top of this
+[[items]]
+path = "https://github.com/tinted-theming/tinted-tmux"
+name = "tinted-tmux"
+themes-dir = "colors"
+hook = "tmux run 2> /dev/null && tmux source-file %f"
+supported-systems = ["base16", "base24"]
+
+# Ghostty (official tinted-terminal support)
+[[items]]
+path = "https://github.com/tinted-theming/tinted-terminal"
+name = "tinted-terminal"
+themes-dir = "themes/ghostty"
+hook = """
+mkdir -p ~/.config/ghostty/themes
+command cp -f "$TINTY_THEME_FILE_PATH" ~/.config/ghostty/themes/tinted-theming
+killall -SIGUSR2 ghostty 2>/dev/null || true
+"""
+supported-systems = ["base16", "base24"]

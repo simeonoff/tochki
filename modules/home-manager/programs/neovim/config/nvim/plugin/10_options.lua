@@ -7,6 +7,7 @@ vim.opt.hidden = true
 -- always show signcolumns
 vim.opt.signcolumn = 'yes'
 vim.opt.ruler = false
+vim.opt.winborder = 'single'
 
 -- show the relative numbers
 vim.opt.relativenumber = true
@@ -110,7 +111,7 @@ vim.opt.undofile = true
 vim.opt.undolevels = 10000
 
 vim.opt.backup = true
-vim.opt.viewoptions = { 'folds', 'cursor', 'curdir' }
+vim.opt.viewoptions = { 'cursor', 'curdir' }
 vim.opt.sessionoptions = { 'folds', 'buffers', 'curdir', 'tabpages', 'winsize' }
 
 vim.opt.backupdir = vim.fn.stdpath('state') .. '/backup'

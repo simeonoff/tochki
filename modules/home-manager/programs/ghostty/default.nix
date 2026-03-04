@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 let
   commonSettings = {
-    theme = "Rose Pine";
+    theme = "tinted-theming";
     font-family = "Iosevka Term";
     cursor-opacity = 0.7;
     cursor-invert-fg-bg = false;
