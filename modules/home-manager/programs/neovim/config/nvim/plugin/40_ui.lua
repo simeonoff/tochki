@@ -1,5 +1,5 @@
 local add = vim.pack.add
-local now = Config.now
+local now, autocmd = Config.now, Config.new_autocmd
 
 -- Lualine setup
 now(function()
@@ -47,6 +47,32 @@ now(function()
     svelte = 'Svelte',
     bashls = 'Bash',
   }
+
+  autocmd('RecordingEnter', nil, function()
+    lualine.refresh({
+      place = { 'statusline' },
+    })
+  end)
+
+  autocmd('RecordingLeave', nil, function()
+    -- This is going to seem really weird!
+    -- Instead of just calling refresh we need to wait a moment because of the nature of
+    -- `vim.fn.reg_recording`. If we tell lualine to refresh right now it actually will
+    -- still show a recording occuring because `vim.fn.reg_recording` hasn't emptied yet.
+    -- So what we need to do is wait a tiny amount of time (in this instance 50 ms) to
+    -- ensure `vim.fn.reg_recording` is purged before asking lualine to refresh.
+    local timer = vim.uv.new_timer()
+
+    timer:start(
+      50,
+      0,
+      vim.schedule_wrap(function()
+        lualine.refresh({
+          place = { 'statusline' },
+        })
+      end)
+    )
+  end)
 
   -- Get info from git about ahead/behind commits in branch
   local function update_gstatus()

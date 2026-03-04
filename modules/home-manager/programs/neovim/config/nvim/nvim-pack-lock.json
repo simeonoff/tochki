@@ -4,6 +4,10 @@
       "rev": "2c2f2d3fb568bbff1a5e1344e87a979b7edf50a8",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
+    "SchemaStore.nvim": {
+      "rev": "ee307633d11cf348c4155e046dcb9ddef32cd054",
+      "src": "https://github.com/b0o/SchemaStore.nvim.git"
+    },
     "base16-nvim": {
       "rev": "80ce668de796d1564d875a3c31822b4db3ae1d91",
       "src": "https://github.com/RRethy/base16-nvim.git"
@@ -27,6 +31,10 @@
     "dial": {
       "rev": "f2634758455cfa52a8acea6f142dcd6271a1bf57",
       "src": "https://github.com/monaqa/dial.nvim"
+    },
+    "dial.nvim": {
+      "rev": "f2634758455cfa52a8acea6f142dcd6271a1bf57",
+      "src": "https://github.com/monaqa/dial.nvim.git"
     },
     "flash": {
       "rev": "fcea7ff883235d9024dc41e638f164a450c14ca2",
@@ -52,6 +60,10 @@
       "rev": "b41ddfc1c39f87f3d1799b99c2f0f1daa524c5f7",
       "src": "https://github.com/cbochs/grapple.nvim"
     },
+    "grapple.nvim": {
+      "rev": "b41ddfc1c39f87f3d1799b99c2f0f1daa524c5f7",
+      "src": "https://github.com/cbochs/grapple.nvim.git"
+    },
     "lazydev": {
       "rev": "5231c62aa83c2f8dc8e7ba957aa77098cda1257d",
       "src": "https://github.com/folke/lazydev.nvim"
@@ -71,6 +83,10 @@
     "markdown-preview": {
       "rev": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee",
       "src": "https://github.com/iamcco/markdown-preview.nvim"
+    },
+    "markdown-preview.nvim": {
+      "rev": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee",
+      "src": "https://github.com/iamcco/markdown-preview.nvim.git"
     },
     "mini.nvim": {
       "rev": "0098de999048af0539183d625c52d733318a441b",
@@ -108,6 +124,10 @@
       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
+    "plenary.nvim": {
+      "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
+      "src": "https://github.com/nvim-lua/plenary.nvim.git"
+    },
     "rose-pine": {
       "rev": "cf2a288696b03d0934da713d66c6d71557b5c997",
       "src": "https://github.com/rose-pine/neovim"
@@ -120,9 +140,25 @@
       "rev": "5255aa27c422de944791318024167ad5d40aad20",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
+    "telescope-fzf-native.nvim": {
+      "rev": "6fea601bd2b694c6f2ae08a6c6fab14930c60e2c",
+      "src": "https://github.com/nvim-telescope/telescope-fzf-native.nvim.git"
+    },
     "telescope-pretty-pickers": {
       "rev": "e46341ad0bb95adf4a2559d216a50cff9816de16",
       "src": "https://github.com/simeonoff/telescope-pretty-pickers.nvim"
+    },
+    "telescope-pretty-pickers.nvim": {
+      "rev": "e46341ad0bb95adf4a2559d216a50cff9816de16",
+      "src": "https://github.com/simeonoff/telescope-pretty-pickers.nvim"
+    },
+    "telescope-ui-select.nvim": {
+      "rev": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2",
+      "src": "https://github.com/nvim-telescope/telescope-ui-select.nvim.git"
+    },
+    "telescope.nvim": {
+      "rev": "5255aa27c422de944791318024167ad5d40aad20",
+      "src": "https://github.com/nvim-telescope/telescope.nvim.git"
     },
     "todo-comments": {
       "rev": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668",
@@ -131,6 +167,10 @@
     "trouble": {
       "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
       "src": "https://github.com/folke/trouble.nvim"
+    },
+    "trouble.nvim": {
+      "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
+      "src": "https://github.com/folke/trouble.nvim.git"
     },
     "vim-table-mode": {
       "rev": "bb025308a45c67c7c8f0763ba37bc2ee3f534df0",

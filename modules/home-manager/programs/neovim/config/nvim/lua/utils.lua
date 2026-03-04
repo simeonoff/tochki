@@ -157,4 +157,3 @@ M.get_hl = function(name, color)
 end
 
 return M
-

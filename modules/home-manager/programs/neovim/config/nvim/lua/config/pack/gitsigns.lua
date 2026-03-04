@@ -14,6 +14,7 @@ return {
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
 
+        -- TODO: Think about including parts of this in Telescope config instead of here
         vim.api.nvim_create_user_command('Git', function(opts)
           if opts.args == 'blame' then gs.toggle_current_line_blame() end
 

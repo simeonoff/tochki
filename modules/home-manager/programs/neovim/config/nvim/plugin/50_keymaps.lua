@@ -62,7 +62,6 @@ map('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move visual selection up' })
 map('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move visual selection down' })
 map('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor position' })
 map('n', 'Q', '<nop>', { desc = 'Disable Ex mode' })
-map('n', 'Q', '<nop>', { desc = 'Disable Ex mode' })
 
 -- greatest remap
 map('x', '<leader>p', [["_dP]], { desc = "Replace highlighted text from what's in the void registry" })

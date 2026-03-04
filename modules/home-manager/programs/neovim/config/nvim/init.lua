@@ -40,7 +40,6 @@ vim.pack.add({ 'https://github.com/nvim-mini/mini.nvim' })
 --
 -- See also:
 -- - `:h MiniMisc.safely()`
--- - 'plugin/30_mini.lua' and 'plugin/40_plugins.lua'
 local misc = require('mini.misc')
 Config.now = function(f) misc.safely('now', f) end
 Config.later = function(f) misc.safely('later', f) end
@@ -63,7 +62,6 @@ end
 
 
 -- Define custom `vim.pack.add()` hook helper. See `:h vim.pack-events`.
--- Example usage: see 'plugin/40_plugins.lua'.
 Config.on_packchanged = function(plugin_name, kinds, callback, desc)
   local f = function(ev)
     local name, kind = ev.data.spec.name, ev.data.kind

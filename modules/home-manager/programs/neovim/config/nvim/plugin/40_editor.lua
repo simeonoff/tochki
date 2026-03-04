@@ -1,5 +1,6 @@
 local add = vim.pack.add
-local later = Config.later
+local later, autocmd = Config.later, Config.new_autocmd
+local bufonly = require('bufonly')
 
 later(function()
   add({ 'https://github.com/stevearc/conform.nvim' })
@@ -65,6 +66,114 @@ later(function()
   })
 end)
 
+later(function()
+  add({ 'https://github.com/folke/trouble.nvim.git' })
+
+  local trouble = require('trouble')
+  local kind_icons = require('kind').icons
+
+  trouble.setup({
+    icons = {
+      indent = {
+        fold_closed = '+ ',
+        fold_open = '- ',
+      },
+      kinds = kind_icons,
+    },
+  })
+
+  vim.keymap.set(
+    'n',
+    '<leader>tt',
+    function() trouble.toggle({ mode = 'diagnostics' }) end,
+    { desc = 'Toggle Trouble' }
+  )
+
+  vim.keymap.set(
+    'n',
+    '<leader>tn',
+    function()
+      trouble.next({
+        skip_groups = true,
+        jump = true,
+      })
+    end,
+    { desc = 'Go to next trouble' }
+  )
+
+  vim.keymap.set(
+    'n',
+    '<leader>tp',
+    function()
+      trouble.previous({
+        skip_groups = true,
+        jump = true,
+      })
+    end,
+    { desc = 'Go to previous trouble' }
+  )
+end)
+
+-- Dial allows you to increment and decrement various types of values, such as numbers, dates, boolean values, and more.
+later(function()
+  add({ 'https://github.com/monaqa/dial.nvim.git' })
+
+  local augend = require('dial.augend')
+
+  require('dial.config').augends:register_group({
+    default = {
+      augend.integer.alias.decimal,
+      augend.integer.alias.hex,
+      augend.date.alias['%Y/%m/%d'],
+      augend.constant.alias.bool,
+      augend.semver.alias.semver,
+    },
+  })
+
+  vim.keymap.set(
+    'n',
+    '<C-a>',
+    function() return require('dial.map').inc_normal() end,
+    { expr = true, desc = 'Increment' }
+  )
+
+  vim.keymap.set(
+    'n',
+    '<C-x>',
+    function() return require('dial.map').dec_normal() end,
+    { expr = true, desc = 'Decrement' }
+  )
+end)
+
+-- Linting plugin. It allows you to lint your code using various linters.
+later(function()
+  add({ 'https://github.com/mfussenegger/nvim-lint.git' })
+
+  local lint = require('lint')
+
+  -- Register linters
+  lint.linters_by_ft = {
+    go = {},
+    lua = {},
+  }
+
+  -- Listen for file writes and lint
+  vim.api.nvim_create_autocmd({ 'BufEnter', 'InsertLeave', 'BufWritePost' }, {
+    callback = function() lint.try_lint() end,
+  })
+end)
+
+later(function() add({ 'https://github.com/dhruvasagar/vim-table-mode.git' }) end)
+
+-- Markdown preview plugin. It allows you to preview markdown files in the browser.
+later(function()
+  local mkdp_handler = function() vim.fn['mkdp#util#install']() end
+  Config.on_packchanged('markdown-preview.nvim', { 'install', 'update' }, mkdp_handler, ':MkdpInstall')
+  vim.g.mkdp_auto_start = 0
+
+  add({ 'https://github.com/iamcco/markdown-preview.nvim.git' })
+end)
+
 -- Visualize and work with indent scope. It visualizes indent scope "at cursor"
 -- with animated vertical line. Provides relevant motions and textobjects.
 -- Example usage:
@@ -85,3 +194,23 @@ later(
     })
   end
 )
+
+-- Pressing q closes the quickfix, help and other windows
+later(function()
+  autocmd('FileType', {
+    'qf',
+    'help',
+    'man',
+    'notify',
+    'oil',
+  }, function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
+  end)
+
+  -- Turn on spellcheck for markdown files
+  autocmd('FileType', 'markdown', function() vim.opt.spell = true end)
+
+  -- Add `BufOnly` command to delete all buffers except the current one
+  vim.api.nvim_create_user_command('BufOnly', bufonly.BufOnly, { desc = 'Delete all buffers except the current one' })
+end)

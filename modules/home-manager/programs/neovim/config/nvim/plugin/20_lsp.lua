@@ -1,5 +1,13 @@
 local utils = require('utils')
 local signs = require('kind').diagnostic_signs
+local add = vim.pack.add
+local now = Config.now
+
+now(function()
+  add({
+    'https://github.com/b0o/SchemaStore.nvim.git',
+  })
+end)
 
 -- Do stuff when an LSP is attached to a buffer
 vim.api.nvim_create_autocmd('LspAttach', {
