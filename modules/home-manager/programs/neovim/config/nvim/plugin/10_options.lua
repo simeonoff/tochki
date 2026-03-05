@@ -1,12 +1,10 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- if hidden is not set, TextEdit might fail
-vim.opt.hidden = true
-
 -- always show signcolumns
 vim.opt.signcolumn = 'yes'
 vim.opt.ruler = false
+
 vim.opt.winborder = 'single'
 
 -- show the relative numbers
@@ -25,14 +23,8 @@ vim.opt.expandtab = true
 -- Don't ignore case with capitals
 vim.opt.smartcase = true
 
--- enable smartindent
-vim.opt.smartindent = true
-
 -- copy indent from current line when starting a new line
 vim.opt.autoindent = true
-
--- configure tree-sitter for indentation
-vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 
 -- enable mouse support
 vim.opt.mouse = 'a'
@@ -68,9 +60,6 @@ vim.opt.wildignore = '*/node_modules/**/*'
 -- Smaller updatetime for CursorHold & CursorHoldI
 vim.opt.updatetime = 250
 
--- enable gui colors
-vim.opt.termguicolors = true
-
 -- disable netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -105,7 +94,8 @@ vim.opt.foldtext = 'v:lua.custom_foldtext()'
 vim.opt.statuscolumn =
   '%s%#FoldColumn#%{foldlevel(v:lnum) > 0 ? (foldclosed(v:lnum) >= 0 ? " + " : (foldlevel(v:lnum) > foldlevel(v:lnum - 1) ? " - " : " │ ")) : "   "}%*%=%l '
 
-vim.opt.fillchars:append({ fold = ' ' })
+-- Disable tilde for empty lines
+vim.opt.fillchars:append({ fold = ' ', eob = ' ' })
 
 vim.opt.undofile = true
 vim.opt.undolevels = 10000
@@ -119,17 +109,8 @@ vim.opt.backupdir = vim.fn.stdpath('state') .. '/backup'
 -- Reduce the height of the command line
 vim.opt.cmdheight = 0
 
--- Disable tmux navigator when zooming the vim pane
-vim.g.tmux_navigator_disable_when_zoomed = 1
-
--- If the tmux window is zoomed, keep it zoomed when moving from vim to another pane
-vim.g.tmux_navigator_preserve_zoom = 1
-
 -- Disable intro screen
 vim.opt.shortmess:append({ I = true })
-
--- Disable tilde for empty lines
-vim.opt.fillchars = { eob = ' ' }
 
 -- Set list characters
 vim.opt.listchars = 'tab:->,trail:·,space:·'

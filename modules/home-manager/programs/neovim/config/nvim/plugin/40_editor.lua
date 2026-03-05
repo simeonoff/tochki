@@ -197,9 +197,16 @@ later(
 
 -- Command line tweaks. Improves command line editing with:
 -- - Autocompletion. Basically an automated `:h cmdline-completion`.
+-- - Autocompletion is handled by blink.cmp and is disabled here.
 -- - Autocorrection of words as-you-type. Like `:W`->`:w`, `:lau`->`:lua`, etc.
 -- - Autopeek command range (like line number at the start) as-you-type.
-later(function() require('mini.cmdline').setup() end)
+later(function()
+  require('mini.cmdline').setup({
+    autocomplete = {
+      enabled = false,
+    },
+  })
+end)
 
 -- Pressing q closes the quickfix, help and other windows
 later(function()

@@ -54,18 +54,21 @@ for _, f in pairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
   if not vim.tbl_contains(ignore_servers, server_name) then table.insert(lsp_configs, server_name) end
 end
 
-vim.lsp.config('roslyn', {
-  on_attach = function() print('This will run when the server attaches!') end,
-  settings = {
-    ['csharp|inlay_hints'] = {
-      csharp_enable_inlay_hints_for_implicit_object_creation = true,
-      csharp_enable_inlay_hints_for_implicit_variable_types = true,
-    },
-    ['csharp|code_lens'] = {
-      dotnet_enable_references_code_lens = true,
-    },
-  },
-})
+-- C# configuratioo for the roslyn language server, which is used by OmniSharp.
+-- Currently unused, but may be useful in the future if I decide to use OmniSharp instead of csharp_ls.
+--
+-- vim.lsp.config('roslyn', {
+--   on_attach = function() print('This will run when the server attaches!') end,
+--   settings = {
+--     ['csharp|inlay_hints'] = {
+--       csharp_enable_inlay_hints_for_implicit_object_creation = true,
+--       csharp_enable_inlay_hints_for_implicit_variable_types = true,
+--     },
+--     ['csharp|code_lens'] = {
+--       dotnet_enable_references_code_lens = true,
+--     },
+--   },
+-- })
 
 -- Log levels: "TRACE" | "DEBUG" | "INFO" | "WARN" | "ERROR"
 vim.lsp.log.set_level('ERROR')

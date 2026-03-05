@@ -9,7 +9,7 @@ now(function()
 
   local lualine = require('lualine')
   local diagnostic_signs = require('kind').diagnostic_signs
-  local diff_signs = require('kind').diff_icons
+  -- local diff_signs = require('kind').diff_icons
 
   local get_hex = require('utils').get_hl
 
@@ -24,26 +24,10 @@ now(function()
   local disabled_filetypes = {
     TelescopePrompt = true,
     oil = true,
-    lazygit = true,
     Trouble = true,
     trouble = true,
     lspinfo = true,
     ministarter = true,
-  }
-
-  local lsp_kind = {
-    tsserver = 'TSServer',
-    eslint = 'ESLint',
-    angularls = 'Angular LS',
-    cssls = 'CSS LS',
-    emmet_ls = 'Emmet',
-    html = 'HTML',
-    jsonls = 'JSON',
-    lua_ls = 'Lua LS',
-    marksman = 'Marksman',
-    stylelint_lsp = 'Stylelint',
-    svelte = 'Svelte',
-    bashls = 'Bash',
   }
 
   autocmd('RecordingEnter', nil, function()
@@ -112,15 +96,27 @@ now(function()
     end,
   }
 
-  local function diff_source()
-    local s = vim.b.minidiff_summary
+  -- local function diff_source()
+  --   local s = vim.b.minidiff_summary
+  --
+  --   if s then return {
+  --     added = s.add,
+  --     modified = s.change,
+  --     removed = s.delete,
+  --   } end
+  -- end
 
-    if s then return {
-      added = s.add,
-      modified = s.change,
-      removed = s.delete,
-    } end
-  end
+  -- local diff = {
+  --   'diff',
+  --   source = diff_source,
+  --   symbols = {
+  --     added = diff_signs.added,
+  --     modified = diff_signs.modified,
+  --     removed = diff_signs.removed,
+  --   },
+  --   padding = { left = 2, right = 1 },
+  --   cond = nil,
+  -- }
 
   local mode = {
     'mode',
@@ -138,18 +134,6 @@ now(function()
     cond = function() return vim.b.minigit_summary and (gstatus.behind > 0 or gstatus.ahead > 0) end,
     padding = { left = 0, right = 1 },
     separator = { right = '', left = '' },
-  }
-
-  local diff = {
-    'diff',
-    source = diff_source,
-    symbols = {
-      added = diff_signs.added,
-      modified = diff_signs.modified,
-      removed = diff_signs.removed,
-    },
-    padding = { left = 2, right = 1 },
-    cond = nil,
   }
 
   local diagnostics = {
@@ -223,7 +207,7 @@ now(function()
       local c = {}
 
       for _, client in pairs(clients) do
-        table.insert(c, lsp_kind[client.name] or client.name)
+        table.insert(c, client.name)
       end
 
       return { fg = #c > 0 and success_fg or error_fg }
@@ -311,7 +295,6 @@ now(function()
     extensions = {
       'man',
       'trouble',
-      'nvim-dap-ui',
       'quickfix',
       'oil',
     },

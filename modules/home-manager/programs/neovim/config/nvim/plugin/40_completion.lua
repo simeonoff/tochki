@@ -27,10 +27,23 @@ later(function()
     -- C-k: Toggle signature help (if signature.enabled = true)
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
+    keymap = {
+      preset = 'default',
+      -- Prefer LSP inline completion (e.g. Copilot) over menu completion.
+      -- If an inline suggestion is visible, accept it; otherwise fall through
+      -- to blink's select_and_accept.
+      ['<C-y>'] = {
+        function()
+          if vim.lsp.inline_completion.get() then return true end
+        end,
+        'select_and_accept',
+        'fallback',
+      },
+    },
     cmdline = {
       keymap = {
         preset = 'inherit',
-      }
+      },
     },
 
     enabled = function() return not vim.tbl_contains({ 'oil', 'markdown' }, vim.bo.filetype) end,

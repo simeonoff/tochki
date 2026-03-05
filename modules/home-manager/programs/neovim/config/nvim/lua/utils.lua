@@ -16,7 +16,7 @@ M.open_location = function()
   if executable then
     vim.uv.spawn(executable, {
       args = { loc },
-    })
+    }, function(code, signal) print('exit code: ' .. code .. ', signal: ' .. signal) end)
   else
     print('Error: opening locations is not supported on this OS')
   end
@@ -93,16 +93,18 @@ M.navigate = function(direction)
   -- Check if we are in a tmux session and if the current window is at the edge
   if current_win == vim.api.nvim_get_current_win() and vim.env.TMUX then
     local tmux_commands = {
-      h = 'select-pane -L',
-      j = 'select-pane -D',
-      k = 'select-pane -U',
-      l = 'select-pane -R',
+      h = { 'select-pane', '-L' },
+      j = { 'select-pane', '-D' },
+      k = { 'select-pane', '-U' },
+      l = { 'select-pane', '-R' },
     }
 
-    local zoom_command = 'tmux display-message -p "#{window_zoomed_flag}"'
-    local is_zoomed = vim.fn.trim(vim.fn.system(zoom_command))
+    local is_zoomed = vim.trim(vim.system({ 'tmux', 'display-message', '-p', '#{window_zoomed_flag}' }):wait().stdout)
+    local cmd = { 'tmux' }
 
-    if is_zoomed == '0' then vim.fn.system('tmux ' .. tmux_commands[direction]) end
+    vim.list_extend(cmd, tmux_commands[direction])
+
+    if is_zoomed == '0' then vim.system(cmd) end
   end
 end
 
