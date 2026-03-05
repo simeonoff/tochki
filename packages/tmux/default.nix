@@ -21,8 +21,8 @@
     src = pkgs.fetchFromGitHub {
       owner = "simeonoff";
       repo = "minimal-tmux-status";
-      rev = "5ddc926d9cddc6c4f76029eed7b08e60b9fb813b";
-      hash = "sha256-W3ReFDJ2IrLSn+Lw4c5/AwqC7N8sACr7ilZfST3STrA=";
+      rev = "bac0632cca489f603482417b038da82c6d28c7ab";
+      hash = "sha256-kZOQ/xqMhCJGHub2vLe46ZpWn9gmNamc+Np269tYcEw=";
     };
     rtpFilePath = "minimal.tmux";
   };
