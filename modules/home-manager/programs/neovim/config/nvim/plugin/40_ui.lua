@@ -23,13 +23,12 @@ now(function()
 
   local disabled_filetypes = {
     TelescopePrompt = true,
-    lazy = true,
     oil = true,
     lazygit = true,
     Trouble = true,
     trouble = true,
     lspinfo = true,
-    snacks_dashboard = true,
+    ministarter = true,
   }
 
   local lsp_kind = {
@@ -319,11 +318,29 @@ now(function()
   })
 end)
 
--- Notifications provider. Shows all kinds of notifications in the upper right
--- corner (by default). Example usage:
--- - `:h vim.notify()` - show notification (hides automatically)
--- - `<Leader>en` - show notification history
---
--- See also:
--- - `:h MiniNotify.config` for some of common configuration examples.
-now(function() require('mini.notify').setup() end)
+-- Notifications provider.
+now(function()
+  require('mini.notify').setup({
+    content = {
+      format = function(notif) return notif.msg end,
+    },
+
+    window = {
+      config = {
+        border = 'single',
+        title = '',
+      },
+      winblend = 0,
+    },
+  })
+
+  -- Override vim.notify with level-specific highlight groups
+  vim.notify = MiniNotify.make_notify({
+    ERROR = { duration = 5000, hl_group = 'DiagnosticError' },
+    WARN = { duration = 5000, hl_group = 'DiagnosticWarn' },
+    INFO = { duration = 5000, hl_group = 'DiagnosticInfo' },
+    DEBUG = { duration = 3000, hl_group = 'DiagnosticHint' },
+    TRACE = { duration = 3000, hl_group = 'DiagnosticOk' },
+    OFF = { duration = 0, hl_group = 'MiniNotifyNormal' },
+  })
+end)

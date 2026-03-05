@@ -28,8 +28,8 @@ now(function()
     compile = true,
     capabilities = {
       truecolor = true,
-      undercurl = true,
       terminal_colors = true,
+      undercurl = true,
     },
 
     ui = {
@@ -53,7 +53,7 @@ now(function()
       },
 
       overrides = function(palette)
-        local cl_bg = dynamic_shade(palette.base00, 2)
+        local cl_bg = dynamic_shade(palette.base00, 5)
         -- Intermediate shade between base01 and base02 for telescope results panel
         local overlay_bg = dynamic_shade(palette.base01, 3)
 
@@ -66,11 +66,11 @@ now(function()
           TSComment = { link = 'Comment' },
 
           -- CursorLine: slightly off-background via perceptual shading
-          CursorLine = { bg = palette.base02 },
-          CursorLineNr = { fg = palette.base04, bg = palette.base02 },
-          CursorLineSign = { bg = palette.base02 },
-          CursorLineFold = { bg = palette.base02 },
-          ColorColumn = { bg = palette.base02 },
+          CursorLine = { bg = cl_bg },
+          CursorLineNr = { fg = palette.base04, bg = cl_bg },
+          CursorLineSign = { bg = cl_bg },
+          CursorLineFold = { bg = cl_bg },
+          ColorColumn = { bg = cl_bg },
 
           -- Folds
           Folded = { fg = palette.base04, bg = 'NONE' },
@@ -99,7 +99,7 @@ now(function()
           TelescopeBorder = { fg = overlay_bg, bg = overlay_bg },
           TelescopeNormal = { fg = palette.base04, bg = overlay_bg },
           TelescopeTitle = { fg = overlay_bg, bg = overlay_bg },
-          TelescopeSelection = { fg = palette.base05, bg = palette.base03 },
+          TelescopeSelection = { fg = palette.base05, bg = palette.base02 },
           TelescopeSelectionCaret = { fg = palette.base08, bg = dynamic_shade(palette.base02, 3) },
           TelescopeMultiSelection = { fg = palette.base05, bg = palette.base03 },
           TelescopePromptNormal = { fg = palette.base05, bg = palette.base01 },
@@ -166,7 +166,7 @@ now(function()
           BlinkCmpGhostText = { fg = palette.base03 },
 
           -- Visual selection
-          Visual = { bg = palette.base02 },
+          Visual = { bg = palette.base01 },
 
           -- Punctuation: base0F is too faint in many schemes
           Delimiter = { fg = palette.base04 },
@@ -179,6 +179,9 @@ now(function()
 
           -- Trouble
           TroubleNormal = { bg = palette.base00 },
+
+          -- Flash
+          FlashLabel = { bg = palette.base08, fg = palette.base00, bold = true, italic = true },
         }
       end,
     },

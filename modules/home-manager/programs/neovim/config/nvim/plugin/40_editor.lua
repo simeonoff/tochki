@@ -1,5 +1,5 @@
 local add = vim.pack.add
-local later, autocmd = Config.later, Config.new_autocmd
+local now, later, autocmd = Config.now, Config.later, Config.new_autocmd
 local bufonly = require('bufonly')
 
 later(function()
@@ -239,4 +239,45 @@ later(function()
   end
 
   vim.keymap.set('n', '<leader>px', pack_clean)
+end)
+
+now(function()
+  require('mini.starter').setup({
+    header = require('banners').modern_v1,
+    items = {
+      { action = 'ene | startinsert', name = 'New File', section = 'Actions' },
+      { action = 'Oil .', name = 'Browse Files', section = 'Actions' },
+      { action = 'FindFiles', name = 'Find Files', section = 'Actions' },
+      { action = 'RecentFiles', name = 'Recent Files', section = 'Actions' },
+      { action = 'FindText', name = 'Live Grep', section = 'Actions' },
+      { action = 'ConfigFiles', name = 'Config', section = 'Editor' },
+      { action = 'qa', name = 'Quit', section = 'Editor' },
+    },
+    footer = function()
+      local quotes = require('quotes')
+      math.randomseed(os.time())
+      local quote = quotes[math.random(#quotes)]
+
+      -- Split quote text from author, wrap text to max_width
+      local max_width = 60
+      local text, author = quote:match('^(.-)%s*([—%-]%-.-)$')
+      text = text or quote
+      author = author or ''
+
+      local lines = {}
+      local line = ''
+      for word in text:gmatch('%S+') do
+        if #line + #word + 1 > max_width and #line > 0 then
+          table.insert(lines, line)
+          line = word
+        else
+          line = #line > 0 and (line .. ' ' .. word) or word
+        end
+      end
+      if #line > 0 then table.insert(lines, line) end
+      if #author > 0 then table.insert(lines, author) end
+
+      return table.concat(lines, '\n')
+    end,
+  })
 end)
