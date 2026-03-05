@@ -17,6 +17,12 @@ in
     shellHook = ''
       echo "Neovim nightly $(nvim --version | head -1)"
       echo "LSP servers and tools available on PATH"
+
+      # Re-exec into nushell instead of bash
+      if [ -z "$__NIX_SHELL_REEXEC" ] && command -v nu > /dev/null 2>&1; then
+        export __NIX_SHELL_REEXEC=1
+        exec nu
+      fi
     '';
   };
 }
