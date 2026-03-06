@@ -43,14 +43,11 @@ end)
 later(function() require('mini.git').setup() end)
 
 -- Inline git blame virtual text and commit browsing.
--- `:GitBlame`  — toggle per-line blame as virtual text on CursorHolr
--- `:GitBrowse` — open the commit for the current line in the browser
+-- <Leader>gb` — toggle inline git blame
+-- `<Leader>gB` — open commit for current line in browser
 later(function()
   local blame = require('git_blame')
 
-  vim.api.nvim_create_user_command('GitBlame', blame.toggle, { desc = 'Toggle inline git blame' })
-  vim.api.nvim_create_user_command('GitBrowse', blame.browse, { desc = 'Open commit for current line in browser' })
-
-  vim.keymap.set('n', '<Leader>gb', '<cmd>GitBlame<cr>', { desc = 'Toggle inline git blame' })
-  vim.keymap.set('n', '<Leader>gB', '<cmd>GitBrowse<cr>', { desc = 'Open commit for current line in browser' })
+  vim.keymap.set('n', '<leader>gb', blame.toggle, { desc = 'Toggle inline git blame' })
+  vim.keymap.set('n', '<leader>gB', blame.browse, { desc = 'Open commit for current line in browser' })
 end)
