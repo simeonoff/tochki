@@ -49,18 +49,6 @@ now_if_args(function()
     install_dir = vim.fn.stdpath('data') .. '/site',
   })
 
-  -- Add nvim-treesitter's bundled queries (e.g. indents.scm for lua) to the
-  -- runtime path. These live under the plugin's runtime/ subdirectory which
-  -- is not automatically added by :packadd.
-  local ts_mod = vim.api.nvim_get_runtime_file('lua/nvim-treesitter/init.lua', false)[1]
-  if ts_mod then
-    -- lua/nvim-treesitter/init.lua -> plugin root -> runtime/
-    local ts_runtime = vim.fs.joinpath(vim.fs.dirname(vim.fs.dirname(vim.fs.dirname(ts_mod))), 'runtime')
-    if vim.uv.fs_stat(ts_runtime) and not vim.list_contains(vim.opt.rtp:get(), ts_runtime) then
-      vim.opt.rtp:prepend(ts_runtime)
-    end
-  end
-
   local isnt_installed = function(lang) return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0 end
   local to_install = vim.tbl_filter(isnt_installed, languages)
   if #to_install > 0 then require('nvim-treesitter').install(to_install) end

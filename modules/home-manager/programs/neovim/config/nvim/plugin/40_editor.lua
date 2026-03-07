@@ -250,7 +250,15 @@ end)
 
 now(function()
   require('mini.starter').setup({
-    header = require('banners').modern_v1,
+    header = function()
+      local banner = require('banners').modern_v1
+      local quotes = require('quotes')
+
+      math.randomseed(os.time())
+      local quote = quotes[math.random(#quotes)]
+
+      return banner .. '\n' .. require('utils').format_quote(quote, { author_newline = false })
+    end,
     items = {
       { action = 'ene | startinsert', name = 'New File', section = 'Actions' },
       { action = 'Oil .', name = 'Browse Files', section = 'Actions' },
@@ -261,30 +269,23 @@ now(function()
       { action = 'qa', name = 'Quit', section = 'Editor' },
     },
     footer = function()
-      local quotes = require('quotes')
-      math.randomseed(os.time())
-      local quote = quotes[math.random(#quotes)]
+      local version = vim.system({ 'nvim', '--version' }):wait().stdout
+      local first_line = version and version:match('^(.-)\n')
 
-      -- Split quote text from author, wrap text to max_width
-      local max_width = 60
-      local text, author = quote:match('^(.-)%s*([—%-]%-.-)$')
-      text = text or quote
-      author = author or ''
-
-      local lines = {}
-      local line = ''
-      for word in text:gmatch('%S+') do
-        if #line + #word + 1 > max_width and #line > 0 then
-          table.insert(lines, line)
-          line = word
-        else
-          line = #line > 0 and (line .. ' ' .. word) or word
-        end
-      end
-      if #line > 0 then table.insert(lines, line) end
-      if #author > 0 then table.insert(lines, author) end
-
-      return table.concat(lines, '\n')
+      return first_line or 'Neovim'
     end,
+    content_hooks = {
+      require('mini.starter').gen_hook.aligning('center', 'center'),
+
+      function(content)
+        for _, line in ipairs(content) do
+          for _, unit in ipairs(line) do
+            if unit.type == 'footer' then unit.hl = 'WinSeparator' end
+          end
+        end
+
+        return content
+      end,
+    },
   })
 end)

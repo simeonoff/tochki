@@ -25,10 +25,10 @@ vim.opt.number = true
 vim.opt.cursorline = true
 -- Display a vertical guide line at column 120 (useful for enforcing line length limits)
 vim.opt.colorcolumn = '120'
--- Fully conceal syntax (e.g. markdown formatting) when the cursor is not on the line
-vim.opt.conceallevel = 3
 -- Define visible characters for tabs, trailing spaces, and spaces when :set list is on
 vim.opt.listchars = 'tab:->,trail:·,space:·'
+-- Enable the display of whitespace characters defined in listchars
+vim.cmd('set list')
 -- Use a space for fold fill and hide the ~ tilde on empty lines past end-of-buffer
 vim.opt.fillchars:append({ fold = ' ', eob = ' ' })
 

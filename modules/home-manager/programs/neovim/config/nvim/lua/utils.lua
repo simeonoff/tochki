@@ -158,4 +158,72 @@ M.get_hl = function(name, color)
   if hl[color] then return string.format('#%06x', hl[color]) end
 end
 
+--- Split a quote string into text and author by finding an em-dash or " - " separator,
+--- then word-wrap the text to max_width and return the formatted lines as a string.
+---
+---@class utils.FormatQuoteOpts
+---@field max_width? number Maximum line width (default: 60)
+---@field author_newline? boolean Place author on a separate line (default: true)
+---
+---@param quote string The quote string to format
+---@param opts? utils.FormatQuoteOpts
+---@return string formatted The formatted quote string
+M.format_quote = function(quote, opts)
+  opts = opts or {}
+  local max_width = opts.max_width or 60
+  local author_newline = opts.author_newline ~= false
+  local text, author
+
+  -- Find em-dash or " - " separator for the author attribution
+  -- Try " — " first, then "—" without spaces, then " - "
+  local em_dash = '—'
+  local sep_start, sep_end
+  sep_start = quote:find(' ' .. em_dash .. ' ')
+  if sep_start then
+    sep_end = sep_start + #(' ' .. em_dash)
+  else
+    sep_start = quote:find(em_dash)
+    if sep_start then
+      sep_end = sep_start + #em_dash - 1
+    else
+      sep_start = quote:find(' %- ')
+      if sep_start then sep_end = sep_start + 2 end
+    end
+  end
+
+  if sep_start then
+    text = vim.trim(quote:sub(1, sep_start - 1))
+    author = vim.trim(quote:sub(sep_end + 1))
+    if not author:find('^' .. em_dash) and not author:find('^%-') then author = em_dash .. ' ' .. author end
+  else
+    text = quote
+    author = ''
+  end
+
+  local lines = {}
+  local line = ''
+
+  for word in text:gmatch('%S+') do
+    if #line + #word + 1 > max_width and #line > 0 then
+      table.insert(lines, line)
+      line = word
+    else
+      line = #line > 0 and (line .. ' ' .. word) or word
+    end
+  end
+
+  if #line > 0 then
+    if not author_newline and #author > 0 then
+      table.insert(lines, line .. ' ' .. author)
+    else
+      table.insert(lines, line)
+      if #author > 0 then table.insert(lines, author) end
+    end
+  elseif #author > 0 then
+    table.insert(lines, author)
+  end
+
+  return table.concat(lines, '\n')
+end
+
 return M

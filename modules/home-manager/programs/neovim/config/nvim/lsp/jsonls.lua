@@ -9,16 +9,15 @@ return {
   },
   settings = {
     json = {
-      schemas = function()
+      schemas = (function()
         local ok, store = pcall(require, 'schemastore')
-        if ok then
-          return store.json.schemas()
-        end
-      end,
+        if ok then return store.json.schemas() end
+        return {}
+      end)(),
       validate = { enable = true },
     },
   },
-  root_markers = { '.git', },
+  root_markers = { '.git' },
   capabilities = capabilities,
   single_file_support = true,
 }
