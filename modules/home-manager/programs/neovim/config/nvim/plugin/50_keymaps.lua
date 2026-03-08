@@ -48,8 +48,8 @@ later(function()
   --         ['ic'] = { query = '@call.inner', desc = 'Select the inner part of a call' },
   --         ['a='] = { query = '@assignment.outer', desc = 'Select the outer part of an assignment' },
   --         ['i='] = { query = '@assignment.inner', desc = 'Select the inner part of an assignment' },
-  --         -- ["l="] = { query = "@assignment.lhs", desc = "Select the lhs of an assignment" },
-  --         -- ["r="] = { query = "@assignment.rhs", desc = "Select the lhs of an assignment" },
+  --         ["l="] = { query = "@assignment.lhs", desc = "Select the lhs of an assignment" },
+  --         ["r="] = { query = "@assignment.rhs", desc = "Select the lhs of an assignment" },
   --       },
   --     },
 end)
@@ -91,3 +91,15 @@ map('i', '<C-y>', function()
 end, { expr = true })
 map('i', '<M-]>', vim.lsp.inline_completion.select)
 map('i', '<M-[>', function() vim.lsp.inline_completion.select({ count = -1 }) end)
+
+-- Undotree
+map(
+  'n',
+  '<leader>u',
+  function()
+    require('undotree').open({
+      command = 'topleft 60vnew',
+    })
+  end,
+  { desc = 'Toggle Undotree' }
+)

@@ -289,3 +289,6 @@ now(function()
     },
   })
 end)
+
+-- Undotree visualizes the undo history and allows you to navigate through it. It provides a tree-like interface to view and manage your undo history, making it easier to understand and utilize the undo functionality in Neovim.
+later(function() vim.cmd.packadd('nvim.undotree') end)
