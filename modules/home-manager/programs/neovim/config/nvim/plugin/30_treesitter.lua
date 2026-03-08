@@ -74,18 +74,20 @@ now_if_args(function()
 
     parsers.scss = {
       install_info = {
-        url = 'https://github.com/simeonoff/tree-sitter-scss',
+        -- url = 'https://github.com/simeonoff/tree-sitter-scss',
+        path = '~/Projects/tree-sitter-scss',
         files = { 'src/parser.c', 'src/scanner.c' },
-        revision = '0bbe7605859345f34674ccd6a66a45963c2ff911',
+        -- revision = '8c03d590e5a8e2d44d7d5ad3bfa7edb5b2b59cbd',
         queries = 'queries',
       },
     }
 
     parsers.sassdoc = {
       install_info = {
-        url = 'https://github.com/simeonoff/tree-sitter-sassdoc',
+        -- url = 'https://github.com/simeonoff/tree-sitter-sassdoc',
+        path = '~/Projects/tree-sitter-sassdoc',
         files = { 'src/parser.c' },
-        revision = '2778a1537a6158f26a3bde8de70280aaf8b1fdea',
+        -- revision = '2778a1537a6158f26a3bde8de70280aaf8b1fdea',
         queries = 'queries/sassdoc',
       },
     }
