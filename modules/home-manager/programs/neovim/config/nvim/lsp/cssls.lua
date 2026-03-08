@@ -4,11 +4,11 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 return {
   cmd = { 'vscode-css-language-server', '--stdio' },
-  filetypes = { 'css', 'less', 'scss', 'typescriptreact', 'javascriptreact' },
+  filetypes = { 'css', 'less', 'typescriptreact', 'javascriptreact' },
   init_options = {
     provideFormatter = true,
   },
-  root_markers = { 'package.json', '.git', },
+  root_markers = { 'package.json', '.git' },
   single_file_support = true,
   settings = {
     css = { validate = false, lint = { unknownAtRules = 'ignore' } },

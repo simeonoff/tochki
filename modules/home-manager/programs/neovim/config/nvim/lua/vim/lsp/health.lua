@@ -24,15 +24,29 @@ function M.check()
 
     local sc = client.server_capabilities or {}
     if sc.completionProvider then table.insert(caps, 'completion') end
+    if sc.inlineCompletionProvider then table.insert(caps, 'inline-completion') end
     if sc.hoverProvider then table.insert(caps, 'hover') end
+    if sc.signatureHelpProvider then table.insert(caps, 'signature-help') end
     if sc.definitionProvider then table.insert(caps, 'definition') end
+    if sc.typeDefinitionProvider then table.insert(caps, 'type-definition') end
+    if sc.implementationProvider then table.insert(caps, 'implementation') end
     if sc.referencesProvider then table.insert(caps, 'references') end
+    if sc.documentHighlightProvider then table.insert(caps, 'highlight') end
+    if sc.documentSymbolProvider then table.insert(caps, 'symbols') end
+    if sc.workspaceSymbolProvider then table.insert(caps, 'workspace-symbols') end
+    if sc.codeActionProvider then table.insert(caps, 'code-action') end
+    if sc.codeLensProvider then table.insert(caps, 'code-lens') end
     if sc.documentFormattingProvider then table.insert(caps, 'formatting') end
     if sc.documentRangeFormattingProvider then table.insert(caps, 'range-format') end
-    if sc.codeActionProvider then table.insert(caps, 'code-action') end
     if sc.renameProvider then table.insert(caps, 'rename') end
-    if sc.signatureHelpProvider then table.insert(caps, 'signature-help') end
-    if sc.documentSymbolProvider then table.insert(caps, 'symbols') end
+    if sc.colorProvider then table.insert(caps, 'document-color') end
+    if sc.foldingRangeProvider then table.insert(caps, 'folding') end
+    if sc.selectionRangeProvider then table.insert(caps, 'selection-range') end
+    if sc.documentLinkProvider then table.insert(caps, 'document-link') end
+    if sc.inlayHintProvider then table.insert(caps, 'inlay-hint') end
+    if sc.diagnosticProvider then table.insert(caps, 'diagnostics') end
+    if sc.semanticTokensProvider then table.insert(caps, 'semantic-tokens') end
+    if sc.executeCommandProvider then table.insert(caps, 'execute-command') end
 
     local msg = ('%s (id=%d, root=%s) caps=[%s]'):format(
       client.name,

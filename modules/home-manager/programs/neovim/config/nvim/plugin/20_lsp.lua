@@ -16,7 +16,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
     -- Disable color backgrounds for values
-    vim.lsp.document_color.enable(false)
+    vim.lsp.document_color.enable(true, args.buf, { style = 'virtual' })
 
     -- display inlay hints
     -- if client and client:supports_method('textDocument/inlayHint') then

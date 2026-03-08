@@ -8,6 +8,10 @@ return {
   filetypes = { 'scss', 'sass' },
   root_markers = { 'package.json', '.git', },
   single_file_support = true,
+  on_init = function(client)
+    -- cssls_colors handles document colors for scss/sass files
+    client.server_capabilities.colorProvider = nil
+  end,
   settings = {
     somesass = {
       suggestAllFromOpenDocument = true,
