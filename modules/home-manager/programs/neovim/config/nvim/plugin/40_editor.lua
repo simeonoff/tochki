@@ -216,6 +216,7 @@ later(function()
     'man',
     'notify',
     'oil',
+    'nvim-undotree',
   }, function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
