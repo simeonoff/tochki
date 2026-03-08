@@ -90,6 +90,7 @@
             inherit inputs outputs;
             userConfig = users.${username};
             homeModules = "${self}/modules/home-manager";
+            neovim-nightly = neovim-nightly-overlay.packages.${system}.default;
           };
           modules = [
             ./home/${username}/${hostname}
