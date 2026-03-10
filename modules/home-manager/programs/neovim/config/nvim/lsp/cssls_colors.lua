@@ -5,16 +5,14 @@
 -- document_color can query it without interfering with somesass_ls.
 return {
   cmd = { 'vscode-css-language-server', '--stdio' },
-  filetypes = { 'scss', 'sass' },
+  filetypes = { 'css', 'scss', 'sass' },
   root_markers = { 'package.json', '.git' },
   single_file_support = true,
   init_options = { provideFormatter = false },
   on_init = function(client)
     local caps = client.server_capabilities
     for key in pairs(caps) do
-      if key ~= 'colorProvider' and key ~= 'textDocumentSync' then
-        caps[key] = nil
-      end
+      if key ~= 'colorProvider' and key ~= 'textDocumentSync' then caps[key] = nil end
     end
   end,
   settings = {

@@ -151,7 +151,85 @@ later(function()
 
   local lint = require('lint')
 
-  -- Register linters
+  -- Custom ast-grep linter for language injection rules (e.g. sassdoc in SCSS).
+  -- The ast-grep LSP does not support language injection — only the CLI does.
+  -- This linter runs `ast-grep scan --json=stream` on the saved file and parses
+  -- the JSON output into vim diagnostics.
+  local severity_map = {
+    error = vim.diagnostic.severity.ERROR,
+    warning = vim.diagnostic.severity.WARN,
+    info = vim.diagnostic.severity.INFO,
+    hint = vim.diagnostic.severity.HINT,
+  }
+
+  lint.linters.ast_grep = {
+    cmd = 'ast-grep',
+    stdin = false,
+    append_fname = true,
+    args = { 'scan', '--json=stream' },
+    stream = 'stdout',
+    ignore_exitcode = true,
+    parser = function(output)
+      local diagnostics = {}
+      local seen = {}
+      local lines = vim.split(output, '\n', { trimempty = true })
+
+      for _, line in ipairs(lines) do
+        local ok, decoded = pcall(vim.json.decode, line)
+
+        if ok and decoded.range then
+          -- Deduplicate: ast-grep injection can produce duplicate matches.
+          local key = string.format(
+            '%s:%d:%d:%d:%d',
+            decoded.ruleId or '',
+            decoded.range.start.line,
+            decoded.range.start.column,
+            decoded.range['end'].line,
+            decoded.range['end'].column
+          )
+
+          if not seen[key] then
+            seen[key] = true
+
+            table.insert(diagnostics, {
+              lnum = decoded.range.start.line,
+              col = decoded.range.start.column,
+              end_lnum = decoded.range['end'].line,
+              end_col = decoded.range['end'].column,
+              message = decoded.message or '',
+              code = decoded.ruleId,
+              user_data = {
+                lsp = { code = decoded.ruleId },
+              },
+              severity = severity_map[decoded.severity] or vim.diagnostic.severity.WARN,
+              source = 'ast-grep',
+            })
+          end
+        end
+      end
+
+      return diagnostics
+    end,
+  }
+
+  --- Find the nearest ancestor directory containing sgconfig.yml or sgconfig.yaml.
+  ---@param bufnr integer
+  ---@return string|nil root directory path, or nil if not found
+  local function find_ast_grep_root(bufnr)
+    local fname = vim.api.nvim_buf_get_name(bufnr)
+    if fname == '' then return nil end
+
+    local roots = vim.fs.find(
+      { 'sgconfig.yml', 'sgconfig.yaml' },
+      { path = vim.fs.dirname(fname), upward = true, limit = 1 }
+    )
+
+    if #roots > 0 then return vim.fs.dirname(roots[1]) end
+
+    return nil
+  end
+
+  -- Register linters by filetype (ast_grep excluded — it needs special cwd handling)
   lint.linters_by_ft = {
     go = {},
     lua = {},
@@ -159,7 +237,20 @@ later(function()
 
   -- Listen for file writes and lint
   vim.api.nvim_create_autocmd({ 'BufEnter', 'InsertLeave', 'BufWritePost' }, {
-    callback = function() lint.try_lint() end,
+    callback = function()
+      -- Run standard linters for the current filetype
+      lint.try_lint()
+
+      -- Run ast-grep linter for filetypes that have injection rules,
+      -- but only when inside a project with sgconfig.yml
+      local ft = vim.bo.filetype
+
+      if ft == 'scss' then
+        local root = find_ast_grep_root(vim.api.nvim_get_current_buf())
+
+        if root then lint.try_lint('ast_grep', { cwd = root }) end
+      end
+    end,
   })
 end)
 
@@ -295,3 +386,11 @@ end)
 -- It provides a tree-like interface to view and manage your undo history,
 -- making it easier to understand and utilize the undo functionality in Neovim.
 later(function() vim.cmd.packadd('nvim.undotree') end)
+
+later(function()
+  add({
+    'https://github.com/MagicDuck/grug-far.nvim',
+  })
+
+  require('grug-far').setup({})
+end)

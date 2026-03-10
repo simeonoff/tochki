@@ -3,7 +3,7 @@ local later = Config.later
 
 later(function()
   add({
-    'https://github.com/saghen/blink.cmp',
+    { src = 'https://github.com/saghen/blink.cmp', version = 'v1.9.1' },
     'https://github.com/rafamadriz/friendly-snippets',
     'https://github.com/folke/lazydev.nvim',
   })
@@ -27,6 +27,9 @@ later(function()
     -- C-k: Toggle signature help (if signature.enabled = true)
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
+    signature = {
+      enabled = true,
+    },
     keymap = {
       preset = 'default',
       -- Prefer LSP inline completion (e.g. Copilot) over menu completion.
@@ -137,7 +140,10 @@ later(function()
         'sort_text',
         'kind',
       },
-      implementation = 'prefer_rust_with_warning',
+      implementation = 'prefer_rust',
+    },
+    prebuilt_binaries = {
+      download = true,
     },
   })
 end)

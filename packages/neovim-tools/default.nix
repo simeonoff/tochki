@@ -9,6 +9,7 @@ in
 with pkgs; [
   angular-language-server
   astro-language-server
+  ast-grep
   bash-language-server
   copilot-language-server
   emmet-language-server

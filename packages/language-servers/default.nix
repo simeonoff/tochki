@@ -3,11 +3,11 @@
 {
   some-sass-language-server = pkgs.stdenv.mkDerivation rec {
     pname = "some-sass-language-server";
-    version = "2.3.6";
+    version = "2.3.7";
 
     src = pkgs.fetchurl {
       url = "https://registry.npmjs.org/${pname}/-/${pname}-${version}.tgz";
-      sha256 = "sha256-G7ec7JKNdYzEsS3LBiWK1xrOf2MgqCe9xJC9DjxOqjk=";
+      sha256 = "sha256-fQb3XlcFjBgVhdymhswTwZUkv4zdr44SfYYpWU2bufQ=";
     };
 
     unpackPhase = ''

@@ -85,7 +85,10 @@
 
       mkHomeConfiguration = system: username: hostname:
         home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs { inherit system; };
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ self.overlays.default ];
+          };
           extraSpecialArgs = {
             inherit inputs outputs;
             userConfig = users.${username};
@@ -128,6 +131,27 @@
             inherit (languageServers) some-sass-language-server;
             tmuxPlugins = pkgs.tmuxPlugins // tmuxPlugins;
             local-fonts = pkgs.callPackage ./packages/local-fonts { };
+
+            # Override ast-grep to 0.41.0 (nixpkgs-unstable still has 0.40.5)
+            # Needed for language injection fix: https://github.com/ast-grep/ast-grep/pull/2479
+            # TODO: Remove this override once nixpkgs-unstable includes 0.41.0+
+            ast-grep = pkgs.ast-grep.overrideAttrs (oldAttrs: rec {
+              version = "0.41.0";
+              src = pkgs.fetchFromGitHub {
+                owner = "ast-grep";
+                repo = "ast-grep";
+                tag = version;
+                hash = "sha256-cL7RtGFhIKTlfP7wEjdjT8uTxB/tG2joob+HN5NG1G8=";
+              };
+              cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+                inherit src;
+                name = "${oldAttrs.pname}-${version}-vendor";
+                hash = "sha256-zPl9fUG+RdddB7r4nWHETHsULf/hDDFpTf8h3xe7UiI=";
+              };
+              # Skip test_scan_invalid_rule_id which fails on macOS with
+              # "Illegal byte sequence (os error 92)" due to locale handling
+              doCheck = false;
+            });
           };
         };
 

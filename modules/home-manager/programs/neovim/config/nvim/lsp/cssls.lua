@@ -4,7 +4,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 return {
   cmd = { 'vscode-css-language-server', '--stdio' },
-  filetypes = { 'css', 'less', 'typescriptreact', 'javascriptreact' },
+  filetypes = { 'less', 'typescriptreact', 'javascriptreact' },
   init_options = {
     provideFormatter = true,
   },

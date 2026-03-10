@@ -1,12 +1,13 @@
 {
   "plugins": {
     "SchemaStore.nvim": {
-      "rev": "ee307633d11cf348c4155e046dcb9ddef32cd054",
+      "rev": "e75f2362624698864957a694d80ca0c116bd24d3",
       "src": "https://github.com/b0o/SchemaStore.nvim.git"
     },
     "blink.cmp": {
       "rev": "4b18c32adef2898f95cdef6192cbd5796c1a332d",
-      "src": "https://github.com/saghen/blink.cmp"
+      "src": "https://github.com/saghen/blink.cmp",
+      "version": "'v1.9.1'"
     },
     "conform.nvim": {
       "rev": "40dcec5555f960b0a04340d76eabdf4efe78599d",
@@ -28,6 +29,10 @@
       "rev": "b41ddfc1c39f87f3d1799b99c2f0f1daa524c5f7",
       "src": "https://github.com/cbochs/grapple.nvim.git"
     },
+    "grug-far.nvim": {
+      "rev": "ac52ee2d87399dfd7b0d59d5b1d2bbaf2a4028f1",
+      "src": "https://github.com/MagicDuck/grug-far.nvim"
+    },
     "lazydev.nvim": {
       "rev": "5231c62aa83c2f8dc8e7ba957aa77098cda1257d",
       "src": "https://github.com/folke/lazydev.nvim"
@@ -41,7 +46,7 @@
       "src": "https://github.com/iamcco/markdown-preview.nvim.git"
     },
     "mini.nvim": {
-      "rev": "0098de999048af0539183d625c52d733318a441b",
+      "rev": "cad365c212fb1e332cb93fa8f72697125799d00a",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "nvim-dap": {
@@ -54,14 +59,14 @@
     },
     "nvim-lint": {
       "rev": "606b823a57b027502a9ae00978ebf4f5d5158098",
-      "src": "https://github.com/mfussenegger/nvim-lint"
+      "src": "https://github.com/mfussenegger/nvim-lint.git"
     },
     "nvim-treesitter": {
-      "rev": "cb2cb74f3c3cbbcc17e79cada2060165d616d849",
+      "rev": "5cb05e1b0fa3c469958a2b26f36b3fe930af221c",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-treesitter-textobjects": {
-      "rev": "a0e182ae21fda68c59d1f36c9ed45600aef50311",
+      "rev": "4e91b5d0394329a229725b021a8ea217099826ef",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
     },
     "nvim-ts-autotag": {
@@ -70,7 +75,7 @@
     },
     "nvim-web-devicons": {
       "rev": "737cf6c657898d0c697311d79d361288a1343d50",
-      "src": "https://github.com/nvim-tree/nvim-web-devicons"
+      "src": "https://github.com/nvim-tree/nvim-web-devicons.git"
     },
     "oil.nvim": {
       "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
@@ -86,7 +91,7 @@
     },
     "telescope-pretty-pickers.nvim": {
       "rev": "e46341ad0bb95adf4a2559d216a50cff9816de16",
-      "src": "https://github.com/simeonoff/telescope-pretty-pickers.nvim"
+      "src": "https://github.com/simeonoff/telescope-pretty-pickers.nvim.git"
     },
     "telescope-ui-select.nvim": {
       "rev": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2",
@@ -97,7 +102,7 @@
       "src": "https://github.com/nvim-telescope/telescope.nvim.git"
     },
     "tinted-nvim": {
-      "rev": "d23eddcf4ec6c59af6a8a64844ff02487e832007",
+      "rev": "aae5d90cf4821d550130ffc2107de903a07a582f",
       "src": "https://github.com/tinted-theming/tinted-nvim.git"
     },
     "trouble.nvim": {
@@ -106,7 +111,7 @@
     },
     "vim-table-mode": {
       "rev": "bb025308a45c67c7c8f0763ba37bc2ee3f534df0",
-      "src": "https://github.com/dhruvasagar/vim-table-mode"
+      "src": "https://github.com/dhruvasagar/vim-table-mode.git"
     }
   }
 }
