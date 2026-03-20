@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-dotnet.url = "github:NixOS/nixpkgs/nixos-unstable/";
+    nixpkgs-dotnet.url = "github:NixOS/nixpkgs/b40629efe5d6ec48dd1efba650c797ddbd39ace0";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     nix-darwin = {
@@ -95,6 +95,7 @@
             userConfig = users.${username};
             homeModules = "${self}/modules/home-manager";
             neovim-nightly = neovim-nightly-overlay.packages.${system}.default;
+            pkgs-dotnet = import inputs.nixpkgs-dotnet { inherit system; };
           };
           modules = [
             ./home/${username}/${hostname}
@@ -126,7 +127,10 @@
           };
         in
         {
-          devShells = import ./devshells { pkgs = pkgs'; inherit neovim-nightly; };
+          devShells = import ./devshells {
+            pkgs = pkgs'; inherit neovim-nightly;
+            pkgs-dotnet = import inputs.nixpkgs-dotnet { inherit system; };
+          };
 
           overlayAttrs = {
             inherit (languageServers) some-sass-language-server;

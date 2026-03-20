@@ -1,4 +1,4 @@
-{ outputs, config, userConfig, lib, pkgs, ... }:
+{ outputs, config, userConfig, lib, pkgs, pkgs-dotnet, ... }:
 {
   imports = [
     ../programs/aerospace
@@ -71,7 +71,6 @@
     curl
     dart-sass
     docfx
-    dotnet-sdk_9
     eza
     fd
     git
@@ -107,6 +106,9 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+  ]
+  ++ [
+    pkgs-dotnet.dotnet-sdk_9
   ]
   ++ lib.optionals (!stdenv.isDarwin) [
     bitwarden-desktop
