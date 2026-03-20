@@ -80,7 +80,7 @@ vim.opt.smartcase = true
 -- Allow backspace to delete over line breaks, auto-indentation, and the start of insert
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 -- Enable mouse support in all modes (normal, insert, visual, command)
-vim.opt.mouse = 'a'
+-- vim.opt.mouse = 'a'
 -- Use the system clipboard for all yank, delete, change, and put operations
 vim.opt.clipboard = 'unnamedplus'
 

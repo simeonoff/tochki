@@ -67,9 +67,9 @@ now(function()
 
           -- CursorLine: slightly off-background via perceptual shading
           CursorLine = { bg = cl_bg },
-          CursorLineNr = { fg = palette.base04, bg = cl_bg },
-          CursorLineSign = { bg = cl_bg },
-          CursorLineFold = { bg = cl_bg },
+          CursorLineNr = { fg = palette.base04, bg = 'NONE' },
+          CursorLineSign = { bg = 'NONE' },
+          CursorLineFold = { bg = 'NONE' },
           ColorColumn = { bg = cl_bg },
 
           -- Folds

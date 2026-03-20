@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-dotnet.url = "github:NixOS/nixpkgs/nixos-unstable/";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     nix-darwin = {
@@ -132,21 +133,20 @@
             tmuxPlugins = pkgs.tmuxPlugins // tmuxPlugins;
             local-fonts = pkgs.callPackage ./packages/local-fonts { };
 
-            # Override ast-grep to 0.41.0 (nixpkgs-unstable still has 0.40.5)
-            # Needed for language injection fix: https://github.com/ast-grep/ast-grep/pull/2479
-            # TODO: Remove this override once nixpkgs-unstable includes 0.41.0+
+            # Override ast-grep to 0.41.1
+            # TODO: Remove this override once nixpkgs-unstable includes 0.41.1+
             ast-grep = pkgs.ast-grep.overrideAttrs (oldAttrs: rec {
-              version = "0.41.0";
+              version = "0.42.0";
               src = pkgs.fetchFromGitHub {
                 owner = "ast-grep";
                 repo = "ast-grep";
                 tag = version;
-                hash = "sha256-cL7RtGFhIKTlfP7wEjdjT8uTxB/tG2joob+HN5NG1G8=";
+                hash = "sha256-Sm/5/JT98Uh1sX6HwPH2/lVsDJmKCUT+AwWX0qtgVKg=";
               };
               cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
                 inherit src;
                 name = "${oldAttrs.pname}-${version}-vendor";
-                hash = "sha256-zPl9fUG+RdddB7r4nWHETHsULf/hDDFpTf8h3xe7UiI=";
+                hash = "sha256-ZZzSW71/a13+TuT/3hFCA582Vow2JsdGQBn9plMry00=";
               };
               # Skip test_scan_invalid_rule_id which fails on macOS with
               # "Illegal byte sequence (os error 92)" due to locale handling

@@ -212,22 +212,22 @@ later(function()
     end,
   }
 
-  --- Find the nearest ancestor directory containing sgconfig.yml or sgconfig.yaml.
-  ---@param bufnr integer
-  ---@return string|nil root directory path, or nil if not found
-  local function find_ast_grep_root(bufnr)
-    local fname = vim.api.nvim_buf_get_name(bufnr)
-    if fname == '' then return nil end
-
-    local roots = vim.fs.find(
-      { 'sgconfig.yml', 'sgconfig.yaml' },
-      { path = vim.fs.dirname(fname), upward = true, limit = 1 }
-    )
-
-    if #roots > 0 then return vim.fs.dirname(roots[1]) end
-
-    return nil
-  end
+  -- --- Find the nearest ancestor directory containing sgconfig.yml or sgconfig.yaml.
+  -- ---@param bufnr integer
+  -- ---@return string|nil root directory path, or nil if not found
+  -- local function find_ast_grep_root(bufnr)
+  --   local fname = vim.api.nvim_buf_get_name(bufnr)
+  --   if fname == '' then return nil end
+  --
+  --   local roots = vim.fs.find(
+  --     { 'sgconfig.yml', 'sgconfig.yaml' },
+  --     { path = vim.fs.dirname(fname), upward = true, limit = 1 }
+  --   )
+  --
+  --   if #roots > 0 then return vim.fs.dirname(roots[1]) end
+  --
+  --   return nil
+  -- end
 
   -- Register linters by filetype (ast_grep excluded — it needs special cwd handling)
   lint.linters_by_ft = {
@@ -235,23 +235,23 @@ later(function()
     lua = {},
   }
 
-  -- Listen for file writes and lint
-  vim.api.nvim_create_autocmd({ 'BufEnter', 'InsertLeave', 'BufWritePost' }, {
-    callback = function()
-      -- Run standard linters for the current filetype
-      lint.try_lint()
-
-      -- Run ast-grep linter for filetypes that have injection rules,
-      -- but only when inside a project with sgconfig.yml
-      local ft = vim.bo.filetype
-
-      if ft == 'scss' then
-        local root = find_ast_grep_root(vim.api.nvim_get_current_buf())
-
-        if root then lint.try_lint('ast_grep', { cwd = root }) end
-      end
-    end,
-  })
+  -- -- Listen for file writes and lint
+  -- vim.api.nvim_create_autocmd({ 'BufEnter', 'InsertLeave', 'BufWritePost' }, {
+  --   callback = function()
+  --     -- Run standard linters for the current filetype
+  --     lint.try_lint()
+  --
+  --     -- Run ast-grep linter for filetypes that have injection rules,
+  --     -- but only when inside a project with sgconfig.yml
+  --     local ft = vim.bo.filetype
+  --
+  --     if ft == 'scss' then
+  --       local root = find_ast_grep_root(vim.api.nvim_get_current_buf())
+  --
+  --       if root then lint.try_lint('ast_grep', { cwd = root }) end
+  --     end
+  --   end,
+  -- })
 end)
 
 later(function() add({ 'https://github.com/dhruvasagar/vim-table-mode.git' }) end)

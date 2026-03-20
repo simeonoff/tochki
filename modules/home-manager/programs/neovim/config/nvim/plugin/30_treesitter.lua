@@ -34,6 +34,7 @@ now_if_args(function()
     'hyprlang',
     'markdown',
     'markdown_inline',
+    'query',
     'vim',
     'vimdoc',
   }

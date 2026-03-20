@@ -18,6 +18,7 @@ let
   darwinSettings = {
     font-size = 15;
     macos-option-as-alt = true;
+    macos-icon = "custom-style";
     adjust-cell-height = 4;
     window-colorspace = "display-p3";
   };

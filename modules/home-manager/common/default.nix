@@ -12,6 +12,7 @@
     ../programs/neovim
     ../programs/nh
     ../programs/nushell
+    ../programs/opencode
     ../programs/sesh
     ../programs/ssh
     ../programs/starship

@@ -1,7 +1,6 @@
 shell = "bash -c '{}'"
-default-scheme = "base16-rose-pine"
+default-scheme = "base16-kanagawa-dragon"
 
-# Cycle through favorites with `tinty cycle`
 preferred-schemes = [
   "base16-rose-pine",
   "base16-catppuccin-mocha",
@@ -10,6 +9,7 @@ preferred-schemes = [
   "base16-tokyo-night-dark",
   "base16-onedark",
   "base16-dracula",
+  "base16-kanagawa-dragon",
 ]
 
 # --- Items ---
