@@ -19,5 +19,9 @@
       SSH_AUTH_SOCK = "${config.home.homeDirectory}/.bitwarden-ssh-agent.sock";
       LG_CONFIG_FILE = "${config.home.homeDirectory}/.config/lazygit/config.yml,${config.home.homeDirectory}/.config/lazygit/theme.yml";
     };
+    extraEnv = ''
+      $env.GITHUB_PAT = (open "${config.sops.secrets.github_pat.path}" | str trim)
+      $env.CONTEXT7_API_KEY = (open "${config.sops.secrets.context7_api_key.path}" | str trim)
+    '';
   };
 }

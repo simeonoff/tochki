@@ -22,9 +22,24 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-parts, nix-darwin, nix-homebrew, neovim-nightly-overlay, ... }:
+  outputs =
+    inputs@{ self
+    , nixpkgs
+    , home-manager
+    , flake-parts
+    , nix-darwin
+    , nix-homebrew
+    , neovim-nightly-overlay
+    , sops-nix
+    , ...
+    }:
     let
       inherit (self) outputs;
 
@@ -98,6 +113,7 @@
             pkgs-dotnet = import inputs.nixpkgs-dotnet { inherit system; };
           };
           modules = [
+            sops-nix.homeManagerModules.sops
             ./home/${username}/${hostname}
           ];
         };

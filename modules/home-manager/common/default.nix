@@ -12,6 +12,7 @@
     ../programs/neovim
     ../programs/nh
     ../programs/nushell
+    ../programs/claude-code
     ../programs/opencode
     ../programs/sesh
     ../programs/ssh
@@ -28,6 +29,13 @@
     };
 
     overlays = [ outputs.overlays.default ];
+  };
+
+  sops = {
+    defaultSopsFile = ../../../secrets/home.yaml;
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    secrets.github_pat = { };
+    secrets.context7_api_key = { };
   };
 
   home = {

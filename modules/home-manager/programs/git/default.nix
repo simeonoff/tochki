@@ -2,6 +2,7 @@
 {
   programs.git = {
     enable = true;
+    signing.format = null;
     settings = {
       gpg = {
         format = "ssh";
