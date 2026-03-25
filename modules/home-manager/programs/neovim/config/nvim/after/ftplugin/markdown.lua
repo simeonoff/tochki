@@ -3,7 +3,7 @@
 -- ╰──────────────────────────────────────────────────────────╯
 
 -- Fully conceal syntax (e.g. markdown formatting) when the cursor is not on the line
-vim.opt.conceallevel = 3
+-- vim.opt.conceallevel = 0
 
 -- Enable spelling and wrap for window
 vim.cmd('setlocal spell wrap')
