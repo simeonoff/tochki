@@ -1,7 +1,7 @@
 local add = vim.pack.add
-local later = Config.later
+local later, now = Config.later, Config.now
 
-later(function()
+now(function()
   add({ 'https://github.com/stevearc/oil.nvim.git' })
 
   require('oil').setup({
@@ -21,6 +21,10 @@ later(function()
     },
     view_options = {
       show_hidden = true,
+      is_always_hidden = function(name, bufnr)
+        local hide = { ['.DS_Store'] = true, ['thumbs.db'] = true }
+        return hide[name]
+      end,
     },
     keymaps = {
       ['<C-s>'] = false,

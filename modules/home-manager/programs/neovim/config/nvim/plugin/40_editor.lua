@@ -35,8 +35,8 @@ later(function()
       css = { 'biome', 'prettierd', 'stylelint' },
       scss = { 'prettierd', 'stylelint' },
       html = { 'prettierd' },
-      json = { 'biome', 'prettierd' },
-      jsonc = { 'biome', 'prettierd' },
+      json = { 'biome', 'prettierd', stop_after_first = true },
+      jsonc = { 'biome', 'prettierd', stop_after_first = true },
       md = { 'prettierd' },
       mdx = { 'prettierd' },
       yaml = { 'prettierd' },
@@ -341,7 +341,9 @@ later(function()
 end)
 
 now(function()
-  require('mini.starter').setup({
+  local starter = require('mini.starter')
+
+  starter.setup({
     header = function()
       local banner = require('banners').modern_v1
       local quotes = require('quotes')
@@ -380,6 +382,8 @@ now(function()
       end,
     },
   })
+
+  autocmd('User', 'MiniStarterOpened', function(ev) vim.keymap.set('n', '-', '<cmd>Oil .<cr>', { buffer = ev.buf }) end)
 end)
 
 -- Undotree visualizes the undo history and allows you to navigate through it.

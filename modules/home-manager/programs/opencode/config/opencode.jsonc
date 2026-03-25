@@ -66,7 +66,7 @@
       "type": "local",
       "command": [
         "node",
-        "/Users/SSimeonov/Projects/igniteui-theming/dist/mcp/index.js",
+        "/Users/SSimeonov/Projects/igniteui-theming/packages/theming/dist/mcp/index.js",
       ],
       "environment": {},
       "enabled": true,
