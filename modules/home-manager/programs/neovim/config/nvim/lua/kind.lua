@@ -44,31 +44,7 @@ M.icons = {
   Codeium = '󰘦 ',
 }
 
-M.get_icon = function(kind)
-  for key, value in pairs(M.icons) do
-    if key == kind then return value end
-  end
-  return nil
-end
-
-M.cmp_format = function()
-  return function(entry, vim_item)
-    -- vim_item.kind = string.format("%s %s", M.icons[vim_item.kind], vim_item.kind)
-    vim_item.kind = M.icons[vim_item.kind]
-
-    vim_item.menu = ({
-      buffer = '[Buffer]',
-      nvim_lsp = '[LSP]',
-      luasnip = '[Snippet]',
-      nvim_lua = '[Lua]',
-      latex_symbols = '[LaTeX]',
-      copilot = '[Copilot]',
-      codeium = '[Codeium]',
-    })[entry.source.name]
-
-    return vim_item
-  end
-end
+M.get_icon = function(kind) return M.icons[kind] end
 
 M.diagnostic_signs = {
   error = '󰅚 ',

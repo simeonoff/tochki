@@ -1,4 +1,4 @@
-{ outputs, config, userConfig, lib, pkgs, ... }:
+{ outputs, config, userConfig, lib, pkgs, pkgs-dotnet, ... }:
 {
   imports = [
     ../programs/aerospace
@@ -12,9 +12,12 @@
     ../programs/neovim
     ../programs/nh
     ../programs/nushell
+    ../programs/claude-code
+    ../programs/opencode
     ../programs/sesh
     ../programs/ssh
     ../programs/starship
+    ../programs/tinty
     ../programs/tmux
     ../programs/zoxide
   ];
@@ -26,6 +29,13 @@
     };
 
     overlays = [ outputs.overlays.default ];
+  };
+
+  sops = {
+    defaultSopsFile = ../../../secrets/home.yaml;
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    secrets.github_pat = { };
+    secrets.context7_api_key = { };
   };
 
   home = {
@@ -49,7 +59,6 @@
   };
 
   xdg.enable = true;
-  xdg.dataHome = "${config.home.homeDirectory}/.local/share";
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -70,7 +79,6 @@
     curl
     dart-sass
     docfx
-    dotnet-sdk_9
     eza
     fd
     git
@@ -81,12 +89,14 @@
     lynx
     mosh
     nh # Nix helper
-    nodePackages.nodejs
+    nodejs
     pkg-config
     python313
     python313Packages.west
     ripgrep
     silver-searcher
+    tinty
+    codebase-memory-mcp
     tree
     tree-sitter
     wezterm
@@ -105,6 +115,9 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+  ]
+  ++ [
+    pkgs-dotnet.dotnet-sdk_9
   ]
   ++ lib.optionals (!stdenv.isDarwin) [
     bitwarden-desktop

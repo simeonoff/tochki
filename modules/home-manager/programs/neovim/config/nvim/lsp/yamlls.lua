@@ -1,10 +1,7 @@
-local utils = require('utils')
-local root_dir = utils.root_pattern({ '.git' })
-
 return {
   cmd = { 'yaml-language-server', '--stdio' },
   filetypes = { 'yaml', 'yaml.docker-compose', 'yaml.gitlab' },
-  root_dir = root_dir,
+  root_markers = { '.git' },
   single_file_support = true,
   settings = {
     -- https://github.com/redhat-developer/vscode-redhat-telemetry#how-to-disable-telemetry-reporting
@@ -17,7 +14,11 @@ return {
         -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
         url = '',
       },
-      schemas = require('schemastore').yaml.schemas(),
+      schemas = (function()
+        local ok, store = pcall(require, 'schemastore')
+        if ok then return store.yaml.schemas() end
+        return {}
+      end)(),
     },
   },
 }

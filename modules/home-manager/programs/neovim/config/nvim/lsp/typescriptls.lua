@@ -1,5 +1,3 @@
-local utils = require('utils')
-
 return {
   init_options = { hostInfo = 'neovim' },
   cmd = { 'typescript-language-server', '--stdio' },
@@ -11,6 +9,7 @@ return {
     'typescriptreact',
     'typescript.tsx',
   },
-  root_dir = utils.root_pattern({ 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' }),
+  workspace_required = true,
+  root_markers = { { 'tsconfig.json', 'jsconfig.json' }, 'package.json', '.git' },
   single_file_support = true,
 }

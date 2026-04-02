@@ -1,0 +1,95 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": true,
+  "plugin": ["opencode-claude-auth"],
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1",
+      },
+      "models": {
+        "qwen3:0.6b": {
+          "name": "Qwen 3 0.6B",
+        },
+        "qwen3:4b": {
+          "name": "Qwen 3 4B",
+        },
+        "qwen2.5-coder:32b": {
+          "name": "Qwen 2.5 Coder 32B",
+        },
+        "codegemma": {
+          "name": "CodeGemma",
+        },
+        "granite4:7b-a1b-h": {
+          "name": "Granite 4 7B A1B-H",
+        },
+      },
+    },
+  },
+  "mcp": {
+    "obsidian": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@mauricio.wolff/mcp-obsidian@latest",
+        "/Users/SSimeonov/Library/Mobile Documents/iCloud~md~obsidian/Documents",
+      ],
+    },
+    "github": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp",
+      "headers": {
+        "Authorization": "Bearer {file:~/.config/sops-nix/secrets/github_pat}",
+      },
+      "enabled": true,
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT_7_API_KEY": "{file:~/.config/sops-nix/secrets/context7_api_key}",
+      },
+      "enabled": true,
+    },
+    "theming": {
+      "type": "local",
+      "command": [
+        "node",
+        "/Users/SSimeonov/Projects/igniteui-theming/packages/theming/dist/mcp/index.js",
+      ],
+      "environment": {},
+      "enabled": true,
+    },
+    "figma": {
+      "type": "remote",
+      "url": "http://localhost:3845/mcp",
+      "enabled": false,
+    },
+    "codebase-memory-mcp": {
+      "type": "local",
+      "command": ["codebase-memory-mcp"],
+      "enabled": true,
+    },
+  },
+  "tools": {
+    "obsidian*": true,
+    "github*": true,
+    "theming*": true,
+    "context7*": true,
+    "codebase-memory-mcp*": true,
+  },
+  "agent": {
+    "build": {
+      "enable1mContext": true,
+    },
+    "figma": {
+      "description": "An agent that helps with Figma related tasks using the Figma MCP.",
+      "permissions": {
+        "figma_*": true,
+      },
+    },
+  },
+}

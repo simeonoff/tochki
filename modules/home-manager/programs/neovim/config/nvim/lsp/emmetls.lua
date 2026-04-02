@@ -1,5 +1,3 @@
-local utils = require('utils')
-
 return {
   cmd = { 'emmet-language-server', '--stdio' },
   filetypes = {
@@ -17,6 +15,6 @@ return {
     'htmlangular',
     'svelte',
   },
-  root_dir = utils.root_pattern({ '.git' }),
+  root_markers = { 'package.json', '.git' },
   single_file_support = true,
 }

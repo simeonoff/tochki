@@ -1,0 +1,6 @@
+keys:
+  - &admin_SSimeonov age1kmpyqw222c0704cx0vwqarz4cw4arldxsxq747zzqjxhvlcm7vvsrjpj0n 
+
+creation_rules:
+  - path_regex: secrets/.*\.yaml$
+    age: *admin_SSimeonov

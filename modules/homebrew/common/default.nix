@@ -8,7 +8,6 @@
       "mas"
       "mysql"
       "ninja"
-      "opencode"
       "rom-tools"
     ];
     taps = [ ];
@@ -40,8 +39,8 @@
     };
     onActivation = {
       cleanup = "zap";
-      autoUpdate = true;
-      upgrade = true;
+      autoUpdate = false;
+      upgrade = false;
     };
     # Ensure applications are linked to /Applications
     caskArgs.appdir = "/Applications";

@@ -1,7 +1,3 @@
-local utils = require('utils')
-
-local root_dir = utils.root_pattern({ '.git' })
-
 return {
   cmd = { 'bash-language-server', 'start' },
   settings = {
@@ -17,6 +13,6 @@ return {
     },
   },
   filetypes = { 'bash', 'sh' },
-  root_dir = root_dir,
+  root_markers = { '.git', },
   single_file_support = true,
 }

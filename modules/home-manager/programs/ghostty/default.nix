@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 let
   commonSettings = {
-    theme = "Rose Pine";
+    theme = "tinted-theming";
     font-family = "Iosevka Term";
     cursor-opacity = 0.7;
     cursor-invert-fg-bg = false;
@@ -18,6 +18,7 @@ let
   darwinSettings = {
     font-size = 15;
     macos-option-as-alt = true;
+    macos-icon = "custom-style";
     adjust-cell-height = 4;
     window-colorspace = "display-p3";
   };

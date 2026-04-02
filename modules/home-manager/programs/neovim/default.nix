@@ -1,4 +1,13 @@
-{ pkgs, config, lib, ... }:
+{ pkgs
+, config
+, lib
+# , neovim-nightly
+, ...
+}:
+
+let
+  neovimTools = import ../../../../packages/neovim-tools { inherit pkgs; };
+in
 {
   # Keep Neovim config live by linking at activation time.
   home.activation.neovimConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -6,34 +15,14 @@
     $DRY_RUN_CMD ln -sfn "${config.home.homeDirectory}/tochki/modules/home-manager/programs/neovim/config/nvim" "${config.xdg.configHome}/nvim"
   '';
   programs.neovim = {
+    # package = neovim-nightly;
     enable = true;
-    extraPackages = with pkgs; [
-      angular-language-server
-      astro-language-server
-      bash-language-server
-      emmet-language-server
-      eslint_d
-      ginko
-      gopls
-      gotools
-      lua-language-server
-      marksman
-      netcoredbg # CSharp debugger
-      nil
-      nixpkgs-fmt
-      prettierd
-      roslyn-ls # CSharp language server
-      selene
-      some-sass-language-server
-      stylelint
-      stylelint-lsp
-      stylua
-      tailwindcss-language-server
-      typescript-language-server
-      vscode-langservers-extracted
-      yaml-language-server
+    extraPackages = neovimTools;
+    extraWrapperArgs = [
+      "--set"
+      "VSCODE_JS_DEBUG_PATH"
+      "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/dist/src/dapDebugServer.js"
     ];
-
     withNodeJs = true;
     extraPython3Packages = ps: with ps; [ pynvim ];
   };
