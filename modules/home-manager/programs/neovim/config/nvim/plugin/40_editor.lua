@@ -37,8 +37,8 @@ later(function()
       html = { 'prettierd' },
       json = { 'biome', 'prettierd', stop_after_first = true },
       jsonc = { 'biome', 'prettierd', stop_after_first = true },
-      md = { 'prettierd' },
-      mdx = { 'prettierd' },
+      markdown = { 'prettierd' },
+      ['markdown.mdx'] = { 'prettierd' },
       yaml = { 'prettierd' },
       svelte = { 'prettierd' },
       go = { 'goimports' },
@@ -313,8 +313,11 @@ later(function()
     vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
   end)
 
-  -- Turn on spellcheck for markdown files
-  autocmd('FileType', 'markdown', function() vim.opt.spell = true end)
+  -- Keep spell checking scoped to markdown-like filetypes.
+  autocmd({ 'BufEnter', 'WinEnter' }, '*', function()
+    local ft = vim.bo.filetype
+    vim.opt_local.spell = ft == 'markdown' or ft == 'markdown.mdx'
+  end)
 
   -- Add `BufOnly` command to delete all buffers except the current one
   vim.api.nvim_create_user_command('BufOnly', bufonly.BufOnly, { desc = 'Delete all buffers except the current one' })

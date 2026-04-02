@@ -89,13 +89,14 @@
     lynx
     mosh
     nh # Nix helper
-    nodePackages.nodejs
+    nodejs
     pkg-config
     python313
     python313Packages.west
     ripgrep
     silver-searcher
     tinty
+    codebase-memory-mcp
     tree
     tree-sitter
     wezterm

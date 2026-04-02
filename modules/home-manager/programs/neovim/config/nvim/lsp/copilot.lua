@@ -133,5 +133,12 @@ return {
       function() sign_out(bufnr, client) end,
       { desc = 'Sign out Copilot with GitHub' }
     )
+
+    if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then
+      vim.keymap.set('i', '<C-l>', vim.lsp.inline_completion.get,
+        { desc = 'Accept Copilot inline completion', buffer = bufnr })
+      vim.keymap.set('i', '<C-]>', vim.lsp.inline_completion.select,
+        { desc = 'Cycle Copilot suggestion', buffer = bufnr })
+    end
   end,
 }

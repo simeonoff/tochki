@@ -1,4 +1,9 @@
-{ pkgs, config, lib, neovim-nightly, ... }:
+{ pkgs
+, config
+, lib
+# , neovim-nightly
+, ...
+}:
 
 let
   neovimTools = import ../../../../packages/neovim-tools { inherit pkgs; };
@@ -10,7 +15,7 @@ in
     $DRY_RUN_CMD ln -sfn "${config.home.homeDirectory}/tochki/modules/home-manager/programs/neovim/config/nvim" "${config.xdg.configHome}/nvim"
   '';
   programs.neovim = {
-    package = neovim-nightly;
+    # package = neovim-nightly;
     enable = true;
     extraPackages = neovimTools;
     extraWrapperArgs = [

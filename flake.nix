@@ -5,6 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-dotnet.url = "github:NixOS/nixpkgs/b40629efe5d6ec48dd1efba650c797ddbd39ace0";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    claude-code.url = "github:sadjow/claude-code-nix";
 
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
@@ -38,6 +39,7 @@
     , nix-homebrew
     , neovim-nightly-overlay
     , sops-nix
+    , claude-code
     , ...
     }:
     let
@@ -103,7 +105,11 @@
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             inherit system;
-            overlays = [ self.overlays.default ];
+
+            overlays = [
+              self.overlays.default
+              claude-code.overlays.default
+            ];
           };
           extraSpecialArgs = {
             inherit inputs outputs;
@@ -134,6 +140,8 @@
         let
           tmuxPlugins = import ./packages/tmux { inherit pkgs; };
           languageServers = import ./packages/language-servers { inherit pkgs; };
+          opencodePackages = import ./packages/opencode { inherit (pkgs) lib pkgs; };
+          codebaseMemoryMcpPackages = import ./packages/codebase-memory-mcp { inherit (pkgs) lib pkgs; };
           neovim-nightly = neovim-nightly-overlay.packages.${system}.default;
           # pkgs with our overlay + allowUnfree, for devShells
           pkgs' = import nixpkgs {
@@ -150,6 +158,8 @@
 
           overlayAttrs = {
             inherit (languageServers) some-sass-language-server;
+            inherit (opencodePackages) opencode;
+            inherit (codebaseMemoryMcpPackages) codebase-memory-mcp;
             tmuxPlugins = pkgs.tmuxPlugins // tmuxPlugins;
             local-fonts = pkgs.callPackage ./packages/local-fonts { };
 

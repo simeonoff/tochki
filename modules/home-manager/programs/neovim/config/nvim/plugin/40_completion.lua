@@ -35,13 +35,7 @@ later(function()
       -- Prefer LSP inline completion (e.g. Copilot) over menu completion.
       -- If an inline suggestion is visible, accept it; otherwise fall through
       -- to blink's select_and_accept.
-      ['<C-y>'] = {
-        function()
-          if vim.lsp.inline_completion.get() then return true end
-        end,
-        'select_and_accept',
-        'fallback',
-      },
+      ['<C-y>'] = { 'select_and_accept' },
     },
     cmdline = {
       keymap = {
@@ -103,6 +97,11 @@ later(function()
         lsp = {
           min_keyword_length = 0, -- Number of characters to trigger provider
           score_offset = 5, -- Boost/penalize the score of the items
+          transform_items = function(_, items)
+            return vim.tbl_filter(function(item)
+              return item.client_name ~= 'copilot'
+            end, items)
+          end,
         },
         path = {
           min_keyword_length = 0,

@@ -1,6 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": true,
+  "plugin": ["opencode-claude-auth"],
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -37,15 +38,6 @@
         "/Users/SSimeonov/Library/Mobile Documents/iCloud~md~obsidian/Documents",
       ],
     },
-    "weather-server": {
-      "type": "local",
-      "command": [
-        "node",
-        "/Users/SSimeonov/Projects/tmp/MCPSandbox/my-mcp/mcp.js",
-      ],
-      "environment": {},
-      "enabled": true,
-    },
     "github": {
       "type": "remote",
       "url": "https://api.githubcopilot.com/mcp",
@@ -76,36 +68,27 @@
       "url": "http://localhost:3845/mcp",
       "enabled": false,
     },
+    "codebase-memory-mcp": {
+      "type": "local",
+      "command": ["codebase-memory-mcp"],
+      "enabled": true,
+    },
   },
   "tools": {
     "obsidian*": true,
-    "weather-server*": false,
-    "issue-tracker-server*": false,
-    "github*": false,
-    "theming*": false,
+    "github*": true,
+    "theming*": true,
     "context7*": true,
+    "codebase-memory-mcp*": true,
   },
   "agent": {
-    "weather-agent": {
-      "tools": {
-        "weather-server*": true,
-      },
-    },
-    "issue-tracker": {
-      "tools": {
-        "issue-tracker-server*": true,
-      },
+    "build": {
+      "enable1mContext": true,
     },
     "figma": {
       "description": "An agent that helps with Figma related tasks using the Figma MCP.",
-      "tools": {
-        "figma*": true,
-      },
-    },
-    "igniteiui-cli": {
-      "description": "An agent that helps with Ignite UI CLI related tasks using the Ignite UI CLI MCP.",
-      "tools": {
-        "igniteui-cli*": true,
+      "permissions": {
+        "figma_*": true,
       },
     },
   },
