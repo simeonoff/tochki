@@ -8,6 +8,6 @@ local cmd_env = {
 return {
   cmd = cmd,
   cmd_env = cmd_env,
-  filetypes = { 'markdown', 'markdown.mdx' },
+  filetypes = { 'markdown' },
   root_markers = { '.marksman.toml', '.git' },
 }

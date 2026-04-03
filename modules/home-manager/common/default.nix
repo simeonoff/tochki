@@ -90,6 +90,7 @@
     mosh
     nh # Nix helper
     nodejs
+    pi-mono
     pkg-config
     python313
     python313Packages.west

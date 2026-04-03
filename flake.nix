@@ -141,6 +141,7 @@
           tmuxPlugins = import ./packages/tmux { inherit pkgs; };
           languageServers = import ./packages/language-servers { inherit pkgs; };
           opencodePackages = import ./packages/opencode { inherit (pkgs) lib pkgs; };
+          piMonoPackages = import ./packages/pi-mono { inherit (pkgs) lib pkgs; };
           codebaseMemoryMcpPackages = import ./packages/codebase-memory-mcp { inherit (pkgs) lib pkgs; };
           neovim-nightly = neovim-nightly-overlay.packages.${system}.default;
           # pkgs with our overlay + allowUnfree, for devShells
@@ -159,6 +160,7 @@
           overlayAttrs = {
             inherit (languageServers) some-sass-language-server;
             inherit (opencodePackages) opencode;
+            inherit (piMonoPackages) pi-mono;
             inherit (codebaseMemoryMcpPackages) codebase-memory-mcp;
             tmuxPlugins = pkgs.tmuxPlugins // tmuxPlugins;
             local-fonts = pkgs.callPackage ./packages/local-fonts { };

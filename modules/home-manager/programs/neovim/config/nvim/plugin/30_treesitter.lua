@@ -56,22 +56,6 @@ now_if_args(function()
   local to_install = vim.tbl_filter(isnt_installed, languages)
   if #to_install > 0 then require('nvim-treesitter').install(to_install) end
 
-  -- Enable tree-sitter after opening a file for a target language
-  local filetypes = {}
-
-  for _, lang in ipairs(languages) do
-    for _, ft in ipairs(vim.treesitter.language.get_filetypes(lang)) do
-      table.insert(filetypes, ft)
-    end
-  end
-
-  local ts_start = function(ev)
-    vim.treesitter.start(ev.buf)
-    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-  end
-
-  Config.new_autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
-
   local ts_custom_languages = function()
     local parsers = require('nvim-treesitter.parsers')
 
@@ -96,7 +80,30 @@ now_if_args(function()
     }
   end
 
+  -- Enable tree-sitter after opening a file for a target language
+  local filetypes = {}
+
+  -- Register custom parsers now so their filetypes are available for the loop below,
+  -- and again after TSUpdate so they survive parser reinstalls.
+  ts_custom_languages()
+
+  -- MDX highlighting: treat MDX as markdown and rely on query injections.
+  vim.treesitter.language.register('markdown', 'mdx')
+
   Config.new_autocmd('User', 'TSUpdate', ts_custom_languages, 'Set up tree-sitter custom languages')
+
+  for _, lang in ipairs(languages) do
+    for _, ft in ipairs(vim.treesitter.language.get_filetypes(lang)) do
+      table.insert(filetypes, ft)
+    end
+  end
+
+  local ts_start = function(ev)
+    vim.treesitter.start(ev.buf)
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end
+
+  Config.new_autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
 
   -- Tree-sitter TextObjects
   require('nvim-treesitter-textobjects').setup({

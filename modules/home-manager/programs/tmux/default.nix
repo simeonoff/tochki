@@ -36,7 +36,12 @@
       set -ga terminal-overrides ',*256col*:Tc'
       set -g detach-on-destroy off
       set -g allow-rename off
+
+      set -g extended-keys on
+      set -g extended-keys-format csi-u
+
       setw -g automatic-rename off
+
       set -g set-titles on
       set-option -g focus-events on
       set -g pane-base-index 1
@@ -62,7 +67,7 @@
 
       # Relaod TMUX config
       unbind r
-      bind r source-file ~/.tmux.conf \; display-message "Config reloaded!"
+      bind r source-file ~/.config/tmux/tmux.conf \; display-message "Config reloaded!"
 
       # Resize panes
       bind -r Left resize-pane -L 5 # Resize pane 10 cells to the left

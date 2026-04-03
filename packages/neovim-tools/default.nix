@@ -19,6 +19,7 @@ with pkgs; [
   gotools
   lua-language-server
   marksman
+  languageServers.mdx-language-server
   netcoredbg # CSharp debugger
   nil
   nixpkgs-fmt

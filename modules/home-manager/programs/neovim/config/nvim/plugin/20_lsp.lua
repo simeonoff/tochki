@@ -23,9 +23,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     --   vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
     -- end
 
-    -- enable completion
+    -- Blink.cmp handles all completion via its own LSP source.
+    -- Explicitly disable native vim.lsp.completion to avoid duplicate items.
     if client and client:supports_method('textDocument/completion') then
-      vim.lsp.completion.enable(false, client.id, args.buf, { autotrigger = true })
+      vim.lsp.completion.enable(false, client.id, args.buf)
     end
 
     -- enable inline completion

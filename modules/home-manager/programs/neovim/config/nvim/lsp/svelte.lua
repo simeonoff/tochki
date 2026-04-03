@@ -13,6 +13,15 @@
 return {
   cmd = { 'svelteserver', '--stdio' },
   filetypes = { 'svelte' },
+  settings = {
+    svelte = {
+      plugin = {
+        -- emmetls handles emmet completions, disable the built-in ones to avoid duplicates
+        html = { completions = { emmet = false } },
+        css = { completions = { emmet = false } },
+      },
+    },
+  },
   root_dir = function(bufnr, on_dir)
     local fname = vim.api.nvim_buf_get_name(bufnr)
     -- Svelte LSP only supports file:// schema. https://github.com/sveltejs/language-tools/issues/2777
