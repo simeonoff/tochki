@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   programs.claude-code = {
     enable = true;
@@ -14,7 +15,7 @@
         args = [
           "-y"
           "@mauricio.wolff/mcp-obsidian@latest"
-          "/Users/SSimeonov/Library/Mobile Documents/iCloud~md~obsidian/Documents"
+          "${config.home.homeDirectory}/Library/Mobile Documents/iCloud~md~obsidian/Documents"
         ];
       };
       github = {
@@ -35,7 +36,7 @@
         type = "stdio";
         command = "node";
         args = [
-          "/Users/SSimeonov/Projects/igniteui-theming/dist/mcp/index.js"
+          "${config.home.homeDirectory}/Projects/igniteui-theming/dist/mcp/index.js"
         ];
       };
     };

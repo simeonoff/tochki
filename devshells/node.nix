@@ -2,11 +2,6 @@
 { pkgs }:
 
 {
-  # Node.js 18.x environment
-  nodejs18 = pkgs.mkShell {
-    buildInputs = with pkgs; [ nodejs_18 ];
-  };
-  
   # Node.js 20.x environment
   nodejs20 = pkgs.mkShell {
     buildInputs = with pkgs; [ nodejs_20 ];

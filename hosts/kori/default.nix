@@ -11,7 +11,7 @@
 
   # This is a virtual machine, add the parallel tools for it.
   environment.systemPackages = with pkgs; [
-    linuxKernel.packages.linux_6_6.prl-tools
+    prl-tools
   ];
 
   # This value determines the NixOS release from which the default

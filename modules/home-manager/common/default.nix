@@ -1,13 +1,11 @@
 { outputs, config, userConfig, lib, pkgs, pkgs-dotnet, ... }:
 {
   imports = [
-    ../programs/aerospace
     ../programs/carapace
     ../programs/direnv
     ../programs/fzf
     ../programs/ghostty
     ../programs/git
-    ../programs/karabiner
     ../programs/lazygit
     ../programs/neovim
     ../programs/nh
@@ -20,6 +18,10 @@
     ../programs/tinty
     ../programs/tmux
     ../programs/zoxide
+    # These modules guard themselves internally with `lib.mkIf pkgs.stdenv.isDarwin`
+    # so they are safe to import on all platforms.
+    ../programs/aerospace
+    ../programs/karabiner
   ];
 
   # Nixpkgs configuration

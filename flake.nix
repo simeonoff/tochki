@@ -3,6 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Pinned to a specific commit to preserve a working dotnet-sdk_9 build.
+    # TODO: Verify whether this pin is still necessary and, if not, replace with
+    #       `follows = "nixpkgs"` so it tracks the main channel.
     nixpkgs-dotnet.url = "github:NixOS/nixpkgs/b40629efe5d6ec48dd1efba650c797ddbd39ace0";
     flake-parts.url = "github:hercules-ci/flake-parts";
     claude-code.url = "github:sadjow/claude-code-nix";
@@ -165,8 +168,8 @@
             tmuxPlugins = pkgs.tmuxPlugins // tmuxPlugins;
             local-fonts = pkgs.callPackage ./packages/local-fonts { };
 
-            # Override ast-grep to 0.41.1
-            # TODO: Remove this override once nixpkgs-unstable includes 0.41.1+
+            # Override ast-grep to 0.42.0 (nixpkgs-unstable currently ships 0.41.1).
+            # TODO: Remove this override once nixpkgs-unstable includes 0.42.0+
             ast-grep = pkgs.ast-grep.overrideAttrs (oldAttrs: rec {
               version = "0.42.0";
               src = pkgs.fetchFromGitHub {

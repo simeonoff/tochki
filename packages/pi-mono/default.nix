@@ -1,12 +1,12 @@
 { lib, pkgs }:
 
 let
-  version = "0.64.0";
+  version = "0.65.2";
 
   sources = {
     "aarch64-darwin" = {
       url = "https://github.com/badlogic/pi-mono/releases/download/v${version}/pi-darwin-arm64.tar.gz";
-      hash = "sha256-25w4WMHCbMBc5oVAS1LmCYDnhQwLjqIIZdr60+/6R1Q=";
+      hash = "sha256-0/U+wMcQhRC1V0N2DjK6a9/4W/Tz0n3s1VmFjlF9ygo=";
     };
     "x86_64-darwin" = {
       url = "https://github.com/badlogic/pi-mono/releases/download/v${version}/pi-darwin-x64.tar.gz";

@@ -36,19 +36,25 @@
       sha256 = "sha256-dTNM1MBb5RLwySTMZZWvHtwlpoSdlRQnG6hzaYpVXaw=";
     };
 
-    unpackPhase = ''
-      mkdir source
-      tar --strip-components=1 -xzf $src -C source
-    '';
+    # The published tarball bundles all runtime code in dist/ — there are no
+    # runtime npm dependencies, so we don't need npm at all. patchShebangs
+    # rewrites #!/usr/bin/env node to the absolute Nix store path.
+    #
+    # To update: change `version` and `sha256` (get the new hash with
+    #   nix-prefetch-url --type sha256 https://registry.npmjs.org/some-sass-language-server/-/some-sass-language-server-<VERSION>.tgz
+    # That's it — no package.json or package-lock.json to maintain.
+    nativeBuildInputs = [ pkgs.nodejs ];
+
+    dontBuild = true;
 
     installPhase = ''
-      cd source
-
+      runHook preInstall
       mkdir -p $out/lib/node_modules/${pname}
-      cp -r . $out/lib/node_modules/${pname}
-
+      cp -r dist bin package.json $out/lib/node_modules/${pname}/
       mkdir -p $out/bin
-      ln -s $out/lib/node_modules/${pname}/bin/some-sass-language-server $out/bin/some-sass-language-server
+      ln -s $out/lib/node_modules/${pname}/bin/${pname} $out/bin/${pname}
+      patchShebangs $out
+      runHook postInstall
     '';
 
     meta = {
@@ -56,6 +62,7 @@
       homepage = "https://github.com/wkillerud/some-sass";
       license = pkgs.lib.licenses.mit;
       maintainers = with pkgs.lib.maintainers; [ simeonoff ];
+      mainProgram = pname;
     };
   };
 }
