@@ -12,6 +12,7 @@
     ../programs/nushell
     ../programs/claude-code
     ../programs/opencode
+    ../programs/pi-harness
     ../programs/sesh
     ../programs/ssh
     ../programs/starship

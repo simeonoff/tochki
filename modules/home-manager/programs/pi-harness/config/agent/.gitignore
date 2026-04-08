@@ -1,0 +1,11 @@
+# Secrets - OAuth tokens, rotated at runtime
+auth.json
+
+# Runtime/cache - regenerated automatically
+sessions/
+cache/
+run-history.jsonl
+mcp-cache.json
+mcp-npx-cache.json
+.pi/
+.DS_Store

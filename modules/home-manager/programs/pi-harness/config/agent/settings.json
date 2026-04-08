@@ -1,0 +1,17 @@
+{
+  "lastChangelogVersion": "0.65.2",
+  "defaultProvider": "github-copilot",
+  "defaultModel": "claude-sonnet-4.6",
+  "defaultThinkingLevel": "high",
+  "hideThinkingBlock": true,
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:@tintinweb/pi-subagents",
+    "npm:@tintinweb/pi-tasks",
+    "npm:pi-ask-user",
+    "npm:@marckrenn/pi-sub-bar",
+    "npm:pi-context"
+  ],
+  "showHardwareCursor": true,
+  "editorPaddingX": 1
+}

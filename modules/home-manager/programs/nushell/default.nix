@@ -16,6 +16,7 @@
     envFile.source = ./config/env.nu;
     environmentVariables = {
       PI_CACHE_RETENTION = "long";
+      PI_CODING_AGENT_DIR = "${config.home.homeDirectory}/.config/pi/agent";
       NPM_CONFIG_PREFIX = "${config.home.homeDirectory}/.npm-global";
       SSH_AUTH_SOCK = "${config.home.homeDirectory}/.bitwarden-ssh-agent.sock";
       LG_CONFIG_FILE = "${config.home.homeDirectory}/.config/lazygit/config.yml,${config.home.homeDirectory}/.config/lazygit/theme.yml";
