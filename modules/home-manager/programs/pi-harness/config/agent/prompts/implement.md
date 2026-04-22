@@ -1,5 +1,6 @@
 ---
-description: Full pipeline — scout, plan, implement, review
-chain: implement
+description: Implement a task or feature
 ---
-Implement the following task. $@
+Use the worker skill to implement the following task:
+
+$@

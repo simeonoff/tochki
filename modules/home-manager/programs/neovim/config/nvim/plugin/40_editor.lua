@@ -24,7 +24,47 @@ later(function()
     require('conform').format({ async = true, lsp_format = 'fallback', range = range })
   end, { range = true })
 
+  ---Check if Biome formatter is enabled in the project's biome.json
+  ---@param ctx conform.Context
+  ---@return boolean
+  local function biome_formatter_enabled(ctx)
+    local biome_configs = { 'biome.json', 'biome.jsonc' }
+    local config_path = nil
+
+    -- Find the nearest biome config
+    for _, config in ipairs(biome_configs) do
+      local found = vim.fs.find(config, { path = ctx.dirname, upward = true })
+      if #found > 0 then
+        config_path = found[1]
+        break
+      end
+    end
+
+    -- No biome config found, don't use biome (fallback to prettier)
+    if not config_path then return false end
+
+    -- Read and parse the config
+    local content = vim.fn.readfile(config_path)
+    if not content or #content == 0 then return true end -- Config exists but empty, assume enabled
+
+    local ok, parsed = pcall(vim.json.decode, table.concat(content, '\n'))
+    if not ok then return true end -- Invalid JSON, assume enabled
+
+    -- Check if formatter is explicitly disabled
+    -- Biome has formatter.enabled which defaults to true if not specified
+    if parsed.formatter and parsed.formatter.enabled == false then
+      return false
+    end
+
+    return true
+  end
+
   require('conform').setup({
+    formatters = {
+      biome = {
+        condition = biome_formatter_enabled,
+      },
+    },
     formatters_by_ft = {
       astro = { 'prettierd' },
       lua = { 'stylua' },

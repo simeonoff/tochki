@@ -1,5 +1,6 @@
 ---
-description: Explore codebase then create implementation plan
-chain: explore-plan
+description: Create an implementation plan
 ---
-Explore and create an implementation plan. $@
+Use the planner skill to create a detailed implementation plan for:
+
+$@

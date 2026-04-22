@@ -167,26 +167,6 @@
             inherit (codebaseMemoryMcpPackages) codebase-memory-mcp;
             tmuxPlugins = pkgs.tmuxPlugins // tmuxPlugins;
             local-fonts = pkgs.callPackage ./packages/local-fonts { };
-
-            # Override ast-grep to 0.42.0 (nixpkgs-unstable currently ships 0.41.1).
-            # TODO: Remove this override once nixpkgs-unstable includes 0.42.0+
-            ast-grep = pkgs.ast-grep.overrideAttrs (oldAttrs: rec {
-              version = "0.42.0";
-              src = pkgs.fetchFromGitHub {
-                owner = "ast-grep";
-                repo = "ast-grep";
-                tag = version;
-                hash = "sha256-Sm/5/JT98Uh1sX6HwPH2/lVsDJmKCUT+AwWX0qtgVKg=";
-              };
-              cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
-                inherit src;
-                name = "${oldAttrs.pname}-${version}-vendor";
-                hash = "sha256-ZZzSW71/a13+TuT/3hFCA582Vow2JsdGQBn9plMry00=";
-              };
-              # Skip test_scan_invalid_rule_id which fails on macOS with
-              # "Illegal byte sequence (os error 92)" due to locale handling
-              doCheck = false;
-            });
           };
         };
 

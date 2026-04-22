@@ -1,5 +1,6 @@
 ---
-description: Scout existing theme context then create or modify Ignite UI theme
-chain: theme-setup
+description: Set up a new theme or design system
 ---
-Analyze existing theme and create or modify the Ignite UI theme. $@
+Use the themer skill to set up a new theme or design system. Define palettes, schemas, fonts, and component styles.
+
+$@

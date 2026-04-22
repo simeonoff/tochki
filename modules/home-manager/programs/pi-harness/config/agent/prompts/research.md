@@ -1,6 +1,6 @@
 ---
-description: Web research brief on a topic
-model: anthropic/claude-sonnet-4-6
-subagent: researcher
+description: Research a topic via web search
 ---
-Research the following topic. $@
+Use the researcher skill to research the following topic thoroughly:
+
+$@

@@ -78,6 +78,10 @@
       set-window-option -g pane-border-status top
       set-window-option -g pane-border-format ""
 
+      # Dim inactive panes
+      set -g window-style 'fg=colour240'
+      set -g window-active-style 'fg=colour255'
+
       # Update environment variables for SSH agent
       set-option -g update-environment "SSH_AUTH_SOCK SSH_CONNECTION"
 

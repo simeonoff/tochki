@@ -1,7 +1,6 @@
 ---
-description: Interactive learning session — tutor guides you through concepts and code
-model: anthropic/claude-sonnet-4-6
-subagent: learner
-inheritContext: true
+description: Learn a topic through guided questions
 ---
-Help me learn about the following. $@
+Use the learner skill to help understand this topic. Guide with questions, don't just give answers.
+
+$@

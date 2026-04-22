@@ -1,5 +1,6 @@
 ---
-description: Interactive project discovery — asks questions then explores
-chain: discover
+description: Clarify requirements before implementation
 ---
-Discover and gather requirements for the current project. $@
+Use the interviewer skill to clarify the task requirements before implementation. What exactly needs to be built? What are the constraints? What does success look like?
+
+Focus: $@

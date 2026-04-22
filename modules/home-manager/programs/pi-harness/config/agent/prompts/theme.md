@@ -1,6 +1,6 @@
 ---
-description: Ignite UI theming task (direct)
-model: anthropic/claude-sonnet-4-6
-subagent: themer
+description: Work on UI theming or styling
 ---
-Handle the following Ignite UI theming task. $@
+Use the themer skill to analyze and update the theming/styling for:
+
+$@

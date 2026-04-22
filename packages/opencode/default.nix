@@ -1,12 +1,12 @@
 { lib, pkgs }:
 
 let
-  version = "1.3.13";
+  version = "1.14.20";
 
   sources = {
     "aarch64-darwin" = {
       url = "https://github.com/anomalyco/opencode/releases/download/v${version}/opencode-darwin-arm64.zip";
-      hash = "sha256-y72/oZ0Z+VU4kJsK8qSfi65wuk9bb0DRfG67nRnyPzM=";
+      hash = "sha256-5hJMXHNXbGeNJLCWV7cygdltZ/wcTd1HFAYoEcUcgdU=";
     };
     "x86_64-darwin" = {
       url = "https://github.com/anomalyco/opencode/releases/download/v${version}/opencode-darwin-x64.zip";

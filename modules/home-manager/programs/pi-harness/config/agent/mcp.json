@@ -2,31 +2,30 @@
   "mcpServers": {
     "obsidian": {
       "type": "local",
-      "command": "npx",
+      "command": "mcp-obsidian",
       "args": [
-        "-y",
-        "@mauricio.wolff/mcp-obsidian@latest",
         "/Users/SSimeonov/Library/Mobile Documents/iCloud~md~obsidian/Documents"
       ],
-      "directTools": true
+      "directTools": false
     },
     "github": {
       "url": "https://api.githubcopilot.com/mcp",
       "auth": "bearer",
       "bearerTokenEnv": "GITHUB_PAT",
-      "directTools": true
+      "directTools": false
     },
     "theming": {
       "type": "local",
       "command": "node",
       "args": [
         "/Users/SSimeonov/Projects/igniteui-theming/packages/theming/dist/mcp/index.js"
-      ]
+      ],
+      "directTools": false
     },
     "codebase-memory-mcp": {
       "type": "local",
       "command": "codebase-memory-mcp",
-      "directTools": true
+      "directTools": false
     }
   }
 }

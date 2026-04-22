@@ -1,6 +1,6 @@
 ---
-description: Index current project into codebase memory graph
-model: anthropic/claude-haiku-4-5
-subagent: indexer
+description: Index codebase in knowledge graph
 ---
-Index the current project repository. $@
+Use the indexer skill to index this codebase in the knowledge graph for fast graph-aware exploration later.
+
+$@

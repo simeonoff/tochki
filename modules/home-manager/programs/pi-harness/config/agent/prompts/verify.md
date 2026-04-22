@@ -1,6 +1,6 @@
 ---
-description: Run lint, type-check, and tests — report pass/fail
-model: anthropic/claude-haiku-4-5
-subagent: verifier
+description: Verify project health (lint, tests, type-check)
 ---
-Run lint, type-check, and tests for the current project. $@
+Use the verifier skill to run the project's verification suite — lint, type-check, and tests. Report pass/fail with actionable output.
+
+$@

@@ -1,8 +1,6 @@
 ---
-description: Review current changes with full conversation context
-model: openai-codex/gpt-5.3-codex
-thinking: high
-subagent: reviewer
-inheritContext: true
+description: Review code for issues
 ---
-Review the current diff for correctness, edge cases, and potential regressions. $@
+Use the reviewer skill to review this code for bugs, security issues, performance problems, and quality. Focus on:
+
+$@

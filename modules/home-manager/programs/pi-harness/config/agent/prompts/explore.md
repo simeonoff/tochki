@@ -1,6 +1,6 @@
 ---
-description: Quick graph-aware codebase exploration
-model: anthropic/claude-haiku-4-5
-subagent: scout
+description: Explore and analyze a codebase
 ---
-Explore and analyze the current codebase. $@
+Use the scout skill to explore this codebase and provide a comprehensive overview:
+
+$@

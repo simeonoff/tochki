@@ -7,7 +7,9 @@
       "gh"
       "mas"
       "mysql"
+      "mkcert"
       "ninja"
+      "nss"
       "rom-tools"
     ];
     taps = [ ];
@@ -32,7 +34,6 @@
     ];
     masApps = {
       "Color Picker" = 1545870783;
-      "Parcel" = 639968404;
       "Unsplash Wallpapers" = 1284863847;
       "Wipr 2" = 1662217862;
       "WireGuard" = 1451685025;

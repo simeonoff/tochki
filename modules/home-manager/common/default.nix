@@ -39,6 +39,8 @@
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     secrets.github_pat = { };
     secrets.context7_api_key = { };
+    secrets.openrouter_api_key = { };
+    secrets.fireworks_api_key = { };
   };
 
   home = {

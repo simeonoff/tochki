@@ -36,6 +36,10 @@
   # Add ability to use TouchID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
 
+  security.sudo.extraConfig = ''
+    ${userConfig.name} ALL=(ALL) NOPASSWD: ALL
+  '';
+
   environment.variables = {
     XDG_CONFIG_HOME = "$HOME/.config";
   };
@@ -115,7 +119,7 @@
         env = pkgs.buildEnv {
           name = "system-applications";
           paths = config.environment.systemPackages;
-          pathsToLink = ["/Applications"];
+          pathsToLink = [ "/Applications" ];
         };
       in
       lib.mkForce ''

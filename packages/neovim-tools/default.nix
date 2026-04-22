@@ -11,12 +11,12 @@ with pkgs; [
   astro-language-server
   ast-grep
   bash-language-server
+  biome
   copilot-language-server
   emmet-language-server
   eslint_d
   ginko
   gopls
-  gotools
   lua-language-server
   marksman
   languageServers.mdx-language-server
