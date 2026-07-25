@@ -29,6 +29,9 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
+      # stylelint-lsp pulls in pnpm 9.15.9 at build time, which recent nixpkgs
+      # flags insecure (CVE-2026-48995 et al.). It's only a build dependency.
+      permittedInsecurePackages = [ "pnpm-9.15.9" ];
     };
 
     overlays = [ outputs.overlays.default ];
@@ -41,6 +44,7 @@
     secrets.context7_api_key = { };
     secrets.openrouter_api_key = { };
     secrets.fireworks_api_key = { };
+    secrets.codestral_api_key = { };
   };
 
   home = {
@@ -61,9 +65,20 @@
     EDITOR = "nvim";
     NPM_CONFIG_PREFIX = "${config.home.homeDirectory}/.npm-global";
     FLAKE = "${config.home.homeDirectory}/tochki";
+    # suppress debug noise from codebase-memory-mcp; override per-session with CBM_LOG_LEVEL=debug
+    CBM_LOG_LEVEL = "warn";
   };
 
   xdg.enable = true;
+
+  # Global codebase-memory-mcp configuration
+  # Docs: https://github.com/DeusData/codebase-memory-mcp
+  xdg.configFile."codebase-memory-mcp/config.json".text = builtins.toJSON {
+    # Map extra file extensions to languages not auto-detected
+    extra_extensions = { };
+    # Automatically watch indexed projects for changes
+    auto_watch = true;
+  };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -100,7 +115,6 @@
     python313
     python313Packages.west
     ripgrep
-    silver-searcher
     tinty
     codebase-memory-mcp
     tree
@@ -136,6 +150,7 @@
     _1password-cli
     aerospace
     cmake
+    mpv
     openssl
   ];
 }

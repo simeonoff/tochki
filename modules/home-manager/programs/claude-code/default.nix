@@ -1,11 +1,11 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   programs.claude-code = {
     enable = true;
 
     settings = {
       model = "opus[1m]";
-      effortLevel = "medium";
+      effortLevel = "high";
     };
 
     mcpServers = {
@@ -84,4 +84,31 @@
       '';
     };
   };
+
+  # The claude-code module symlinks settings.json into the read-only Nix store,
+  # which prevents Claude Code from writing runtime changes (effort level, etc.).
+  # Two activation scripts work together to keep the file writable across switches:
+  #
+  # 1. prepareClaudeSettings — runs BEFORE checkLinkTargets:
+  #    Removes the regular file left by a previous switch so home-manager
+  #    can create the symlink without a conflict.
+  #
+  # 2. makeClaudeSettingsMutable — runs AFTER writeBoundary:
+  #    Converts the freshly-created symlink back to a regular writable file
+  #    so Claude Code can persist runtime changes (model, effortLevel, etc.).
+  home.activation.prepareClaudeSettings = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
+    settingsFile="${config.home.homeDirectory}/.claude/settings.json"
+    if [ -f "$settingsFile" ] && [ ! -L "$settingsFile" ]; then
+      rm "$settingsFile"
+    fi
+  '';
+
+  home.activation.makeClaudeSettingsMutable = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    settingsFile="${config.home.homeDirectory}/.claude/settings.json"
+    if [ -L "$settingsFile" ]; then
+      content=$(cat "$settingsFile")
+      rm "$settingsFile"
+      echo "$content" > "$settingsFile"
+    fi
+  '';
 }

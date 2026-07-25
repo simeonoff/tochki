@@ -181,7 +181,7 @@
 
         homeConfigurations = {
           "iams1mo@kori" = mkHomeConfiguration "aarch64-linux" "iams1mo" "kori";
-          "SSimeonov@ringo" = mkHomeConfiguration "aarch64-darwin" "SSimeonov" "ringo";
+          "SSimeonov@ssimeonov-mac" = mkHomeConfiguration "aarch64-darwin" "SSimeonov" "ringo";
         };
       };
     };

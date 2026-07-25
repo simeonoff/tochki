@@ -108,6 +108,50 @@ M.navigate = function(direction)
   end
 end
 
+---@class utils.FormatterEnabledOpts
+---@field config_files string[] Config filenames to search for (upward from ctx.dirname)
+---@field check? fun(parsed: table): boolean Optional validator against the parsed JSON content.
+---                                           Return false to disable the formatter.
+---                                           Called only when the file can be read and decoded.
+---                                           When absent, finding the file is sufficient.
+
+---Detect whether a formatter should run by searching for its config file upward from the
+---file's directory. Fails fast (returns false) when no config is found. Falls back to
+---true (assume enabled) when the config exists but cannot be read or parsed as JSON.
+---
+---Usage in conform.nvim formatters table:
+---  condition = function(self, ctx) return utils.formatter_enabled(ctx, opts) end
+---
+---@param ctx { dirname: string, filename: string, buf: integer }
+---@param opts utils.FormatterEnabledOpts
+---@return boolean
+M.formatter_enabled = function(ctx, opts)
+  local config_path = nil
+
+  for _, name in ipairs(opts.config_files) do
+    local found = vim.fs.find(name, { path = ctx.dirname, upward = true })
+
+    if #found > 0 then
+      config_path = found[1]
+      break
+    end
+  end
+
+  -- No config found → this formatter is not used in this project
+  if not config_path then return false end
+
+  -- Config found but no further check needed (presence is enough)
+  if not opts.check then return true end
+
+  local content = vim.fn.readfile(config_path)
+  if not content or #content == 0 then return true end -- empty → assume enabled
+
+  local ok, parsed = pcall(vim.json.decode, table.concat(content, '\n'))
+  if not ok then return true end -- invalid JSON → assume enabled
+
+  return opts.check(parsed)
+end
+
 -- Find the root directory of the project by searching for specific markers
 M.root_pattern = function(markers, start_path)
   local path = start_path or vim.fn.getcwd()
@@ -142,6 +186,7 @@ M.insert_package_json = function(config_files, field, fname)
   if root_with_package then
     -- only add package.json if it contains field parameter
     local path_sep = iswin and '\\' or '/'
+
     for line in io.lines(root_with_package .. path_sep .. 'package.json') do
       if line:find(field) then
         config_files[#config_files + 1] = 'package.json'

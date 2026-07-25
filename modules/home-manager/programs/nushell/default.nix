@@ -27,6 +27,7 @@
       $env.CONTEXT7_API_KEY = (open "${config.sops.secrets.context7_api_key.path}" | str trim)
       $env.OPENROUTER_API_KEY = (open "${config.sops.secrets.openrouter_api_key.path}" | str trim)
       $env.FIREWORKS_API_KEY = (open "${config.sops.secrets.fireworks_api_key.path}" | str trim)
+      $env.CODESTRAL_API_KEY = (open "${config.sops.secrets.codestral_api_key.path}" | str trim)
     '';
   };
 }

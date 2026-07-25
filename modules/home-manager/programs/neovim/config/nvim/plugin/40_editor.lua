@@ -24,64 +24,90 @@ later(function()
     require('conform').format({ async = true, lsp_format = 'fallback', range = range })
   end, { range = true })
 
-  ---Check if Biome formatter is enabled in the project's biome.json
-  ---@param ctx conform.Context
-  ---@return boolean
-  local function biome_formatter_enabled(ctx)
-    local biome_configs = { 'biome.json', 'biome.jsonc' }
-    local config_path = nil
-
-    -- Find the nearest biome config
-    for _, config in ipairs(biome_configs) do
-      local found = vim.fs.find(config, { path = ctx.dirname, upward = true })
-      if #found > 0 then
-        config_path = found[1]
-        break
-      end
-    end
-
-    -- No biome config found, don't use biome (fallback to prettier)
-    if not config_path then return false end
-
-    -- Read and parse the config
-    local content = vim.fn.readfile(config_path)
-    if not content or #content == 0 then return true end -- Config exists but empty, assume enabled
-
-    local ok, parsed = pcall(vim.json.decode, table.concat(content, '\n'))
-    if not ok then return true end -- Invalid JSON, assume enabled
-
-    -- Check if formatter is explicitly disabled
-    -- Biome has formatter.enabled which defaults to true if not specified
-    if parsed.formatter and parsed.formatter.enabled == false then
-      return false
-    end
-
-    return true
-  end
+  local utils = require('utils')
 
   require('conform').setup({
     formatters = {
+      -- Biome: enabled when biome.json/biome.jsonc exists and formatter is not explicitly disabled
       biome = {
-        condition = biome_formatter_enabled,
+        condition = function(_, ctx)
+          return utils.formatter_enabled(ctx, {
+            config_files = { 'biome.json', 'biome.jsonc' },
+            check = function(parsed) return not (parsed.formatter and parsed.formatter.enabled == false) end,
+          })
+        end,
+      },
+      -- stylelint: enabled when a stylelint config file exists in the project tree
+      stylelint = {
+        condition = function(_, ctx)
+          return utils.formatter_enabled(ctx, {
+            config_files = {
+              '.stylelintrc',
+              '.stylelintrc.json',
+              '.stylelintrc.jsonc',
+              '.stylelintrc.yaml',
+              '.stylelintrc.yml',
+              '.stylelintrc.js',
+              '.stylelintrc.cjs',
+              '.stylelintrc.mjs',
+              'stylelint.config.js',
+              'stylelint.config.cjs',
+              'stylelint.config.mjs',
+              'stylelint.config.ts',
+            },
+          })
+        end,
+      },
+      -- prettierd: enabled when a prettier config file exists in the project tree
+      prettierd = {
+        condition = function(_, ctx)
+          return utils.formatter_enabled(ctx, {
+            config_files = {
+              '.prettierrc',
+              '.prettierrc.json',
+              '.prettierrc.jsonc',
+              '.prettierrc.yaml',
+              '.prettierrc.yml',
+              '.prettierrc.js',
+              '.prettierrc.cjs',
+              '.prettierrc.mjs',
+              '.prettierrc.ts',
+              'prettier.config.js',
+              'prettier.config.cjs',
+              'prettier.config.mjs',
+              'prettier.config.ts',
+            },
+          })
+        end,
+      },
+      -- oxfmt: enabled when any oxfmt config file exists in the project tree
+      oxfmt = {
+        condition = function(_, ctx)
+          return utils.formatter_enabled(ctx, {
+            config_files = { '.oxfmtrc.json', '.oxfmtrc.jsonc', 'oxfmt.config.ts' },
+          })
+        end,
       },
     },
     formatters_by_ft = {
       astro = { 'prettierd' },
       lua = { 'stylua' },
-      javascript = { 'prettierd' },
-      typescript = { 'biome', 'prettierd', stop_after_first = true },
-      typescriptreact = { 'prettierd' },
-      javascriptreact = { 'prettierd' },
-      css = { 'biome', 'prettierd', 'stylelint' },
-      scss = { 'prettierd', 'stylelint' },
-      html = { 'prettierd' },
-      json = { 'biome', 'prettierd', stop_after_first = true },
-      jsonc = { 'biome', 'prettierd', stop_after_first = true },
-      markdown = { 'prettierd' },
-      ['markdown.mdx'] = { 'prettierd' },
-      yaml = { 'prettierd' },
+      -- oxfmt → biome → prettierd: first formatter whose config is found wins
+      javascript = { 'oxfmt', 'biome', 'prettierd', stop_after_first = true },
+      typescript = { 'oxfmt', 'biome', 'prettierd', stop_after_first = true },
+      typescriptreact = { 'oxfmt', 'biome', 'prettierd', stop_after_first = true },
+      javascriptreact = { 'oxfmt', 'biome', 'prettierd', stop_after_first = true },
+      json = { 'oxfmt', 'biome', 'prettierd', stop_after_first = true },
+      jsonc = { 'oxfmt', 'biome', 'prettierd', stop_after_first = true },
+      -- CSS: oxfmt doesn't support CSS yet
+      css = { 'oxfmt', 'biome', 'prettierd', 'stylelint', stop_after_first = true },
+      scss = { 'oxfmt', 'prettierd', 'stylelint' },
+      html = { 'oxfmt', 'prettierd' },
+      markdown = { 'oxfmt', 'prettierd' },
+      ['markdown.mdx'] = { 'oxfmt', 'prettierd' },
+      yaml = { 'oxfmt', 'prettierd' },
       svelte = { 'prettierd' },
-      go = { 'goimports' },
+      -- go = { 'goimports' },
       nix = { 'nixpkgs_fmt' },
     },
   })

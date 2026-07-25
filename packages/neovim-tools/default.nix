@@ -23,6 +23,8 @@ with pkgs; [
   netcoredbg # CSharp debugger
   nil
   nixpkgs-fmt
+  oxfmt
+  oxlint
   prettierd
   roslyn-ls # CSharp language server
   selene
@@ -33,6 +35,7 @@ with pkgs; [
   svelte-language-server
   tailwindcss-language-server
   typescript-language-server
+  tsgolint
   vscode-langservers-extracted
   yaml-language-server
 ]

@@ -1,24 +1,24 @@
 { lib, pkgs }:
 
 let
-  version = "0.5.7";
+  version = "0.9.0";
 
   sources = {
     "aarch64-darwin" = {
       url = "https://github.com/DeusData/codebase-memory-mcp/releases/download/v${version}/codebase-memory-mcp-darwin-arm64.tar.gz";
-      hash = "sha256-sOZJodUmgL4teEherr/N0Qd6mu81EQE6L36OpTlkvK0=";
+      hash = "sha256-+qAvBAQjDEUamBIjA5RIGUj4AYOAH6W/ZwRLQcLyXtQ=";
     };
     "x86_64-darwin" = {
       url = "https://github.com/DeusData/codebase-memory-mcp/releases/download/v${version}/codebase-memory-mcp-darwin-amd64.tar.gz";
-      hash = "sha256-dW1P4GWZnnUUAOFESP/28vNajmlBoup1An8V2COAx08=";
+      hash = "sha256-avPQKif1iZAfp2PTlxCJM3vIyYOLvtXQz1Q8qfGp5UM=";
     };
     "x86_64-linux" = {
       url = "https://github.com/DeusData/codebase-memory-mcp/releases/download/v${version}/codebase-memory-mcp-linux-amd64.tar.gz";
-      hash = "sha256-/UcDT20r/LDXd2DDq1kmjBHAcI3AsM9S6WHuxHqXGNI=";
+      hash = "sha256-4oMqjSB8Jr6qMO+mIi7Uo3yz9SbKS+4GC/vzNu1vxnk=";
     };
     "aarch64-linux" = {
       url = "https://github.com/DeusData/codebase-memory-mcp/releases/download/v${version}/codebase-memory-mcp-linux-arm64.tar.gz";
-      hash = "sha256-CDzGl6ANXTvtfpgTilPs/HK+MmSav+w7EGOkvlGPZW8=";
+      hash = "sha256-aKNF2aaELwKjywfhh7KLw4xPOiKWf0f6280HV7qTpoA=";
     };
   };
 

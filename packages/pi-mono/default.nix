@@ -1,23 +1,23 @@
 { lib, pkgs }:
 
 let
-  version = "0.68.1";
+  version = "0.82.0";
 
   sources = {
     "aarch64-darwin" = {
-      url = "https://github.com/badlogic/pi-mono/releases/download/v${version}/pi-darwin-arm64.tar.gz";
-      hash = "sha256-UFGQxysC+oBGp64JjzJP4DMC6O/FdkE5yxlC37CkdRg=";
+      url = "https://github.com/earendil-works/pi-mono/releases/download/v${version}/pi-darwin-arm64.tar.gz";
+      hash = "sha256-YgXevQBx/1bXZeDulB8If5oY0fbC996he9yPl/88+cE=";
     };
     "x86_64-darwin" = {
-      url = "https://github.com/badlogic/pi-mono/releases/download/v${version}/pi-darwin-x64.tar.gz";
+      url = "https://github.com/earendil-works/pi-mono/releases/download/v${version}/pi-darwin-x64.tar.gz";
       hash = lib.fakeHash;
     };
     "x86_64-linux" = {
-      url = "https://github.com/badlogic/pi-mono/releases/download/v${version}/pi-linux-x64.tar.gz";
+      url = "https://github.com/earendil-works/pi-mono/releases/download/v${version}/pi-linux-x64.tar.gz";
       hash = lib.fakeHash;
     };
     "aarch64-linux" = {
-      url = "https://github.com/badlogic/pi-mono/releases/download/v${version}/pi-linux-arm64.tar.gz";
+      url = "https://github.com/earendil-works/pi-mono/releases/download/v${version}/pi-linux-arm64.tar.gz";
       hash = lib.fakeHash;
     };
   };
@@ -49,9 +49,9 @@ in
 
     meta = {
       description = "A minimal terminal AI coding harness.";
-      homepage = "https://shittycodingagent.ai";
+      homepage = "https://pi.dev";
       license = lib.licenses.mit;
-      changelog = "https://github.com/badlogic/pi-mono/releases/tag/v${version}";
+      changelog = "https://github.com/earendil-works/pi-mono/releases/tag/v${version}";
       platforms = [ "aarch64-darwin" "x86_64-darwin" "x86_64-linux" "aarch64-linux" ];
       mainProgram = "pi";
     };

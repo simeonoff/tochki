@@ -1,10 +1,8 @@
 {
   "runtime.version": "LuaJIT",
   "runtime.path": ["lua/?.lua", "lua/?/init.lua"],
-  "diagnostics.globals": ["vim", "Snacks"],
+  "diagnostics.globals": ["vim", "Snacks", "MiniMisc", "MiniNotify"],
   "workspace.checkThirdParty": false,
   "workspace.library": ["$VIMRUNTIME"],
-    "diagnostics.disable": [
-        "undefined-doc-name"
-    ]
+  "diagnostics.disable": ["undefined-doc-name"]
 }

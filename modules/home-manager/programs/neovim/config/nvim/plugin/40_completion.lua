@@ -4,9 +4,48 @@ local later = Config.later
 later(function()
   add({
     { src = 'https://github.com/saghen/blink.cmp', version = 'v1.9.1' },
+    { src = 'https://github.com/milanglacier/minuet-ai.nvim' },
     'https://github.com/rafamadriz/friendly-snippets',
     'https://github.com/folke/lazydev.nvim',
   })
+
+  -- require('minuet').setup({
+  --   provider = 'codestral',
+  --   context_window = 2000,
+  --   n_completions = 1,
+  --   request_timeout = 10,
+  --   throttle = 1000,
+  --   debounce = 400,
+  --   notify = 'warn',
+  --   virtualtext = {
+  --     auto_trigger_ft = { '*' },
+  --     keymap = {
+  --       accept = '<C-l>',
+  --       next = '<C-]>',
+  --     },
+  --   },
+  --   provider_options = {
+  --     codestral = {
+  --       model = 'codestral-latest',
+  --       end_point = 'https://codestral.mistral.ai/v1/fim/completions',
+  --       api_key = 'CODESTRAL_API_KEY',
+  --       stream = true,
+  --       optional = {
+  --         max_tokens = 128,
+  --         stop = { '\n\n' },
+  --       },
+  --     },
+  --     -- Offline fallback (swap provider to 'openai_fim_compatible' to use)
+  --     -- openai_fim_compatible = {
+  --     --   name = 'LMStudio',
+  --     --   api_key = 'TERM',
+  --     --   end_point = 'http://localhost:1234/v1/completions',
+  --     --   model = 'qwen2.5-coder-1.5b-instruct-mlx',
+  --     --   stream = true,
+  --     --   optional = { max_tokens = 128, top_p = 0.9 },
+  --     -- },
+  --   },
+  -- })
 
   require('lazydev').setup({
     library = {
@@ -32,9 +71,6 @@ later(function()
     },
     keymap = {
       preset = 'default',
-      -- Prefer LSP inline completion (e.g. Copilot) over menu completion.
-      -- If an inline suggestion is visible, accept it; otherwise fall through
-      -- to blink's select_and_accept.
       ['<C-y>'] = { 'select_and_accept' },
     },
     cmdline = {
@@ -51,7 +87,6 @@ later(function()
       nerd_font_variant = 'mono',
     },
 
-    -- (Default) Only show the documentation popup when manually triggered
     completion = {
       ghost_text = {
         enabled = false,
@@ -98,9 +133,7 @@ later(function()
           min_keyword_length = 0, -- Number of characters to trigger provider
           score_offset = 5, -- Boost/penalize the score of the items
           transform_items = function(_, items)
-            return vim.tbl_filter(function(item)
-              return item.client_name ~= 'copilot'
-            end, items)
+            return vim.tbl_filter(function(item) return item.client_name ~= 'copilot' end, items)
           end,
         },
         path = {

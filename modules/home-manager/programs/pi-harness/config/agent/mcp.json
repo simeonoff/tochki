@@ -16,15 +16,39 @@
     },
     "theming": {
       "type": "local",
-      "command": "node",
+      "command": "npx",
       "args": [
-        "/Users/SSimeonov/Projects/igniteui-theming/packages/theming/dist/mcp/index.js"
+        "-y",
+        "igniteui-theming",
+        "igniteui-theming-mcp"
       ],
+      "directTools": false
+    },
+    "igniteui-cli": {
+      "type": "local",
+      "command": "npx",
+      "args": ["-y", "igniteui-cli", "mcp"],
+      "directTools": true
+    },
+    "figma": {
+      "url": "http://127.0.0.1:3845/mcp",
       "directTools": false
     },
     "codebase-memory-mcp": {
       "type": "local",
       "command": "codebase-memory-mcp",
+      "directTools": false
+    },
+    "nu": {
+      "type": "local",
+      "command": "nu",
+      "args": ["--mcp"],
+      "directTools": false
+    },
+    "playwright": {
+      "type": "local",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"],
       "directTools": false
     }
   }
