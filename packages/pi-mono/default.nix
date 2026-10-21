@@ -1,12 +1,12 @@
 { lib, pkgs }:
 
 let
-  version = "0.82.0";
+  version = "0.84.2";
 
   sources = {
     "aarch64-darwin" = {
       url = "https://github.com/earendil-works/pi-mono/releases/download/v${version}/pi-darwin-arm64.tar.gz";
-      hash = "sha256-YgXevQBx/1bXZeDulB8If5oY0fbC996he9yPl/88+cE=";
+      hash = "sha256-yZboiLf33ORLzyT2kXasZGxEE505Fr1JprKOWoxeOmU=";
     };
     "x86_64-darwin" = {
       url = "https://github.com/earendil-works/pi-mono/releases/download/v${version}/pi-darwin-x64.tar.gz";

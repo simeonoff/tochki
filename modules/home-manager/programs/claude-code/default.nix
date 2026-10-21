@@ -85,6 +85,16 @@
     };
   };
 
+  # Home Manager changed generated Claude plugins from recursively linked
+  # directories to whole-directory symlinks. Remove the legacy managed
+  # directory before collision checks so the new layout can be installed.
+  home.activation.prepareClaudePluginLayout = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
+    pluginDir="${config.home.homeDirectory}/.claude/skills/claude-code-home-manager"
+    if [ -d "$pluginDir" ] && [ ! -L "$pluginDir" ]; then
+      rm -rf "$pluginDir"
+    fi
+  '';
+
   # The claude-code module symlinks settings.json into the read-only Nix store,
   # which prevents Claude Code from writing runtime changes (effort level, etc.).
   # Two activation scripts work together to keep the file writable across switches:

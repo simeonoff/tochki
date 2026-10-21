@@ -50,7 +50,7 @@
   home = {
     username = userConfig.name;
     homeDirectory =
-      if pkgs.stdenv.isDarwin
+      if pkgs.stdenv.hostPlatform.isDarwin
       then "/Users/${userConfig.name}"
       else "/home/${userConfig.name}";
   };
@@ -139,14 +139,14 @@
   ++ [
     pkgs-dotnet.dotnet-sdk_9
   ]
-  ++ lib.optionals (!stdenv.isDarwin) [
+  ++ lib.optionals (!stdenv.hostPlatform.isDarwin) [
     bitwarden-desktop
     brave
     vesktop
     vivaldi
     wl-clipboard
   ]
-  ++ lib.optionals stdenv.isDarwin [
+  ++ lib.optionals stdenv.hostPlatform.isDarwin [
     _1password-cli
     aerospace
     cmake

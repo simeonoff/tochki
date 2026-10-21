@@ -28,7 +28,7 @@ let
   };
 
   platformSettings =
-    if pkgs.stdenv.isDarwin
+    if pkgs.stdenv.hostPlatform.isDarwin
     then commonSettings // darwinSettings
     else commonSettings // linuxSettings;
 in
@@ -37,20 +37,20 @@ in
     enable = true;
     # On Darwin, use null package since we install via Homebrew
     # On Linux, use the default package
-    package = lib.mkIf pkgs.stdenv.isDarwin (lib.mkForce null);
+    package = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (lib.mkForce null);
     settings = platformSettings;
   };
 
   # Create a manual XDG config symlink for Darwin if needed
-  home.activation = lib.mkIf pkgs.stdenv.isDarwin {
+  home.activation = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
     linkGhosttyConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       # Ensure config dir exists
       $DRY_RUN_CMD mkdir -p "${config.home.homeDirectory}/.config/ghostty"
-      
+
       # Get the path to the generated config
       SRC="${config.xdg.configHome}/ghostty/config"
       DEST="${config.home.homeDirectory}/.config/ghostty/config"
-      
+
       # Create symlink if the source exists and destination doesn't
       if [ -f "$SRC" ] && [ ! -f "$DEST" ]; then
         $DRY_RUN_CMD ln -sf "$SRC" "$DEST"
