@@ -4,7 +4,7 @@
   "defaultThinkingLevel": "high",
   "editorPaddingX": 1,
   "hideThinkingBlock": true,
-  "lastChangelogVersion": "0.84.2",
+  "lastChangelogVersion": "1.4.0",
   "packages": [
     "npm:pi-mcp-adapter",
     "npm:pi-context",
@@ -49,5 +49,8 @@
   ],
   "terminal": {
     "showTerminalProgress": true
-  }
+  },
+  "extensions": [
+    "-builtin:mcp"
+  ]
 }

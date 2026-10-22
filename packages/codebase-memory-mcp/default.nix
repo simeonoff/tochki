@@ -1,7 +1,7 @@
 { lib, pkgs }:
 
 let
-  version = "0.9.0";
+  version = "0.12.1";
 
   sources = {
     "aarch64-darwin" = {

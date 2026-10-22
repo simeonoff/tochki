@@ -2,5 +2,6 @@
   "version": 1,
   "sharedConfigHintShown": true,
   "setupCompleted": false,
-  "lastDiscoveryFingerprint": "{\"sources\":[[\"shared-global\",false,0],[\"pi-global\",true,8],[\"shared-project\",true,2],[\"pi-project\",false,0]],\"imports\":[[\"claude-code\",\"/Users/SSimeonov/.claude.json\",1],[\"claude-desktop\",\"/Users/SSimeonov/Library/Application Support/Claude/claude_desktop_config.json\",2],[\"vscode\",\"/Users/SSimeonov/Projects/tmp/test-theming-mcp/.vscode/mcp.json\",0]]}"
+  "lastDiscoveryFingerprint": "{\"sources\":[[\"shared-global\",false,0],[\"pi-global\",true,8],[\"shared-project\",true,2],[\"pi-project\",false,0]],\"imports\":[[\"claude-code\",\"/Users/SSimeonov/.claude.json\",1],[\"claude-desktop\",\"/Users/SSimeonov/Library/Application Support/Claude/claude_desktop_config.json\",2],[\"vscode\",\"/Users/SSimeonov/Projects/tmp/test-theming-mcp/.vscode/mcp.json\",0]]}",
+  "piBuiltinMcpHandledVersion": "5.4.0"
 }

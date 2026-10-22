@@ -3,22 +3,24 @@
 {
   mdx-language-server = pkgs.buildNpmPackage rec {
     pname = "mdx-language-server";
-    version = "0.6.3";
+    version = "0.6.4";
 
     src = pkgs.fetchurl {
       url = "https://registry.npmjs.org/@mdx-js/language-server/-/language-server-${version}.tgz";
-      sha256 = "sha256-rNYJYQjnA7u02nP4a7EL/yJbjGdwP0RLQpAhr/I9xLs=";
+      sha256 = "sha256-bbG13FAnRYd58DkK0cRUU6Pq/AP25C/jUgfSgQMumVs=";
     };
 
     # The published tarball doesn't include a package-lock.json (the upstream
     # monorepo doesn't commit one). We generate it from the tarball's package.json
     # and store it alongside this derivation.
     postPatch = ''
-      cp ${./mdx-language-server-0.6.3-package-lock.json} package-lock.json
+      cp ${./mdx-language-server-0.6.4-package-lock.json} package-lock.json
     '';
-    npmDepsHash = "sha256-Hgzp7HJnMmB6IWruxwahJ8dod/JmndSAFTBrDW1tCVw=";
+    npmDepsHash = "sha256-dDUa+zQeOTnOIHe6REtOvcRcv2k7uluJtROT8edLAlw=";
 
-    dontNpmBuild = true;    meta = {
+    dontNpmBuild = true;
+
+    meta = {
       description = "A language server for MDX";
       homepage = "https://github.com/mdx-js/mdx-analyzer";
       license = pkgs.lib.licenses.mit;
