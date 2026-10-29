@@ -14,7 +14,6 @@
       ControlMaster = "no";
       ControlPath = "~/.ssh/master-%r@%n:%p";
       ControlPersist = "no";
-      IdentityAgent = "~/.bitwarden-ssh-agent.sock";
     };
     settings."github.com" = {
       hostname = "ssh.github.com";

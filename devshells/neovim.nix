@@ -12,7 +12,7 @@ in
 
 {
   neovim-nightly = pkgs.mkShell {
-    buildInputs = [ neovim-nightly ] ++ neovimTools;
+    buildInputs = [ neovim-nightly ] ++ neovimTools.all;
 
     shellHook = ''
       echo "Neovim nightly $(nvim --version | head -1)"

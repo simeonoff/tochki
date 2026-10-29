@@ -1,7 +1,9 @@
 { homeModules, ... }:
 {
   imports = [
-    "${homeModules}/common"
+    "${homeModules}/core"
+    "${homeModules}/workstation"
+    "${homeModules}/linux-desktop"
   ];
 
   # Let Home Manager install and manage itself.

@@ -1,7 +1,9 @@
 { homeModules, ... }:
 {
   imports = [
-    "${homeModules}/common"
+    "${homeModules}/core"
+    "${homeModules}/workstation"
+    "${homeModules}/darwin"
   ];
 
   # Let Home Manager install and manage itself.

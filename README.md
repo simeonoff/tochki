@@ -254,8 +254,11 @@ sudo nixos-generate-config --show-hardware-config > hosts/newhost/hardware-confi
     ```nix
     { homeModules, ... }:
     {
+      # Compose profiles: core (every machine) plus workstation, darwin,
+      # linux-desktop or server, see modules/home-manager/.
       imports = [
-        "${homeModules}/common"
+        "${homeModules}/core"
+        "${homeModules}/workstation"
       ];
 
       programs.home-manager.enable = true;

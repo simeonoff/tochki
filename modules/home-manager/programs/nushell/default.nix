@@ -12,21 +12,14 @@
   # Use nushell as the default shell
   programs.nushell = {
     enable = true;
+    # Keep the pre-26.11 behaviour (session variables are not auto-loaded);
+    # setting it explicitly silences the Home Manager evaluation warning.
+    loadSessionVariables = false;
     configFile.source = ./config/config.nu;
     envFile.source = ./config/env.nu;
     environmentVariables = {
       NPM_CONFIG_PREFIX = "${config.home.homeDirectory}/.npm-global";
-      PI_CACHE_RETENTION = "long";
-      PI_SUBAGENT_RUNTIME_ROOT = "${config.home.homeDirectory}/.npm-global/lib/node_modules/pi-subagents";
-      SSH_AUTH_SOCK = "${config.home.homeDirectory}/.bitwarden-ssh-agent.sock";
       LG_CONFIG_FILE = "${config.home.homeDirectory}/.config/lazygit/config.yml,${config.home.homeDirectory}/.config/lazygit/theme.yml";
     };
-    extraEnv = ''
-      $env.GITHUB_PAT = (open "${config.sops.secrets.github_pat.path}" | str trim)
-      $env.CONTEXT7_API_KEY = (open "${config.sops.secrets.context7_api_key.path}" | str trim)
-      $env.OPENROUTER_API_KEY = (open "${config.sops.secrets.openrouter_api_key.path}" | str trim)
-      $env.FIREWORKS_API_KEY = (open "${config.sops.secrets.fireworks_api_key.path}" | str trim)
-      $env.CODESTRAL_API_KEY = (open "${config.sops.secrets.codestral_api_key.path}" | str trim)
-    '';
   };
 }

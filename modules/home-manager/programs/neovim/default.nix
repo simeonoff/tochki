@@ -12,10 +12,9 @@ in
   # Add neovim and tools to packages.
   # We don't use programs.neovim here because it generates its own init.lua
   # which conflicts with our symlink-based config management below.
-  home.packages = [
-    pkgs.neovim
-    pkgs.vscode-js-debug
-  ] ++ neovimTools;
+  # Lean tool set for every machine; workstations add neovimTools.extra
+  # through the workstation profile.
+  home.packages = [ pkgs.neovim ] ++ neovimTools.core;
 
   # Keep Neovim config live by linking at activation time.
   # This symlinks the entire nvim directory from the git repo.
