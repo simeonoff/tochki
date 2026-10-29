@@ -44,6 +44,7 @@
             inherit inputs outputs hostname;
             userConfig = users.${username};
             nixosModules = "${self}/modules/nixos";
+	    modulesPath = "${nixpkgs}/nixos/modules";
           };
           modules = [
             ./hosts/${hostname}
@@ -121,6 +122,7 @@
       flake = {
         nixosConfigurations = {
           kori = mkNixosConfiguration "kori" "iams1mo";
+	  isogu = mkNixosConfiguration "isogu" "iams1mo";
         };
         
         darwinConfigurations = {
@@ -129,6 +131,7 @@
 
         homeConfigurations = {
           "iams1mo@kori" = mkHomeConfiguration "aarch64-linux" "iams1mo" "kori";
+          "iams1mo@isogu" = mkHomeConfiguration "x86_64-linux" "iams1mo" "isogu";
           "SSimeonov@ringo" = mkHomeConfiguration "aarch64-darwin" "SSimeonov" "ringo";
         };
       };
