@@ -86,6 +86,11 @@ now_if_args(function()
   -- and again after TSUpdate so they survive parser reinstalls.
   ts_custom_languages()
 
+  -- install() reloads the parser table and fires `User TSUpdate`, so the
+  -- custom parsers must be re-registered from that event. Subscribe before
+  -- installing, otherwise they are dropped and reported as unsupported.
+  Config.new_autocmd('User', 'TSUpdate', ts_custom_languages, 'Set up tree-sitter custom languages')
+
   -- Install missing parsers. Skip names nvim-treesitter doesn't know (e.g.
   -- tmux, dropped upstream) instead of warning about them on every start.
   local available = require('nvim-treesitter.parsers')
@@ -99,8 +104,6 @@ now_if_args(function()
 
   -- MDX highlighting: treat MDX as markdown and rely on query injections.
   vim.treesitter.language.register('markdown', 'mdx')
-
-  Config.new_autocmd('User', 'TSUpdate', ts_custom_languages, 'Set up tree-sitter custom languages')
 
   for _, lang in ipairs(languages) do
     for _, ft in ipairs(vim.treesitter.language.get_filetypes(lang)) do
