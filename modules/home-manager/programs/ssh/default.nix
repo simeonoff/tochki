@@ -16,5 +16,10 @@
       ControlPersist = "no";
       IdentityAgent = "~/.bitwarden-ssh-agent.sock";
     };
+    settings."github.com" = {
+      hostname = "ssh.github.com";
+      port = 443;
+      user = "git";
+    };
   };
 }
