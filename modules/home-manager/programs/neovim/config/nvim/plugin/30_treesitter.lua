@@ -52,31 +52,30 @@ now_if_args(function()
     install_dir = vim.fn.stdpath('data') .. '/site',
   })
 
-  local isnt_installed = function(lang) return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0 end
-  local to_install = vim.tbl_filter(isnt_installed, languages)
-  if #to_install > 0 then require('nvim-treesitter').install(to_install) end
-
   local ts_custom_languages = function()
     local parsers = require('nvim-treesitter.parsers')
 
+    -- Own parsers: build from the local checkout when it exists (development
+    -- on the Mac), otherwise from GitHub at a pinned revision (e.g. servers).
+    local source = function(path, url, revision)
+      if vim.uv.fs_stat(vim.fn.expand(path)) then return { path = path } end
+      return { url = url, revision = revision }
+    end
+
     parsers.scss = {
-      install_info = {
-        -- url = 'https://github.com/simeonoff/tree-sitter-scss',
-        path = '~/Projects/tree-sitter-scss',
-        files = { 'src/parser.c', 'src/scanner.c' },
-        -- revision = '8c03d590e5a8e2d44d7d5ad3bfa7edb5b2b59cbd',
-        queries = 'queries',
-      },
+      install_info = vim.tbl_extend(
+        'force',
+        source('~/Projects/tree-sitter-scss', 'https://github.com/simeonoff/tree-sitter-scss', 'db0072fc9af1a2b488b646b4e6360e96541f495d'),
+        { files = { 'src/parser.c', 'src/scanner.c' }, queries = 'queries' }
+      ),
     }
 
     parsers.sassdoc = {
-      install_info = {
-        -- url = 'https://github.com/simeonoff/tree-sitter-sassdoc',
-        path = '~/Projects/tree-sitter-sassdoc',
-        files = { 'src/parser.c' },
-        -- revision = '2778a1537a6158f26a3bde8de70280aaf8b1fdea',
-        queries = 'queries/sassdoc',
-      },
+      install_info = vim.tbl_extend(
+        'force',
+        source('~/Projects/tree-sitter-sassdoc', 'https://github.com/simeonoff/tree-sitter-sassdoc', '38abe86eac15ed8d668de04df963ef0a4c220cfe'),
+        { files = { 'src/parser.c' }, queries = 'queries/sassdoc' }
+      ),
     }
   end
 
@@ -86,6 +85,17 @@ now_if_args(function()
   -- Register custom parsers now so their filetypes are available for the loop below,
   -- and again after TSUpdate so they survive parser reinstalls.
   ts_custom_languages()
+
+  -- Install missing parsers. Skip names nvim-treesitter doesn't know (e.g.
+  -- tmux, dropped upstream) instead of warning about them on every start.
+  local available = require('nvim-treesitter.parsers')
+  local isnt_installed = function(lang) return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0 end
+  local is_available = function(lang) return available[lang] ~= nil end
+  local to_install = vim.tbl_filter(
+    function(lang) return isnt_installed(lang) and is_available(lang) end,
+    languages
+  )
+  if #to_install > 0 then require('nvim-treesitter').install(to_install) end
 
   -- MDX highlighting: treat MDX as markdown and rely on query injections.
   vim.treesitter.language.register('markdown', 'mdx')
