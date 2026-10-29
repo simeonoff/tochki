@@ -1,15 +1,16 @@
-# Headless servers (isogu). No desktop SSH agent: a dedicated per-host key
-# (~/.ssh/id_ed25519_github) signs commits and pushes to GitHub. Register its
-# public key on GitHub as a signing key and as a deploy key (write) on tochki.
+# Headless servers (isogu). No desktop SSH agent, so two dedicated per-host
+# keys without passphrase are used (GitHub refuses one key for both roles):
+#   ~/.ssh/id_ed25519_github         signs commits (GitHub: Signing Key)
+#   ~/.ssh/id_ed25519_tochki_deploy  pushes tochki (repo Deploy key, write)
 { config, lib, ... }:
 let
-  githubKey = "${config.home.homeDirectory}/.ssh/id_ed25519_github";
+  sshDir = "${config.home.homeDirectory}/.ssh";
 in
 {
-  programs.git.settings.user.signingKey = lib.mkForce githubKey;
+  programs.git.settings.user.signingKey = lib.mkForce "${sshDir}/id_ed25519_github";
 
   programs.ssh.settings."github.com" = {
-    IdentityFile = githubKey;
+    IdentityFile = "${sshDir}/id_ed25519_tochki_deploy";
     IdentitiesOnly = true;
   };
 }
