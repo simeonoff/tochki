@@ -5,7 +5,13 @@
     nameservers = [
       "8.8.8.8"
     ];
-    defaultGateway = "172.31.1.1";
+    # The interface must be named: since NixOS 26.11 the scripted networking
+    # only sets gateways per interface (network-setup.service is gone), and a
+    # bare address leaves the box without an IPv4 default route.
+    defaultGateway = {
+      address = "172.31.1.1";
+      interface = "eth0";
+    };
     defaultGateway6 = {
       address = "fe80::1";
       interface = "eth0";
