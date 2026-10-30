@@ -78,6 +78,14 @@
       set-window-option -g pane-border-status top
       set-window-option -g pane-border-format ""
 
+      # tmux 3.8 defaults popups/menus to fixed grey theme colours; inherit the terminal (tinty) palette instead
+      set -g popup-style default
+      set -g popup-border-style default
+      set -g menu-style default
+      set -g menu-border-style default
+      set -g tree-mode-border-style default
+      set -g display-panes-border-style default
+
       # Update environment variables for SSH agent
       set-option -g update-environment "SSH_AUTH_SOCK SSH_CONNECTION"
 

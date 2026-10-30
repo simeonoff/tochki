@@ -14,6 +14,16 @@ preferred-schemes = [
 
 # --- Items ---
 
+# tmux base colors (message, copy mode, clock, bell, etc.)
+# minimal-tmux-status overrides status bar and pane borders on top of this,
+# so this item must come before tinted-shell (whose hook re-runs minimal-tmux-status)
+[[items]]
+path = "https://github.com/tinted-theming/tinted-tmux"
+name = "tinted-tmux"
+themes-dir = "colors"
+hook = "tmux run 2> /dev/null && tmux source-file %f"
+supported-systems = ["base16", "base24"]
+
 # Shell ANSI colors + generate tmux theme from the same palette
 [[items]]
 path = "https://github.com/tinted-theming/tinted-shell"
@@ -22,15 +32,6 @@ themes-dir = "scripts"
 hook = """. %f
 ~/.config/tinted-theming/tinty/generate-tmux-theme.sh %f
 ~/.config/tinted-theming/tinty/generate-lazygit-theme.sh %f"""
-supported-systems = ["base16", "base24"]
-
-# tmux base colors (message, copy mode, clock, bell, etc.)
-# minimal-tmux-status overrides status bar and pane borders on top of this
-[[items]]
-path = "https://github.com/tinted-theming/tinted-tmux"
-name = "tinted-tmux"
-themes-dir = "colors"
-hook = "tmux run 2> /dev/null && tmux source-file %f"
 supported-systems = ["base16", "base24"]
 
 # Ghostty (official tinted-terminal support)
