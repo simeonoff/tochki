@@ -1,4 +1,4 @@
-# WireGuard link to home, routing only the NAS.
+# WireGuard link to home, routing only the NAS and tanuki.
 # Keys and endpoint (host:port) are kept outside the repo, root-only:
 #   /etc/wireguard/wg-home.{key,psk,endpoint}
 { pkgs, ... }:
@@ -15,7 +15,7 @@ in
         name = "home";
         publicKey = peerKey;
         presharedKeyFile = "/etc/wireguard/wg-home.psk";
-        allowedIPs = [ "10.15.21.77/32" ];
+        allowedIPs = [ "10.15.21.77/32" "10.15.21.78/32" ];
         persistentKeepalive = 25;
       }
     ];
