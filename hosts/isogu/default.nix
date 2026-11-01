@@ -4,6 +4,7 @@
     ./hardware-configuration.nix
     ./networking.nix
     ./wireguard.nix
+    ./healthchecks.nix
     "${nixosModules}/isogu"
   ];
 
