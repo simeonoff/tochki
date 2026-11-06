@@ -85,13 +85,25 @@ M.rename_cword = function()
   end)
 end
 
--- Navigate to the next tmux pane or Neovim window
+-- Navigate to the next tmux/Rex pane or Neovim window
 M.navigate = function(direction)
   local current_win = vim.api.nvim_get_current_win()
   vim.cmd('wincmd ' .. direction)
 
+  if current_win ~= vim.api.nvim_get_current_win() then return end
+
+  -- At the edge of Neovim's windows inside Rex (and not in tmux running inside Rex),
+  -- hand focus to the neighbouring Rex pane
+  if vim.env.REX_SESSION and not vim.env.TMUX then
+    local rex_directions = { h = 'left', j = 'down', k = 'up', l = 'right' }
+    local rex = vim.env.REX_BIN_DIR and (vim.env.REX_BIN_DIR .. '/rex') or 'rex'
+
+    if vim.fn.executable(rex) == 1 then vim.system({ rex, 'focus', rex_directions[direction], '-s', vim.env.REX_SESSION }) end
+    return
+  end
+
   -- Check if we are in a tmux session and if the current window is at the edge
-  if current_win == vim.api.nvim_get_current_win() and vim.env.TMUX then
+  if vim.env.TMUX then
     local tmux_commands = {
       h = { 'select-pane', '-L' },
       j = { 'select-pane', '-D' },

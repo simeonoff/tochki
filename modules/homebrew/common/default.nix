@@ -12,6 +12,7 @@
       "nss"
       "openssh"
       "rom-tools"
+      "ykman"
     ];
     taps = [ ];
     casks = [
