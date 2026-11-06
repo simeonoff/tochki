@@ -11,6 +11,7 @@
       "ninja"
       "nss"
       "rom-tools"
+      "ykman"
     ];
     taps = [ ];
     casks = [
