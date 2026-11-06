@@ -10,6 +10,7 @@
       "mkcert"
       "ninja"
       "nss"
+      "openssh"
       "rom-tools"
     ];
     taps = [ ];
