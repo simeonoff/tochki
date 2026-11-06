@@ -4,6 +4,7 @@
   imports = [
     ../programs/aerospace
     ../programs/karabiner
+    ../programs/rex
   ];
 
   home.packages = with pkgs; [

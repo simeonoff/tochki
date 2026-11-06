@@ -24,6 +24,31 @@ $env.PATH = ($env.PATH | prepend [
     $"/etc/profiles/per-user/($env.USER)/bin"
 ])
 
+# Rex puts its `rex` CLI first on PATH, but the Nix-managed login PATH drops it
+if ($env.REX_BIN_DIR? | is-not-empty) {
+    $env.PATH = ($env.PATH | prepend $env.REX_BIN_DIR)
+}
+
+# Name a Rex session after the project it's first used in: the git root's
+# folder, or the current folder outside a repo. Runs once per session, so
+# later cd's and manual renames stick.
+def rex-name-session [] {
+    if ($env.REX_SESSION? | is-empty) or $env.PWD == $env.HOME { return }
+
+    let marker = ($nu.cache-dir | path join "rex-sessions" ($env.REX_SESSION | str replace --all ":" "_"))
+    if ($marker | path exists) { return }
+
+    let git = (^git rev-parse --show-toplevel | complete)
+    let name = if $git.exit_code == 0 { $git.stdout | str trim | path basename } else { $env.PWD | path basename }
+
+    if (^rex --timeout 2s session rename $env.REX_SESSION $name | complete).exit_code == 0 {
+        mkdir ($marker | path dirname)
+        touch $marker
+    }
+}
+
+$env.config.hooks.pre_prompt = ($env.config.hooks.pre_prompt? | default [] | append {|| rex-name-session })
+
 $env.FZF_DEFAULT_OPTS = [
 "--pointer=' '"
 "--prompt='   '"
